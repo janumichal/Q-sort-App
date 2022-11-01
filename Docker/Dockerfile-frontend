@@ -1,0 +1,11 @@
+FROM ubuntu:22.04
+
+USER root
+
+RUN apt-get update
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get -y install nodejs
+RUN apt-get -y install npm
+RUN npm install npm -g
+RUN npm install -g @vue/cli
+
+WORKDIR /frontend-data/
