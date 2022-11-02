@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <div>
         
     </div>
@@ -7,11 +7,11 @@
 
 <script>
 export default {
-    
+    name: "CardQueue"
 }
 </script>
 
 
-<style lang="">
+<style lang="scss">
     
 </style>
