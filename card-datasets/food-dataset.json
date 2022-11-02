@@ -1,0 +1,23 @@
+{
+    "id": "0",
+    "name":"Q-sort about foods",
+    "card-table": [1, 2, 1],
+    "cards":[
+        {
+            "id": 0,
+            "text": "Ham"
+        },
+        {
+            "id": 1,
+            "text": "Fish"
+        },
+        {
+            "id": 2,
+            "text": "Apple"
+        },
+        {
+            "id": 3,
+            "text": "Potato"
+        }
+    ]
+}

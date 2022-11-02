@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd Docker
+cd docker
 docker-compose up --force-recreate -d
 
 if [ "$1" == "-t" ]
