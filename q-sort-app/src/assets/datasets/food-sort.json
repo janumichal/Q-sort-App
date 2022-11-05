@@ -1,0 +1,24 @@
+{
+    "name":"Food sorting dataset",
+    "uid":"0",
+    "question":"What type of food do you like and what you don't like?",
+    "table":[1,2,1],
+    "cards":[
+        {
+            "cid":"0",
+            "text":"Carp"
+        },
+        {
+            "cid":"1",
+            "text":"Potato"
+        },
+        {
+            "cid":"2",
+            "text":"Apple"
+        },
+        {
+            "cid":"3",
+            "text":"Ham"
+        }
+    ]
+}
