@@ -9,8 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "node-sass": "^7.0.3",
-    "sass-loader": "^13.1.0",
+    "sass": "^1.56.0",
     "vue": "^3.2.41",
     "vue-router": "^4.1.6",
     "vuex": "^4.1.0"
