@@ -2,7 +2,7 @@
 
 cd docker
 docker-compose build --no-cache
-docker-compose up --force-recreate -d
+docker-compose -p q-sort-app up --force-recreate -d
 
 if [ "$1" == "-t" ]
 then 
