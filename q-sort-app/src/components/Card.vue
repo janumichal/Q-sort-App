@@ -1,36 +1,37 @@
 <template>
     <div class="q-card">
-        ipsum dolor sit amet, consaaaectetur adipiscing elit. Felis, ac aliquet eu, elit id.
+        {{ card_text }}
     </div>
 </template>
 
 <script setup>
-
+    defineProps({
+        card_text: String
+    })
 </script>
 
 <style lang="scss" scoped>
+    @use "../scss/Constants" as *;
     .q-card{
-        background-color: #B2EDFF;
-        width: 220px;
-        height: 130px;
+        background-color: $card-color;
+        width: $card-width;
+        height: $card-height;
+        margin: $card-outline-size;
 
         display:flex;
         justify-content: center;
         align-items: center;
         
-        border-radius: 6px;
-        outline-width: 4px;
+        border-radius: $card-border-radius;
+        outline-width: $card-outline-size;
         outline-style: solid;
         outline-color: #000000;
         
-        font-size: 12pt;
-        font-family: "Maven Pro";
+        font-size: $card-font-size;
+        font-family: $card-font;
         text-align: center;
 
         padding: 5px;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
         box-sizing: border-box;  
-
     }
 </style>

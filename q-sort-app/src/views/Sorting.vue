@@ -1,6 +1,6 @@
 <template>
     <div>
-        <CardVue></CardVue>
+        <CardVue card_text="ipsum dolor sit amet, consaaaectetur adipiscing elit. Felis, ac aliquet eu, elit id."></CardVue>
     </div>
 </template>
 
