@@ -1,11 +1,11 @@
 <template>
     <div>
-        <CardVue card_text="ipsum dolor sit amet, consaaaectetur adipiscing elit. Felis, ac aliquet eu, elit id."></CardVue>
+        <CardQueue/>
     </div>
 </template>
 
 <script setup>
-    import CardVue from '../components/Card.vue';
+    import CardQueue from '../components/CardQueue.vue';
 </script>
 
 <style lang="scss" scoped>
