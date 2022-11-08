@@ -1,10 +1,10 @@
 <template>
     <div class="card-selector">
-        <div class="btn-back"></div>
+        <div class="btn-back" @click="moveLeft()"></div>
         <div class="queue">
             <CardVue v-for="(item, index) in store.state.queue.card_array" :key="index" :idx="index" :card_text="item.text" :card_id="item.cid" ></CardVue>
         </div>
-        <div class="btn-forward"></div>
+        <div class="btn-forward" @click="moveRight()"></div>
     </div>
 
 </template>
@@ -22,6 +22,16 @@
 
     // const new_card = {cid: 10, text:"lala"}
     // store.commit("addCardToQueue", new_card)
+
+    function moveRight(){
+        store.commit("changeSelectedIdx", 1)
+    }
+
+    function moveLeft(){
+        store.commit("changeSelectedIdx", -1)
+    }
+
+    console.log(store.state.queue.selected_idx);
 
 </script>
 

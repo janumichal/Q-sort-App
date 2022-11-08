@@ -22,12 +22,12 @@
     const store = useStore()
 
     function getCardLayer(){
-        var select_idx = store.state.queue.selection_idx
+        var select_idx = store.state.queue.selected_idx
         return Math.abs(props.idx - select_idx)
     }
 
     function getCardPos(){
-        var select_idx = store.state.queue.selection_idx
+        var select_idx = store.state.queue.selected_idx
         if(select_idx < props.idx){
             return "right-card"
         }
@@ -38,7 +38,7 @@
     }
 
     function isCardVisible(){
-        return (Math.abs(store.state.queue.selection_idx - props.idx) < visible_cards.value)
+        return (Math.abs(store.state.queue.selected_idx - props.idx) < visible_cards.value)
     }
 
     function getQueueCardClass(){
@@ -46,7 +46,6 @@
             return "hidden-card"
         }
         var class_string = ""
-        var card_layer = getCardLayer()
         class_string += getCardPos()
         class_string += " "
         class_string += "layer" + getCardLayer().toString()
@@ -85,5 +84,11 @@
             padding: 5px;
             box-sizing: border-box;  
         }
+    }
+    .center-card{
+        font-weight: bold;
+    }
+    .hidden-card{
+        display: none;
     }
 </style>

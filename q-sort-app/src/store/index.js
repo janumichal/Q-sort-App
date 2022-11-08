@@ -10,7 +10,7 @@ export default createStore({
         is_queue_selected: null,
         queue: {
             card_array: [],
-            selection_idx: null
+            selected_idx: null
         }
     },
 
@@ -26,11 +26,15 @@ export default createStore({
             state.is_queue_selected = true
 
             state.queue.card_array = json.cards
-            state.queue.selection_idx = 0
+            state.queue.selected_idx = 0
         },
         addCardToQueue(state, card){
             state.queue.card_array.push(card)
             //TODO add card to the cookie with queue and remove it from cookie with current table
+        },
+        changeSelectedIdx(state, change){
+            state.queue.selected_idx += change
+            console.log(state.queue.selected_idx)
         }
     },
 
