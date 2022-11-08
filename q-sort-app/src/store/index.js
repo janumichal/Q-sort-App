@@ -23,9 +23,10 @@ export default createStore({
             state.uid = json.uid
             state.question = json.question
             state.table_shape = json.table
-            state.queue.card_array = json.cards
-            state.card_in_view_idx = 0
             state.is_queue_selected = true
+
+            state.queue.card_array = json.cards
+            state.queue.selection_idx = 0
         },
         addCardToQueue(state, card){
             state.queue.card_array.push(card)

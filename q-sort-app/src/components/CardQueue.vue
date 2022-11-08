@@ -2,7 +2,7 @@
     <div class="card-selector">
         <div class="btn-back"></div>
         <div class="queue">
-            <CardVue v-for="item in store.state.queue.card_array" :card_text="item.text" :card_id="item.cid"></CardVue>
+            <CardVue v-for="(item, index) in store.state.queue.card_array" :key="index" :idx="index" :card_text="item.text" :card_id="item.cid" ></CardVue>
         </div>
         <div class="btn-forward"></div>
     </div>
@@ -11,16 +11,17 @@
 
 
 <script setup>
-    import { ref, reactive } from 'vue';
-    import { useStore } from "vuex";
-    import CardVue from '../components/Card.vue';
+    import { ref, onMounted } from 'vue'
+    import { useStore } from "vuex"
+    import CardVue from '../components/Card.vue'
     import json_data from "../assets/datasets/food-sort.json"
 
     const store = useStore()
+
     store.commit("loadDataset", json_data)
 
-    const new_card = {cid: 10, text:"lala"}
-    store.commit("addCardToQueue", new_card)
+    // const new_card = {cid: 10, text:"lala"}
+    // store.commit("addCardToQueue", new_card)
 
 </script>
 
