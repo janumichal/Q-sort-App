@@ -2,7 +2,7 @@
     <div class="card-selector">
         <div class="btn-back" @click="moveLeft()"></div>
         <div class="queue">
-            <CardVue v-for="(item, index) in store.state.queue.card_array" :key="index" :idx="index" :card_text="item.text" :card_id="item.cid" ></CardVue>
+            <CardVue v-for="(item, index) in cd_store.queue.card_array" :key="index" :idx="index" :card_text="item.text" :card_id="item.cid" ></CardVue>
         </div>
         <div class="btn-forward" @click="moveRight()"></div>
     </div>
@@ -12,26 +12,26 @@
 
 <script setup>
     import { ref, onMounted } from 'vue'
-    import { useStore } from "vuex"
+    import { useCardDatesetStore } from "../stores/card-dataset"
     import CardVue from '../components/Card.vue'
     import json_data from "../assets/datasets/food-sort.json"
 
-    const store = useStore()
+    const cd_store = useCardDatesetStore()
 
-    store.commit("loadDataset", json_data)
+    cd_store.loadDataset(json_data)
 
     // const new_card = {cid: 10, text:"lala"}
     // store.commit("addCardToQueue", new_card)
 
     function moveRight(){
-        store.commit("changeSelectedIdx", 1)
+        cd_store.changeSelectedIdx(1)
     }
 
     function moveLeft(){
-        store.commit("changeSelectedIdx", -1)
+        cd_store.changeSelectedIdx(-1)
     }
 
-    console.log(store.state.queue.selected_idx);
+    console.log(cd_store.queue.selected_idx);
 
 </script>
 
