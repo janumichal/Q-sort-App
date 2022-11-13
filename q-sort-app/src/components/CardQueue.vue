@@ -21,7 +21,7 @@
     cd_store.loadDataset(json_data)
 
     // const new_card = {cid: 10, text:"lala"}
-    // store.commit("addCardToQueue", new_card)
+    // cd_store.addCardToQueue(new_card)
 
     function moveRight(){
         cd_store.changeSelectedIdx(1)
@@ -31,7 +31,6 @@
         cd_store.changeSelectedIdx(-1)
     }
 
-    console.log(cd_store.queue.selected_idx);
 
 </script>
 
@@ -60,7 +59,14 @@
             background-color: red;
         }
         .queue{
+            position: relative;
+            width: 100%;
+            height: 100%;
             display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            
         }
         
     }

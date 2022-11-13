@@ -33,6 +33,7 @@ export const useCardDatesetStore = defineStore({
             this.queue.card_array = json.cards
             this.queue.selected_idx = 0
         },
+        
         /**
          * 
          * @param {dict} card Adds card (with id and text) into the card queue
@@ -41,6 +42,7 @@ export const useCardDatesetStore = defineStore({
             this.queue.card_array.push(card)
             //TODO add card to the cookie with queue and remove it from cookie with current table
         },
+
         /**
          * 
          * @param {Number} change How much is shifted seletion in card queue
@@ -50,7 +52,6 @@ export const useCardDatesetStore = defineStore({
                 this.queue.selected_idx + change < this.queue.card_array.length){
                     this.queue.selected_idx += change
                 }
-            console.log(this.queue.selected_idx)
         }
     },
 })

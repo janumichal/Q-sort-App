@@ -48,8 +48,11 @@
         }
         var class_string = ""
         class_string += getCardPos()
-        class_string += " "
-        class_string += "layer" + getCardLayer().toString()
+        var layer = getCardLayer()
+        if(layer != 0){
+            class_string += " "
+            class_string += "layer" + layer.toString()
+        }
         return class_string
     }
 
@@ -62,8 +65,10 @@
     @use "../scss/Constants" as *;
     .wrapper{
         display: flow-root;
-
+        transition: transform .4s ease;
+        position: absolute;
         .card{
+            
             background-color: $card-color;
             width: $card-width;
             height: $card-height;
@@ -86,9 +91,34 @@
             box-sizing: border-box;  
         }
     }
+
     .center-card{
-        font-weight: bold;
+        z-index: 100;
+
+        .card{
+            outline-color: $card-selected-color;
+        }
     }
+
+    .right-card.layer1{
+        transform: translatex(20%) scale(.8);
+        z-index: 1;
+
+    }
+    .right-card.layer2 {
+        transform: translatex(40%) scale(.6);
+        z-index: 0;
+    }
+    .left-card.layer1 {
+        transform: translatex(-20%) scale(.8);
+        z-index: 1;
+    }
+    .left-card.layer2{
+        transform: translatex(-40%) scale(.6);
+        z-index: 0;
+    }
+
+
     .hidden-card{
         display: none;
     }
