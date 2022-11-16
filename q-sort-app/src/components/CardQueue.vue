@@ -1,22 +1,27 @@
 <template>
     <div class="card-selector">
-        <div class="btn-back" @click="moveLeft()"></div>
+        <div class="btn-wrapper">
+            <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-back" :class="checkDisabled(true)" @click="moveLeft()">
+        </div>
         <div class="queue">
             <CardVue v-for="(item, index) in cd_store.queue.card_array" :key="index" :idx="index" :card_text="item.text" :card_id="item.cid" ></CardVue>
         </div>
-        <div class="btn-forward" @click="moveRight()"></div>
+        <div class="btn-wrapper">
+            <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-forward" :class="checkDisabled(false)" @click="moveRight()">
+        </div>
     </div>
 
 </template>
 
 
 <script setup>
-    import { ref, onMounted } from 'vue'
+    import { ref } from 'vue'
     import { useCardDatesetStore } from "../stores/card-dataset"
     import CardVue from '../components/Card.vue'
     import json_data from "../assets/datasets/food-sort.json"
 
     const cd_store = useCardDatesetStore()
+    const step = ref(1)
 
     cd_store.loadDataset(json_data)
 
@@ -24,12 +29,21 @@
     // cd_store.addCardToQueue(new_card)
 
     function moveRight(){
-        cd_store.changeSelectedIdx(1)
+        cd_store.changeSelectedIdx(step.value)
     }
 
     function moveLeft(){
-        cd_store.changeSelectedIdx(-1)
+        cd_store.changeSelectedIdx(-step.value)
     }
+
+    function checkDisabled(isFirst){
+        if(isFirst){
+            return cd_store.queue.selected_idx == 0 ? "btn-disabled" : ""
+        }else{
+            return cd_store.queue.selected_idx == (cd_store.queue.card_array.length-1) ? "btn-disabled" : ""
+        }
+    }
+    
 
 
 </script>
@@ -37,37 +51,61 @@
 
 
 
-<style lang="scss" scoped>
+<style lang="scss" scoped>  
     @use "../scss/Constants" as *;
-    
+
     .card-selector{
-        display: flex;
         height: $queue-height;
-        // width: $queue-width;
+        width: $queue-width;
+        margin: auto;
+        // overflow: visible;
+        
+        display: flex;
+        flex-direction: row;
         justify-content: space-evenly;
         align-items: center;
-        overflow: visible;
-        
 
         background-color: $queue-color;
-        border-radius: 0px 0px $queue-border-radius $card-border-radius;
+        border-radius: 0px 0px $queue-border-radius $queue-border-radius;
 
 
+        .btn-back{
+            transform: rotate(180deg);
+        } 
         .btn-back, .btn-forward{
-            height: 100px;
-            width: 50px;
-            background-color: red;
-        }
-        .queue{
-            position: relative;
-            width: 100%;
             height: 100%;
+            width: 100%;
+            cursor: pointer;
+            opacity: 65%;
+        }
+        .btn-wrapper{
+            height: $button-size;
+            width: $button-size;
             display: flex;
             justify-content: center;
-            flex-direction: column;
             align-items: center;
-            
         }
-        
+
+        .btn-back:hover, .btn-forward:hover{
+            opacity: 100%;
+        }
+
+        .btn-back:active:not(.btn-disabled), .btn-forward:active:not(.btn-disabled){
+            height: 90%;
+            width: 90%;
+        }
+
+        .queue{
+            position: relative;
+            width: 320px;
+            height: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+    }
+    .btn-disabled{
+        opacity: 20% !important; 
+        cursor: default !important;
     }
 </style>
