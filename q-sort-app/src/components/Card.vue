@@ -16,9 +16,10 @@
     const props = defineProps({
         card_text: String,
         card_id: Number,
-        idx: Number
+        idx: Number,
+        in_queue: Boolean
     })
-    const visible_cards = ref(3)
+    const visible_cards = ref(3) 
     const cd_store = useCardDatesetStore()
 
     function getCardLayer(){
@@ -34,7 +35,7 @@
         if(select_idx > props.idx){
             return "left-card"
         }
-        return "center-card"
+        return cd_store.is_queue_selected ? "center-card selected-card" : "center-card"
     }
 
     function isCardVisible(){
@@ -43,17 +44,21 @@
     }
 
     function getQueueCardClass(){
-        if(!isCardVisible()){
-            return "hidden-card"
+        if(props.in_queue){
+            if(!isCardVisible()){
+                return "hidden-card"
+            }
+            var class_string = ""
+            class_string += getCardPos()
+            var layer = getCardLayer()
+            if(layer != 0){
+                class_string += " "
+                class_string += "layer" + layer.toString()
+            }
+            return class_string
+        }else{
+            return ""
         }
-        var class_string = ""
-        class_string += getCardPos()
-        var layer = getCardLayer()
-        if(layer != 0){
-            class_string += " "
-            class_string += "layer" + layer.toString()
-        }
-        return class_string
     }
 
 </script>
@@ -63,6 +68,8 @@
 
 <style lang="scss" scoped>
     @use "../scss/Constants" as *;
+    @use "../scss/Mixins" as *;
+
     .wrapper{
         display: flow-root;
         transition: transform .4s ease;
@@ -81,45 +88,30 @@
             border-radius: $card-border-radius;
             outline-width: $card-outline-size;
             outline-style: solid;
-            outline-color: #000000;
+            outline-color: $card-outline-default-color;
             
             font-size: $card-font-size;
             font-family: $card-font;
             text-align: center;
     
             padding: 5px;
-            box-sizing: border-box;  
+            box-sizing: border-box;
+
+            box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.15);
         }
     }
-
+    
     .center-card{
-        z-index: 100;
-
-        .card{
-            outline-color: $card-selected-color;
-        }
+        z-index: $top-layer;
     }
-
-    .right-card.layer1{
-        transform: translatex(20%) scale(.8);
-        z-index: 1;
-
-    }
-    .right-card.layer2 {
-        transform: translatex(40%) scale(.6);
-        z-index: 0;
-    }
-    .left-card.layer1 {
-        transform: translatex(-20%) scale(.8);
-        z-index: 1;
-    }
-    .left-card.layer2{
-        transform: translatex(-40%) scale(.6);
-        z-index: 0;
-    }
-
+    
+    @include generateLayers;
 
     .hidden-card{
         display: none;
+    }
+    .selected-card .card{
+        transform: scale(1.05);
+        outline-color: $card-outline-selected-color !important;
     }
 </style>

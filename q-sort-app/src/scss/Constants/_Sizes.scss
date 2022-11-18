@@ -5,6 +5,13 @@ $card-font-size: 12pt;
 $card-outline-size: 4px;
 $card-border-radius: 6px;
 
+//Empty slot
+$slot-height: $card-height;
+$slot-width: $card-width;
+$slot-gap-size: 15px;
+$slot-tb-margin-size: 20px;
+$slot-border-radius: 2 * $card-border-radius;
+
 //Queue
 $queue-height: 180px;
 $queue-width: 530px;

@@ -2,7 +2,9 @@
     "name":"Food sorting dataset",
     "uid":"0",
     "question":"What type of food do you like and what you don't like?",
-    "table":[1,2,1],
+    "delimiters":["I Like", "Neutral", "I Don't Like"],
+    "colors":["#8CB37F", "#ECEBE5", "#F79696"],
+    "table":[1,2,3,2,1],
     "cards":[
         {
             "cid":0,

@@ -4,7 +4,7 @@
             <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-back" :class="checkDisabled(true)" @click="moveLeft()">
         </div>
         <div class="queue">
-            <CardVue v-for="(item, index) in cd_store.queue.card_array" :key="index" :idx="index" :card_text="item.text" :card_id="item.cid" ></CardVue>
+            <CardVue v-for="(item, index) in cd_store.queue.card_array" :key="index" :idx="index" :card_text="item.text" :card_id="item.cid" :in_queue="true"></CardVue>
         </div>
         <div class="btn-wrapper">
             <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-forward" :class="checkDisabled(false)" @click="moveRight()">
@@ -18,15 +18,9 @@
     import { ref } from 'vue'
     import { useCardDatesetStore } from "../stores/card-dataset"
     import CardVue from '../components/Card.vue'
-    import json_data from "../assets/datasets/food-sort.json"
 
     const cd_store = useCardDatesetStore()
     const step = ref(1)
-
-    cd_store.loadDataset(json_data)
-
-    // const new_card = {cid: 10, text:"lala"}
-    // cd_store.addCardToQueue(new_card)
 
     function moveRight(){
         cd_store.changeSelectedIdx(step.value)
@@ -73,6 +67,7 @@
             transform: rotate(180deg);
         } 
         .btn-back, .btn-forward{
+            transition: all .1s ease;
             height: 100%;
             width: 100%;
             cursor: pointer;

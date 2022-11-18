@@ -1,12 +1,25 @@
 <template>
-    <div>
-        <CardQueue/>
+    <div class="sorting-wrapper" :style="getBgColor()">
+        <CardQueueVue/>
+        <SortingTableVue></SortingTableVue>
     </div>
 </template>
 
 <script setup>
-    import CardQueue from '../components/CardQueue.vue';
+    import CardQueueVue from "../components/CardQueue.vue"
+    import SortingTableVue from "../components/SortingTable.vue"
+    import { useCardDatesetStore } from "../stores/card-dataset"
+    import json_data from "../assets/datasets/food-sort.json"
+
+    const cd_store = useCardDatesetStore()
+
+    cd_store.loadDataset(json_data)
+
+    function getBgColor(){
+        return {"background-color": cd_store.colors[0]}
+    }
 </script>
 
 <style lang="scss" scoped>
-</style>
+    @use "../scss/Constants" as *;
+</style> 
