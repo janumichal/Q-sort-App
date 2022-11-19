@@ -96,19 +96,27 @@ export const useCardDatesetStore = defineStore({
             hex1_array.forEach((item, index) => {
                 var num1 = Number("0x"+item)
                 var num2 = Number("0x"+hex2_array[index])
-                var step = Math.round(Math.abs(num1 - num2) / midpoints)
+                var step = Math.round((num1 - num2) / midpoints)
                 var new_color = num1
                 for (let idx = 0; idx < midpoints-1; idx++) {
-                    if(num1 > num2){
-                        new_color -= step
-                    }else{
-                        new_color += step
-                    }
-                    
+                    new_color -= step
                     new_colors[idx] += new_color.toString(16)
                 }
             })  
             return new_colors
+        },
+        popFromQueue(){
+            if(this.queue.card_array.length > 0){
+                var card = this.queue.card_array[this.queue.selected_idx]
+                this.queue.card_array.splice(this.queue.selected_idx, 1)
+                if(this.queue.card_array.length - 1 < this.queue.selected_idx){
+                    this.queue.selected_idx--
+                }
+                return card
+            }else{
+                return null
+            }
+            
         }
     },
 })

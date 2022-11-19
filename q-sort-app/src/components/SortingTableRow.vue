@@ -37,6 +37,7 @@
             font-size: 100px;
             opacity: 30%;
             margin-left: 30px;
+            z-index: 0;
         }
     }
 </style>

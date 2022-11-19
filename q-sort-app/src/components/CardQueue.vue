@@ -32,9 +32,9 @@
 
     function checkDisabled(isFirst){
         if(isFirst){
-            return cd_store.queue.selected_idx == 0 ? "btn-disabled" : ""
+            return cd_store.queue.selected_idx == 0 || cd_store.queue.card_array.length == 0 ? "btn-disabled" : ""
         }else{
-            return cd_store.queue.selected_idx == (cd_store.queue.card_array.length-1) ? "btn-disabled" : ""
+            return cd_store.queue.selected_idx == (cd_store.queue.card_array.length-1) || cd_store.queue.card_array.length == 0 ? "btn-disabled" : ""
         }
     }
     
@@ -52,7 +52,6 @@
         height: $queue-height;
         width: $queue-width;
         margin: auto;
-        // overflow: visible;
         
         display: flex;
         flex-direction: row;
@@ -61,7 +60,6 @@
 
         background-color: $queue-color;
         border-radius: 0px 0px $queue-border-radius $queue-border-radius;
-
 
         .btn-back{
             transform: rotate(180deg);

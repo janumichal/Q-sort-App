@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="table-wrapper">
         <SortingTableRowVue v-for="(count, index) in cd_store.table_shape" :key="index" :slot_count="count" :style="getColorClass(index)" :delimiter_text="getDelimiterTest(index)"></SortingTableRowVue>
     </div>
 </template>
@@ -46,4 +46,7 @@
 
 
 <style lang="scss" scoped>
+    .table-wrapper{
+        overflow: visible;
+    }
 </style>

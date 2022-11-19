@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper" :class="getQueueCardClass()">
+    <div class="wrapper shown-card" :class="getQueueCardClass(), {'lala': true}" @click="getSelected()">
         <div class="card">
             {{ card_text }}
         </div>
@@ -45,10 +45,11 @@
 
     function getQueueCardClass(){
         if(props.in_queue){
-            if(!isCardVisible()){
-                return "hidden-card"
-            }
             var class_string = ""
+            if(!isCardVisible()){
+                class_string += "hidden-card"
+                class_string += " "
+            }
             class_string += getCardPos()
             var layer = getCardLayer()
             if(layer != 0){
@@ -61,6 +62,8 @@
         }
     }
 
+    
+
 </script>
 
 
@@ -72,7 +75,7 @@
 
     .wrapper{
         display: flow-root;
-        transition: transform .4s ease;
+        transition: all .4s ease;
         position: absolute;
         .card{
             
@@ -107,9 +110,34 @@
     
     @include generateLayers;
 
-    .hidden-card{
-        display: none;
+    @keyframes hide{
+        0% {
+            opacity: 100%;
+        }
+        100% {
+            opacity: 0%;
+            visibility: hidden;
+        }
     }
+
+    @keyframes show{
+        0%{
+            visibility: hidden;
+            opacity: 0%;
+        }
+        100%{
+            opacity: 100%;
+        }
+    }
+
+    .hidden-card{
+        animation: hide 0.5s forwards !important;
+    }
+
+    .shown-card{
+        animation: show 0.5s forwards;
+    }
+
     .selected-card .card{
         transform: scale(1.05);
         outline-color: $card-outline-selected-color !important;

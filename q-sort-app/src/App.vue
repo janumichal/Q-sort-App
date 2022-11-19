@@ -1,9 +1,9 @@
 <template>
 	<router-view />
-	<nav>
+	<!-- <nav>
 		<router-link to="/">Home</router-link> |
 		<router-link to="/Sorting">Sorting</router-link>
-	</nav>
+	</nav> -->
 </template>
 
 <style lang="scss">

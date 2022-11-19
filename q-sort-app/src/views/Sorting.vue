@@ -1,6 +1,9 @@
 <template>
     <div class="sorting-wrapper" :style="getBgColor()">
-        <CardQueueVue/>
+        <div class="queue-wrapper">
+            <CardQueueVue/>
+        </div>
+        <div></div>
         <SortingTableVue></SortingTableVue>
     </div>
 </template>
@@ -22,4 +25,10 @@
 
 <style lang="scss" scoped>
     @use "../scss/Constants" as *;
+    .queue-wrapper{
+        position: sticky;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+    }
 </style> 
