@@ -7,7 +7,6 @@
 
 
 <script setup>
-
     import { ref } from "vue";
     import SortingTableRowVue from "../components/SortingTableRow.vue";
     import { useCardDatesetStore } from '../stores/card-dataset'
@@ -48,6 +47,7 @@
 
 <style lang="scss" scoped>
     .table-wrapper{
-        overflow: visible;
+        position: relative;
+        width: fit-content;
     }
 </style>
