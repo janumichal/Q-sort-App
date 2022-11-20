@@ -2,7 +2,7 @@
     <div class="slot-wrapper">
         <CardVue v-if="!is_empty" :text="card_text" :id="card_id" :in_queue="false"></CardVue>
         <div class="slot" >
-            <div class="slot-empty" @click="onClickMove()">
+            <div class="slot-empty" :class="classMovable()" @click="onClickMove()">
             </div>
         </div>
     </div>
@@ -44,6 +44,14 @@
         cd_store.moveToTable(props.row, props.col)
     }
 
+    function classMovable(){
+        if(!cd_store.isNothingSelected()){
+            return "movable"
+        }else{
+            return ""
+        }
+    }
+
 </script>
 
 
@@ -77,7 +85,7 @@
             border-radius: $card-border-radius;
             cursor: pointer;
         }
-        .slot-empty:hover{
+        .movable:hover{
             background-color: $card-color;
             background-image: url(../assets/icons/redo_black_24dp.svg);
             background-repeat: no-repeat;

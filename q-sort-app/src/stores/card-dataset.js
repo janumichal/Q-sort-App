@@ -118,7 +118,7 @@ export const useCardDatesetStore = defineStore({
                 } else if(this.queue.length - 1 < this.selected_idx){
                     this.setSelected(this.queue[--this.selected_idx])
                 }else{
-                    this.setSelected(this.queue[this.selected_idx])
+                    this.setSelected()
                 }
             }
         },
@@ -126,12 +126,12 @@ export const useCardDatesetStore = defineStore({
             var old_pos = this.getCardPos(this.selected_card.text, this.selected_card.id)
             this.table[old_pos.row][old_pos.col] = null
             if(this.queue.length!=0){
-                this.setSelected(this.queue[this.selected_idx])
+                this.setSelected()
             }else{
                 this.setSelected({id: null, text: null})
             }
         },
-        setSelected(card, row=null, col=null){
+        setSelected(card=this.queue[this.selected_idx], row=null, col=null){
             this.selected_card.id = card.id
             this.selected_card.text = card.text
             this.selected_row = row
@@ -177,6 +177,13 @@ export const useCardDatesetStore = defineStore({
             var card1_pos = this.getCardPos(text, id)
             var card2_pos = {col: this.selected_col, row: this.selected_row}
 
+            var card1 = this.getTableCard(card1_pos.row, card1_pos.col)
+            var card2 = this.getTableCard(card2_pos.row, card2_pos.col)
+
+            this.table[card1_pos.row][card1_pos.col] = {...card2}
+            this.table[card2_pos.row][card2_pos.col] = {...card1}
+
+            this.setSelected()
         },
         isNothingSelected(){
             return this.selected_card.id == null
