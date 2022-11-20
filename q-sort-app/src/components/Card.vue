@@ -1,7 +1,7 @@
 <template>
-    <div class="wrapper shown-card" :class="getQueueCardClass(), {'lala': true}" @click="getSelected()">
-        <div class="card">
-            {{ card_text }}
+    <div class="wrapper" :class="classHidden()" @click="onClickSelect()">
+        <div class="card" :class="classSelectedClickable()">
+            {{ text }}
         </div>
     </div>
     
@@ -14,55 +14,56 @@
     import { ref } from 'vue'
     import { useCardDatesetStore } from '../stores/card-dataset'
     const props = defineProps({
-        card_text: String,
-        card_id: Number,
+        text: String,
+        id: Number,
         idx: Number,
         in_queue: Boolean
     })
     const visible_cards = ref(3) 
     const cd_store = useCardDatesetStore()
+    
 
-    function getCardLayer(){
-        var select_idx = cd_store.queue.selected_idx
-        return Math.abs(props.idx - select_idx)
+
+    function isSelected(){
+        return props.id == cd_store.selected_card.id &&
+         props.text == cd_store.selected_card.text
     }
 
-    function getCardPos(){
-        var select_idx = cd_store.queue.selected_idx
-        if(select_idx < props.idx){
-            return "right-card"
-        }
-        if(select_idx > props.idx){
-            return "left-card"
-        }
-        return cd_store.is_queue_selected ? "center-card selected-card" : "center-card"
-    }
 
-    function isCardVisible(){
-        var select_idx = cd_store.queue.selected_idx
-        return (Math.abs(select_idx - props.idx) < visible_cards.value)
-    }
 
-    function getQueueCardClass(){
-        if(props.in_queue){
-            var class_string = ""
-            if(!isCardVisible()){
-                class_string += "hidden-card"
-                class_string += " "
+    function classSelectedClickable(){
+        var class_str = ""
+        if(isSelected()){
+            class_str += "selected"
+        }else if(!props.in_queue || props.in_queue && props.idx == cd_store.selected_idx){
+            class_str += "clickable"
+            if(!cd_store.isSelectedInQueue() && !props.in_queue && !cd_store.isNothingSelected()){
+                class_str += class_str.length == 0 ? "" : " "
+                class_str += "swapable"
             }
-            class_string += getCardPos()
-            var layer = getCardLayer()
-            if(layer != 0){
-                class_string += " "
-                class_string += "layer" + layer.toString()
-            }
-            return class_string
-        }else{
-            return ""
         }
+        
+        return class_str
     }
 
     
+    function classHidden(){
+        var select_idx = cd_store.selected_idx
+        if (Math.abs(select_idx - props.idx) < visible_cards.value || !props.in_queue){
+            return ""
+        }else{
+            return "hidden"
+        }
+    }
+
+    function onClickSelect(){
+        if(!props.in_queue && cd_store.isSelectedInQueue() || cd_store.isNothingSelected() || !cd_store.isSelectedInQueue() && props.in_queue && cd_store.selected_idx == props.idx){
+            var card_pos = cd_store.getCardPos(props.text, props.id)
+            cd_store.setSelected({text: props.text, id: props.id}, card_pos.row, card_pos.col)
+        }else if(!cd_store.isSelectedInQueue() && !props.in_queue){
+            cd_store.swapOnTable(props.id, props.text)
+        }
+    }
 
 </script>
 
@@ -71,12 +72,12 @@
 
 <style lang="scss" scoped>
     @use "../scss/Constants" as *;
-    @use "../scss/Mixins" as *;
 
     .wrapper{
         display: flow-root;
         transition: all .4s ease;
         position: absolute;
+        z-index: 1;
         .card{
             
             background-color: $card-color;
@@ -102,44 +103,26 @@
 
             box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.15);
         }
-    }
-    
-    .center-card{
-        z-index: $top-layer;
-    }
-    
-    @include generateLayers;
+        .selected{
+            transform: scale(1.05);
+            outline-color: $card-outline-selected-color !important;
+        }
+        .clickable {
+            cursor: pointer;
+        }
 
-    @keyframes hide{
-        0% {
-            opacity: 100%;
-        }
-        100% {
-            opacity: 0%;
-            visibility: hidden;
-        }
-    }
-
-    @keyframes show{
-        0%{
-            visibility: hidden;
-            opacity: 0%;
-        }
-        100%{
-            opacity: 100%;
+        .swapable:hover{
+            background-color: $card-color;
+            background-image: url(../assets/icons/cached_black_24dp.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: $slot-swap-icon-size;
+            opacity: 65%;
         }
     }
 
-    .hidden-card{
-        animation: hide 0.5s forwards !important;
+    .hidden{
+        visibility: hidden;
     }
 
-    .shown-card{
-        animation: show 0.5s forwards;
-    }
-
-    .selected-card .card{
-        transform: scale(1.05);
-        outline-color: $card-outline-selected-color !important;
-    }
 </style>

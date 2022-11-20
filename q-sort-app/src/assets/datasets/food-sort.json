@@ -7,19 +7,19 @@
     "table":[1,2,3,2,1],
     "cards":[
         {
-            "cid":0,
+            "id":0,
             "text":"Carp"
         },
         {
-            "cid":1,
+            "id":1,
             "text":"Potato"
         },
         {
-            "cid":2,
+            "id":2,
             "text":"Apple"
         },
         {
-            "cid":3,
+            "id":3,
             "text":"Ham"
         }
     ]

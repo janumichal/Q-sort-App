@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <EmptySlotVue v-for="index in props.slot_count" :key="index"></EmptySlotVue>
+        <EmptySlotVue v-for="index in props.slot_count" :key="index-1" @change="renewTable" :row="props.row" :col="index-1"></EmptySlotVue>
         <div class="delimiter-text">{{ props.delimiter_text }}</div>
     </div>
 </template>
@@ -9,11 +9,21 @@
 
 <script setup>
     import EmptySlotVue from '../components/EmptySlot.vue'
-
+    import { ref } from 'vue'
+ 
     const props = defineProps({
+        row: Number,
         slot_count: Number,
         delimiter_text: String 
     })
+    const is_empty = ref(true)
+
+    function renewTable(payload){
+        is_empty.value = false
+        col.value = payload.col
+    }
+
+
 
 </script>
 

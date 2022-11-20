@@ -1,12 +1,13 @@
 <template>
     <div class="table-wrapper">
-        <SortingTableRowVue v-for="(count, index) in cd_store.table_shape" :key="index" :slot_count="count" :style="getColorClass(index)" :delimiter_text="getDelimiterTest(index)"></SortingTableRowVue>
+        <SortingTableRowVue v-for="(arr, index) in cd_store.table" :key="index" :slot_count="arr.length" :style="getColorClass(index)" :delimiter_text="getDelimiterTest(index)" :row="index"></SortingTableRowVue>
     </div>
 </template>
 
 
 
 <script setup>
+
     import { ref } from "vue";
     import SortingTableRowVue from "../components/SortingTableRow.vue";
     import { useCardDatesetStore } from '../stores/card-dataset'
@@ -24,8 +25,8 @@
 
     function getDelimiterTest(index){
         const positive_pos = 0
-        const neutral_pos = Math.round(cd_store.table_shape.length / 2) - 1
-        const negative_pos = cd_store.table_shape.length - 1
+        const neutral_pos = Math.round(cd_store.table.length / 2) - 1
+        const negative_pos = cd_store.table.length - 1
         if(isOnPos(index, positive_pos)){
             return cd_store.delimiters[0].toUpperCase()
         }else if(isOnPos(index, neutral_pos)){

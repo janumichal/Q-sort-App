@@ -1,8 +1,8 @@
 <template>
     <div class="slot-wrapper">
-        <CardVue v-if="!is_empty" :class="'clickabele'" :card_text="c_text" :card_id="c_id" :in_queue="in_q"></CardVue>
+        <CardVue v-if="!is_empty" :text="card_text" :id="card_id" :in_queue="false"></CardVue>
         <div class="slot" >
-            <div class="slot-empty" @click="addCard()">
+            <div class="slot-empty" @click="onClickMove()">
             </div>
         </div>
     </div>
@@ -12,25 +12,38 @@
 
 <script setup>
     import CardVue from '../components/Card.vue'
-    import { ref } from "vue"
+    import { ref, watch } from "vue"
     import { useCardDatesetStore } from '../stores/card-dataset';
+
+    const props = defineProps({
+        row: Number,
+        col: Number
+    })
 
     const cd_store = useCardDatesetStore()
     const is_empty = ref(true)
-    const c_id = ref(null)
-    const c_text = ref("")
-    const in_q = ref(false)
 
-    function addCard(){
-        var card = cd_store.popFromQueue()
-        if(card == null){
-            this.is_empty = true
-        }else{
-            c_id.value = card.c_id
-            c_text.value = card.text
-            this.is_empty = false
+    const card_id = ref(null)
+    const card_text = ref("")
+
+    watch(
+        cd_store.table,
+        (newVal, oldVal) =>{
+            var card = cd_store.getTableCard(props.row, props.col)
+            if(card!= null){
+                card_id.value = card.id
+                card_text.value = card.text
+                is_empty.value = false
+            }else{
+                is_empty.value = true
+            }
         }
+    )
+
+    function onClickMove(){
+        cd_store.moveToTable(props.row, props.col)
     }
+
 </script>
 
 
@@ -42,11 +55,6 @@
         margin-top: $slot-tb-margin-size;
         margin-bottom: $slot-tb-margin-size;
         margin-inline-start: $slot-gap-size;
-    }
-
-    .clickabele {
-        cursor: pointer;
-        z-index: 100;
     }
 
     .slot {
@@ -63,7 +71,7 @@
 
         
 
-        .slot-empty, .slot-full {
+        .slot-empty{
             min-height: 100%;
             min-width: 100%;
             border-radius: $card-border-radius;
@@ -75,17 +83,9 @@
             background-repeat: no-repeat;
             background-position: center;
             background-size: $slot-move-icon-size;
-            opacity: 50%;
+            opacity: 65%;
         }
     
-        // .slot-full:hover{
-        //     background-color: $card-color;
-        //     background-image: url(../assets/icons/cached_black_24dp.svg);
-        //     background-repeat: no-repeat;
-        //     background-position: center;
-        //     background-size: $slot-swap-icon-size;
-        //     opacity: 50%;
-        // }
     }
 
 
