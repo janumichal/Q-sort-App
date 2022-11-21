@@ -1,4 +1,3 @@
-import { isGloballyWhitelisted } from '@vue/shared'
 import { defineStore } from 'pinia'
 
 export const useCardDatesetStore = defineStore({
