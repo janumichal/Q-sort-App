@@ -40,6 +40,7 @@
         flex-direction: row;
         gap: $slot-gap-size;
         align-items: center;
+        flex-grow: 1;
 
         .delimiter-text{
             font-family: $card-font;
