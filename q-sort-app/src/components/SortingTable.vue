@@ -48,7 +48,8 @@
 <style lang="scss" scoped>
     .table-wrapper{
         position: relative;
-        display: flex;
         flex-direction: column;
+        max-width: 100vw;
+        min-width: fit-content;
     }
 </style>

@@ -28,6 +28,7 @@
     .sorting-wrapper{
         overflow-x: auto;
         height: 100vh;
+        width: 100vw;
 
             .queue{
                 position: sticky;
