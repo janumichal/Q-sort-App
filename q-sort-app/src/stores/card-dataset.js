@@ -128,7 +128,7 @@ export const useCardDatesetStore = defineStore({
             if(this.queue.length!=0){
                 this.setSelected()
             }else{
-                this.setSelected({id: null, text: null})
+                this.unselect()
             }
         },
         setSelected(card=this.queue[this.selected_idx], row=null, col=null){
@@ -148,9 +148,9 @@ export const useCardDatesetStore = defineStore({
             }
             return array
         },
-        moveToTable(row, col){
-            var tmp = {...this.selected_card}
-            if(tmp.text != null && tmp.id != null){
+        moveToSlot(row, col){
+            if(!this.isNothingSelected()){
+                var tmp = {...this.selected_card}
                 if(this.isSelectedInQueue()){
                     this.removeCardFromQueue()
                 }else{
@@ -173,20 +173,29 @@ export const useCardDatesetStore = defineStore({
             }
             return {'row': null, 'col': null}
         },
-        swapOnTable(id, text){
-            var card1_pos = this.getCardPos(text, id)
-            var card2_pos = {col: this.selected_col, row: this.selected_row}
+        swapSlots(id, text){
+            if(!this.isNothingSelected()){
+                var card1_pos = this.getCardPos(text, id)
+                var card2_pos = {col: this.selected_col, row: this.selected_row}
 
-            var card1 = this.getTableCard(card1_pos.row, card1_pos.col)
-            var card2 = this.getTableCard(card2_pos.row, card2_pos.col)
+                var card1 = this.getTableCard(card1_pos.row, card1_pos.col)
+                var card2 = this.getTableCard(card2_pos.row, card2_pos.col)
 
-            this.table[card1_pos.row][card1_pos.col] = {...card2}
-            this.table[card2_pos.row][card2_pos.col] = {...card1}
-
-            this.setSelected()
+                this.table[card1_pos.row][card1_pos.col] = {...card2}
+                this.table[card2_pos.row][card2_pos.col] = {...card1}
+                
+                if(this.queue.length==0){
+                    this.unselect()
+                }else{
+                    this.setSelected()
+                }
+            }
         },
         isNothingSelected(){
             return this.selected_card.id == null
+        },
+        unselect(){
+            this.selected_card = {id: null, text: null}
         }
     },
 })

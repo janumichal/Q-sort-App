@@ -41,7 +41,7 @@
     )
 
     function onClickMove(){
-        cd_store.moveToTable(props.row, props.col)
+        cd_store.moveToSlot(props.row, props.col)
     }
 
     function classMovable(){
@@ -83,7 +83,6 @@
             min-height: 100%;
             min-width: 100%;
             border-radius: $card-border-radius;
-            cursor: pointer;
         }
         .movable:hover{
             background-color: $card-color;
@@ -92,6 +91,7 @@
             background-position: center;
             background-size: $slot-move-icon-size;
             opacity: 65%;
+            cursor: pointer;
         }
     
     }

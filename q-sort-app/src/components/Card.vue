@@ -61,7 +61,7 @@
             var card_pos = cd_store.getCardPos(props.text, props.id)
             cd_store.setSelected({text: props.text, id: props.id}, card_pos.row, card_pos.col)
         }else if(!cd_store.isSelectedInQueue() && !props.in_queue){
-            cd_store.swapOnTable(props.id, props.text)
+            cd_store.swapSlots(props.id, props.text)
         }
     }
 
