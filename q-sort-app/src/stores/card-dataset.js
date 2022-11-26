@@ -24,7 +24,7 @@ export const useCardDatesetStore = defineStore({
 
     actions: {
         /**
-         * 
+         * load JSON file and save vale to store
          * @param {String} json Loads the json file into the structure
          */
         loadDataset(json){
@@ -41,7 +41,7 @@ export const useCardDatesetStore = defineStore({
         },
         
         /**
-         * 
+         * Add card to the end of queue
          * @param {dict} card Adds card (with id and text) into the card queue
          */
         addCardToQueue(card){
@@ -50,7 +50,7 @@ export const useCardDatesetStore = defineStore({
         },
 
         /**
-         * 
+         * Change index of selected card in queue
          * @param {Number} change How much is shifted seletion in card queue
          */
         changeSelectedIdx(change){
@@ -61,7 +61,11 @@ export const useCardDatesetStore = defineStore({
                     this.selected_card.text = this.queue[this.selected_idx].text
                 }
         },
-        //TODO add documentattion
+        /**
+         * Get colors of all rows
+         * @param {Array} delimiter_colors Hex numbers of edge colors
+         * @returns {Array} interpolated colors of row
+         */
         getAllRowColors(delimiter_colors){
             const row_count = this.table.length
             const positive_pos = 0
@@ -86,11 +90,22 @@ export const useCardDatesetStore = defineStore({
 
             return array
         },
-        //TODO add documentattion
+        /**
+         * check if index has equal value as position
+         * @param {Number} index 
+         * @param {Number} position 
+         * @returns {boolean}
+         */
         isOnPos(index, position){
             return index == position
         },
-        //TODO add documentattion
+        /**
+         * Get Colors between two colors
+         * @param {String} hex_color1 
+         * @param {String} hex_color2 
+         * @param {Number} midpoints how many colors generate between
+         * @returns array with all colors
+         */
         getColorsBetween(hex_color1, hex_color2, midpoints){
             var hex1_array = hex_color1.match(/.{2}/g)
             var hex2_array = hex_color2.match(/.{2}/g)
@@ -104,11 +119,15 @@ export const useCardDatesetStore = defineStore({
                 var new_color = num1
                 for (let idx = 0; idx < midpoints-1; idx++) {
                     new_color -= step
-                    new_colors[idx] += new_color.toString(16)
+                    var part_color = new_color.toString(16)
+                    new_colors[idx] += part_color.length < 2 ? "0" + part_color : part_color
                 }
             })  
             return new_colors
         },
+        /**
+         * removes card from queue and choses new elected color
+         */
         removeCardFromQueue(){
             if(this.queue.length > 0){
                 this.queue.splice(this.selected_idx, 1)
@@ -121,7 +140,10 @@ export const useCardDatesetStore = defineStore({
                 }
             }
         },
-        removeCardFromTable(newRow, newPos){
+        /**
+         * removes card from table and changes selected card
+         */
+        removeCardFromTable(){
             var old_pos = this.getCardPos(this.selected_card.text, this.selected_card.id)
             this.table[old_pos.row][old_pos.col] = null
             if(this.queue.length!=0){
@@ -130,16 +152,31 @@ export const useCardDatesetStore = defineStore({
                 this.unselect()
             }
         },
+        /**
+         * Set new selected card
+         * @param {Object} card Selected card
+         * @param {Number} row Row of card if it has one
+         * @param {Number} col Col of card if it has one
+         */
         setSelected(card=this.queue[this.selected_idx], row=null, col=null){
             this.selected_card.id = card.id
             this.selected_card.text = card.text
             this.selected_row = row
             this.selected_col = col
         },
+        /**
+         * Checks if selected card is in queue
+         * @returns {boolean}
+         */
         isSelectedInQueue(){
             return this.queue.some(item => item.id == this.selected_card.id &&
                 item.text == this.selected_card.text)
         },
+        /**
+         * Loads JSON value basd on which creates table array
+         * @param {Array} table 
+         * @returns {Array}
+         */
         loadJsonTable(table){
             var array = Array(table.length)
             for (let idx = 0; idx < array.length; idx++) {
@@ -147,6 +184,11 @@ export const useCardDatesetStore = defineStore({
             }
             return array
         },
+        /**
+         * Moves card to slot
+         * @param {Number} row of slot
+         * @param {Number} col of slot
+         */
         moveToSlot(row, col){
             if(!this.isNothingSelected()){
                 var tmp = {...this.selected_card}
@@ -158,9 +200,21 @@ export const useCardDatesetStore = defineStore({
                 this.table[row][col] = tmp
             }
         },
+        /**
+         * get card om table
+         * @param {Number} row of card slot
+         * @param {Number} col of card slot
+         * @returns 
+         */
         getTableCard(row, col){
             return this.table[row][col]
         },
+        /**
+         * Get pos of card on table
+         * @param {String} text of card
+         * @param {Number} id of card
+         * @returns {dict} card pos
+         */
         getCardPos(text, id){
             for (var row = 0; row < this.table.length; row++) {
                 for (var col = 0; col < this.table[row].length; col++) {
@@ -172,6 +226,11 @@ export const useCardDatesetStore = defineStore({
             }
             return {'row': null, 'col': null}
         },
+        /**
+         * Spaw cards
+         * @param {*} id of card to swap with (nonselected)
+         * @param {*} text of card to swap with (nonselected)
+         */
         swapSlots(id, text){
             if(!this.isNothingSelected()){
                 var card1_pos = this.getCardPos(text, id)
@@ -190,9 +249,16 @@ export const useCardDatesetStore = defineStore({
                 }
             }
         },
+        /**
+         * Check if nothing is selected
+         * @returns {boolean}
+         */
         isNothingSelected(){
             return this.selected_card.id == null
         },
+        /**
+         * Unselects all cards
+         */
         unselect(){
             this.selected_card = {id: null, text: null}
         }

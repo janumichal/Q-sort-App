@@ -1,9 +1,11 @@
 <template>
-    <div class="sorting-wrapper" :style="getBgColor()">
+    <div class="sorting-wrapper"  :style="getTopBgColor()">
             <div class="queue">
                 <CardQueueVue/>
             </div>
-        <SortingTableVue></SortingTableVue>
+        <div class="srt-table" :style="getBottomBgColor()">
+            <SortingTableVue></SortingTableVue>
+        </div>
     </div>
 </template>
 
@@ -17,9 +19,13 @@
 
     cd_store.loadDataset(json_data)
 
-    function getBgColor(){
+    function getBottomBgColor(){
+        return {"background-color": cd_store.colors[cd_store.colors.length-1]}
+    }
+    function getTopBgColor(){
         return {"background-color": cd_store.colors[0]}
     }
+
 </script>
 
 <style lang="scss" scoped>
@@ -36,6 +42,9 @@
                 left: 0;
                 z-index: 1000;
                 width: 100%;
+            }
+            .srt-table{
+                min-height: calc(100vh - $queue-height);
             }
     }
 </style> 
