@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper" :class="classHidden()" @click="onClickSelect()">
-        <div class="card" :class="classSelectedClickable()">
+        <div class="card" :class="classIsSelected(), classClickable(), classNotSelectedInQueue()">
             {{ text }}
         </div>
     </div>
@@ -31,19 +31,30 @@
 
 
 
-    function classSelectedClickable(){
-        var class_str = ""
+    function classIsSelected(){
         if(isSelected()){
-            class_str += "selected"
-        }else if(!props.in_queue || props.in_queue && props.idx == cd_store.selected_idx){
+            return "selected"
+        }
+        return ""
+    }
+
+    function classClickable(){
+        var class_str = ""
+        if(!isSelected() && (!props.in_queue || props.in_queue && props.idx == cd_store.selected_idx)){
             class_str += "clickable"
             if(!cd_store.isSelectedInQueue() && !props.in_queue && !cd_store.isNothingSelected()){
                 class_str += class_str.length == 0 ? "" : " "
                 class_str += "swapable"
             }
         }
-        
         return class_str
+    }
+
+    function classNotSelectedInQueue(){
+        if(!isSelected() && props.in_queue){
+            return "inqueue"
+        }
+        return ""
     }
 
     
@@ -103,6 +114,10 @@
 
             box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.15);
         }
+        .inqueue{
+            outline: none !important;
+        }
+
         .selected{
             transform: scale(1.05);
             outline-color: $card-outline-selected-color !important;

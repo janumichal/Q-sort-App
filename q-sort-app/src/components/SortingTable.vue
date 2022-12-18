@@ -1,6 +1,6 @@
 <template>
     <div class="table-wrapper">
-        <SortingTableRowVue v-for="(arr, index) in cd_store.table" :key="index" :slot_count="arr.length" :style="getColorClass(index)" :delimiter_text="getDelimiterTest(index)" :row="index"></SortingTableRowVue>
+        <SortingTableRowVue v-for="(arr, index) in cd_store.table" :key="index" :slot_count="arr.length" :style="getColorClass(index)" :delimiter_text="getDelimiterTest(index)" :row_value="cd_store.getRowValue(index)" :row="index"></SortingTableRowVue>
     </div>
 </template>
 
@@ -35,7 +35,6 @@
         }else{
             return ""
         }
-
     }
 
 </script>

@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+        <div class="row-value">{{ props.row_value }}</div>
         <EmptySlotVue v-for="index in props.slot_count" :key="index-1" @change="renewTable" :row="props.row" :col="index-1"></EmptySlotVue>
         <div class="delimiter-text">{{ props.delimiter_text }}</div>
     </div>
@@ -10,11 +11,14 @@
 <script setup>
     import EmptySlotVue from '../components/EmptySlot.vue'
     import { ref } from 'vue'
- 
+    import { useCardDatesetStore } from '../stores/card-dataset'
+    
+    const cd_store = useCardDatesetStore()
     const props = defineProps({
         row: Number,
         slot_count: Number,
-        delimiter_text: String 
+        delimiter_text: String,
+        row_value: Number
     })
     const is_empty = ref(true)
 
@@ -22,8 +26,6 @@
         is_empty.value = false
         col.value = payload.col
     }
-
-
 
 </script>
 
@@ -40,6 +42,18 @@
         flex-direction: row;
         gap: $slot-gap-size;
         align-items: center;
+
+        .row-value{
+            color: #FFFFFF;
+            width: 45px;
+            font-variation-settings: 'wght' 700;
+            font-size: 20px;
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: brightness(.9) saturate(140%);
+        }
 
         .delimiter-text{
             font-family: $card-font;

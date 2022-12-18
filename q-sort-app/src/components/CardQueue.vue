@@ -55,19 +55,16 @@
     
     function getCardQueueStyle(index){
         var layer = getCardLayer(index)
-        var translateX = 0
-        var scale = 0
-        var num = 1
+        var translateX = 22
+        var scale = -0.2
+        var num = 1.5
         var offset = 1.5
         var top_layer = 100
         
         if(isCardLeft(index)){
-            translateX = -20
-            scale = -0.2
+            translateX *= -1
         }else if(!isCardLeft(index)){
             num *=-1
-            translateX = 20
-            scale = -0.2
         }
         
         translateX = layer * translateX + (num * layer * Math.pow(layer,offset))
@@ -93,9 +90,7 @@
 
     .card-selector{
         height: $queue-height;
-        width: $queue-width;
-        margin: auto;
-        
+        width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;

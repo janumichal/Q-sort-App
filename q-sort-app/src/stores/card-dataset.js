@@ -261,6 +261,10 @@ export const useCardDatesetStore = defineStore({
          */
         unselect(){
             this.selected_card = {id: null, text: null}
+        },
+        getRowValue(idx){
+            var offset = Math.round(this.table.length / 2) - 1
+            return offset - idx
         }
     },
 })
