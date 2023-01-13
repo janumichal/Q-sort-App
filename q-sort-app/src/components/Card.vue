@@ -82,7 +82,6 @@
 
 
 <style lang="scss" scoped>
-    @use "../scss/Constants" as *;
 
     .wrapper{
         display: flow-root;
@@ -91,22 +90,27 @@
         z-index: 1;
         .card{
             
-            background-color: $card-color;
-            width: $card-width;
-            height: $card-height;
-            margin: $card-outline-size;
+            background-color: #B2EDFF;
+            // width: 220px;
+            // height: 130px;
+            width: min(43vmin, 220px);
+            min-width: 138px;
+            height: min(25vmin, 130px);
+            min-height: 80px;
+            margin: 4px;
     
             display: flex;
             justify-content: center;
             align-items: center;
             
-            border-radius: $card-border-radius;
-            outline-width: $card-outline-size;
+            border-radius: 6px;
+            outline-width: 4px;
             outline-style: solid;
-            outline-color: $card-outline-default-color;
+            outline-color: #000000;
             
-            font-size: $card-font-size;
-            font-family: $card-font;
+            // font-size: 12pt;
+            font-size: max(10pt, min(3.8vmin, 12pt));
+            font-family: "Maven Pro";
             text-align: center;
     
             padding: 5px;
@@ -120,18 +124,18 @@
 
         .selected{
             transform: scale(1.05);
-            outline-color: $card-outline-selected-color !important;
+            outline-color: #BDFF00 !important;
         }
         .clickable {
             cursor: pointer;
         }
 
         .swapable:hover{
-            background-color: $card-color;
+            background-color: #B2EDFF;
             background-image: url(../assets/icons/cached_black_24dp.svg);
             background-repeat: no-repeat;
             background-position: center;
-            background-size: $slot-swap-icon-size;
+            background-size: 83px;
             opacity: 65%;
         }
     }

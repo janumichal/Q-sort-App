@@ -86,18 +86,19 @@
 
 
 <style lang="scss" scoped>  
-    @use "../scss/Constants" as *;
-
     .card-selector{
-        height: $queue-height;
+        // height: 180px;
+        min-height: 123px;
+        height: min(35vmin, 180px);
+        min-width: 320px;
         width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
         align-items: center;
 
-        background-color: $queue-color;
-        border-radius: 0px 0px $queue-border-radius $queue-border-radius;
+        background-color: #39DBFF;
+        border-radius: 0px 0px 10px 10px;
 
         .btn-back{
             transform: rotate(180deg);
@@ -110,8 +111,8 @@
             opacity: 65%;
         }
         .btn-wrapper{
-            height: $button-size;
-            width: $button-size;
+            height: 60px;
+            width: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -128,7 +129,9 @@
 
         .queue{
             position: relative;
-            width: 320px;
+            // width: 320px;
+            width: min(50vmin, 320px);
+            min-width: 160px;
             height: 100%;
             display: flex;
             justify-content: space-evenly;

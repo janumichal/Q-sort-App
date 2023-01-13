@@ -1,5 +1,5 @@
 <template>
-    <div class="table-wrapper">
+    <div class="table-wrapper" ref="wrapper">
         <SortingTableRowVue v-for="(arr, index) in cd_store.table" :key="index" :slot_count="arr.length" :style="getColorClass(index)" :delimiter_text="getDelimiterTest(index)" :row_value="cd_store.getRowValue(index)" :row="index"></SortingTableRowVue>
     </div>
 </template>
@@ -7,11 +7,13 @@
 
 
 <script setup>
-    import { ref } from "vue";
+    import { ref, defineExpose } from "vue";
     import SortingTableRowVue from "../components/SortingTableRow.vue";
     import { useCardDatesetStore } from '../stores/card-dataset'
 
     const cd_store = useCardDatesetStore()
+    const wrapper = ref(null)
+    defineExpose({wrapper})
     
 
     function isOnPos(index, position){

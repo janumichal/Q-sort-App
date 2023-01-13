@@ -32,7 +32,6 @@
 
 
 <style lang="scss" scoped>
-    @use "../scss/Constants" as *;
     
     .row{
         width: 100%;
@@ -40,14 +39,18 @@
         display: flex;
         justify-content: flex-start;
         flex-direction: row;
-        gap: $slot-gap-size;
+        // gap: 15px;
+        gap: min(.8vmin, 10px);
         align-items: center;
 
         .row-value{
             color: #FFFFFF;
-            width: 45px;
+            // width: 45px;
+            width: min(8vmin, 45px);
+            min-width: 26px;
             font-variation-settings: 'wght' 700;
-            font-size: 20px;
+            // font-size: 20px;
+            font-size: max(10pt ,min(4vmin, 15pt));
             align-self: stretch;
             display: flex;
             align-items: center;
@@ -56,11 +59,11 @@
         }
 
         .delimiter-text{
-            font-family: $card-font;
+            font-family: "Maven Pro";
             font-variation-settings: 'wght' 800;
-            font-size: 100px;
+            font-size: max(80px, min(25vmin, 100px));
             opacity: 30%;
-            margin-left: 30px;
+            margin-left: min(3vmin, 30px);
             z-index: 0;
         }
     }
