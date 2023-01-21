@@ -1,0 +1,3 @@
+[submodule "q-sort-app/dist"]
+	path = q-sort-app/dist
+	url = https://github.com/janumichal/Q-SortApp.git
