@@ -11,7 +11,7 @@
                                 {{ cd_store.question }}
                             </div>
                             <div class="question-close-icon" @click="onClickToggleQuestion()">
-                                <img  src="../assets/icons/close_white_24dp (1).svg"/>
+                                <img  src="../assets/icons/close_white_24dp.svg"/>
                             </div>
                         </div>
                     </Transition>

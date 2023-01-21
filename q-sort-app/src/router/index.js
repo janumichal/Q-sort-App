@@ -3,16 +3,21 @@ import Home from "../views/Home.vue"
 import Sorting from "../views/Sorting.vue"
 
 const routes = [
+  // {
+  //   path: '/',
+  //   name: 'Home',
+  //   component: Home
+  // },
+  // {
+  //   path: '/Sorting',
+  //   name: 'Sorting',
+  //   component: Sorting
+  // }
   {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/Sorting',
-    name: 'Sorting',
-    component: Sorting
-  }
+      path: '/',
+      name: 'Sorting',
+      component: Sorting
+    }
 ]
 
 const router = createRouter({

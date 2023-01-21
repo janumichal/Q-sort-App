@@ -7,7 +7,7 @@
 
 
 <script setup>
-    import { ref, defineExpose } from "vue";
+    import { ref } from "vue";
     import SortingTableRowVue from "../components/SortingTableRow.vue";
     import { useCardDatesetStore } from '../stores/card-dataset'
 
