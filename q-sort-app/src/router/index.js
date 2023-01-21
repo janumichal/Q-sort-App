@@ -14,7 +14,7 @@ const routes = [
   //   component: Sorting
   // }
   {
-      path: '/',
+      path: process.env.NODE_ENV === "production" ? "/Q-SortApp/" : "/",
       name: 'Sorting',
       component: Sorting
     }
