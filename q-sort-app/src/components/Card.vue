@@ -1,0 +1,147 @@
+<template>
+    <div class="wrapper" :class="classHidden()" @click="onClickSelect()">
+        <div class="card" :class="classIsSelected(), classClickable(), classNotSelectedInQueue()">
+            {{ text }}
+        </div>
+    </div>
+    
+</template>
+
+
+
+
+<script setup>
+    import { ref } from 'vue'
+    import { useCardDatesetStore } from '../stores/card-dataset'
+    const props = defineProps({
+        text: String,
+        id: Number,
+        idx: Number,
+        in_queue: Boolean
+    })
+    const visible_cards = ref(3) 
+    const cd_store = useCardDatesetStore()
+    
+
+
+    function isSelected(){
+        return props.id == cd_store.selected_card.id &&
+         props.text == cd_store.selected_card.text
+    }
+
+
+
+    function classIsSelected(){
+        if(isSelected()){
+            return "selected"
+        }
+        return ""
+    }
+
+    function classClickable(){
+        var class_str = ""
+        if(!isSelected() && (!props.in_queue || props.in_queue && props.idx == cd_store.selected_idx)){
+            class_str += "clickable"
+            if(!cd_store.isSelectedInQueue() && !props.in_queue && !cd_store.isNothingSelected()){
+                class_str += class_str.length == 0 ? "" : " "
+                class_str += "swapable"
+            }
+        }
+        return class_str
+    }
+
+    function classNotSelectedInQueue(){
+        if(!isSelected() && props.in_queue){
+            return "inqueue"
+        }
+        return ""
+    }
+
+    
+    function classHidden(){
+        var select_idx = cd_store.selected_idx
+        if (Math.abs(select_idx - props.idx) < visible_cards.value || !props.in_queue){
+            return ""
+        }else{
+            return "hidden"
+        }
+    }
+
+    function onClickSelect(){
+        if(!props.in_queue && cd_store.isSelectedInQueue() || cd_store.isNothingSelected() || !cd_store.isSelectedInQueue() && props.in_queue && cd_store.selected_idx == props.idx){
+            var card_pos = cd_store.getCardPos(props.text, props.id)
+            cd_store.setSelected({text: props.text, id: props.id}, card_pos.row, card_pos.col)
+        }else if(!cd_store.isSelectedInQueue() && !props.in_queue){
+            cd_store.swapSlots(props.id, props.text)
+        }
+    }
+
+</script>
+
+
+
+
+<style lang="scss" scoped>
+
+    .wrapper{
+        display: flow-root;
+        transition: all .4s ease;
+        position: absolute;
+        z-index: 1;
+        .card{
+            
+            background-color: #B2EDFF;
+            // width: 220px;
+            // height: 130px;
+            width: min(43vmin, 220px);
+            min-width: 138px;
+            height: min(25vmin, 130px);
+            min-height: 80px;
+            margin: 4px;
+    
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            border-radius: 6px;
+            outline-width: 4px;
+            outline-style: solid;
+            outline-color: #000000;
+            
+            // font-size: 12pt;
+            font-size: max(10pt, min(3.8vmin, 12pt));
+            font-family: "Maven Pro";
+            text-align: center;
+    
+            padding: 5px;
+            box-sizing: border-box;
+
+            box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.15);
+        }
+        .inqueue{
+            outline: none !important;
+        }
+
+        .selected{
+            transform: scale(1.05);
+            outline-color: #BDFF00 !important;
+        }
+        .clickable {
+            cursor: pointer;
+        }
+
+        .swapable:hover{
+            background-color: #B2EDFF;
+            background-image: url(../assets/icons/cached_black_24dp.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 83px;
+            opacity: 65%;
+        }
+    }
+
+    .hidden{
+        visibility: hidden;
+    }
+
+</style>

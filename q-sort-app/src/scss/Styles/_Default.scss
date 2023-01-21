@@ -1,0 +1,12 @@
+body {
+    margin: 0px;
+    font-family: "Maven Pro";
+}
+
+// Fonts
+
+@font-face{
+    font-family: "Maven Pro";
+    src: local("Maven Pro"),
+    url(./fonts/MavenPro-VariableFont_wght.ttf) format("truetype");
+}
