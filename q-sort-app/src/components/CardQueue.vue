@@ -4,7 +4,7 @@
             <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-back" :class="classDisabled(true)" @click="btnMoveLeft()">
         </div>
         <div class="queue">
-            <CardVue :style="getCardQueueStyle(index)" v-for="(item, index) in cd_store.queue" :key="index" :idx="index"  :text="item.text" :id="item.id" :in_queue="true"></CardVue>
+            <CardVue :visible="true" :style="getCardQueueStyle(index)" v-for="(item, index) in cd_store.queue" :key="index" :idx="index"  :text="item.text" :id="item.id" :in_queue="true"></CardVue>
         </div>
         <div class="btn-wrapper">
             <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-forward" :class="classDisabled(false)" @click="btnMoveRight()">

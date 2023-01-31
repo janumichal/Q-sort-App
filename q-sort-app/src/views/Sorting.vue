@@ -92,6 +92,7 @@
         width: 100vw;
 
         .queue-wrapper{
+            pointer-events: none;
             position: sticky;
             top: 0;
             left: 0;
@@ -101,6 +102,7 @@
             flex-direction: column;
             align-items: center;
             .queue{
+                pointer-events: all;
                 // min-width: 380px;
                 width: min(60vmin, 380px);
                 width: 100%;

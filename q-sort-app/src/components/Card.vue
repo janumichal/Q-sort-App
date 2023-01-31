@@ -1,10 +1,11 @@
 <template>
-    <div class="wrapper" @click="onClickSelect()">
-        <div class="card" :class="classIsSelected(), classClickable(), classNotSelectedInQueue()">
-            {{ text }}
+    <Transition name="card">
+        <div v-if="props.visible" class="wrapper" @click="onClickSelect()">
+            <div class="card" :class="classIsSelected(), classClickable(), classNotSelectedInQueue()">
+                {{ text }}
+            </div>
         </div>
-    </div>
-    
+    </Transition>
 </template>
 
 
@@ -17,12 +18,11 @@
         text: String,
         id: Number,
         idx: Number,
-        in_queue: Boolean
+        in_queue: Boolean,
+        visible: Boolean
     })
     const visible_cards = ref(3) 
     const cd_store = useCardDatesetStore()
-    
-
 
     function isSelected(){
         return props.id == cd_store.selected_card.id &&
@@ -57,24 +57,16 @@
         return ""
     }
 
-    
-    function classHidden(){
-        var select_idx = cd_store.selected_idx
-        if (Math.abs(select_idx - props.idx) < visible_cards.value || !props.in_queue){
-            return ""
-        }else{
-            return "hidden"
-        }
-    }
-
     function onClickSelect(){
         if(!props.in_queue && cd_store.isSelectedInQueue() || cd_store.isNothingSelected() || !cd_store.isSelectedInQueue() && props.in_queue && cd_store.selected_idx == props.idx){
             var card_pos = cd_store.getCardPos(props.text, props.id)
             cd_store.setSelected({text: props.text, id: props.id}, card_pos.row, card_pos.col)
         }else if(!cd_store.isSelectedInQueue() && !props.in_queue){
+
             cd_store.swapSlots(props.id, props.text)
         }
     }
+        
 
 </script>
 
@@ -82,6 +74,37 @@
 
 
 <style lang="scss" scoped>
+
+    $animation-duration: 0.3s;
+    .card-enter-active {
+        animation-name: card_appear;
+        animation-duration: $animation-duration;
+        animation-delay: $animation-duration;
+        animation-fill-mode: both;
+        animation-direction: normal;
+        animation-timing-function: ease;
+    }
+
+    .card-leave-active {
+        animation-name: card_appear;
+        animation-duration: $animation-duration;
+        animation-fill-mode: forwards;
+        animation-direction: reverse;
+        animation-timing-function: ease;
+    }
+
+    @keyframes card_appear {
+        0%{
+            opacity: 0%;
+            visibility: hidden;
+            transform: scale(1.5);
+        }
+        100%{
+            opacity: 100%;
+            visibility: visible;
+            transform: scale(1);
+        }
+    }
 
     .wrapper{
         display: flow-root;
