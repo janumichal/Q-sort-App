@@ -1,6 +1,8 @@
 <template>
     <div class="slot-wrapper">
-        <CardVue v-if="!is_empty" :text="card_text" :id="card_id" :in_queue="false"></CardVue>
+        <Transition name="table-card">
+            <CardVue v-if="c_visible" :text="card_text" :id="card_id" :in_queue="false"></CardVue>
+        </Transition>
         <div class="slot" >
             <div class="slot-empty" :class="classMovable()" @click="onClickMove()">
             </div>
@@ -21,7 +23,7 @@
     })
 
     const cd_store = useCardDatesetStore()
-    const is_empty = ref(true)
+    const c_visible = ref(false)
 
     const card_id = ref(null)
     const card_text = ref("")
@@ -33,14 +35,15 @@
             if(card!= null){
                 card_id.value = card.id
                 card_text.value = card.text
-                is_empty.value = false
+                c_visible.value = true
             }else{
-                is_empty.value = true
+                c_visible.value = false
             }
         }
     )
 
     function onClickMove(){
+        
         cd_store.moveToSlot(props.row, props.col)
     }
 
@@ -57,6 +60,36 @@
 
 
 <style lang="scss" scoped>
+
+$animation-duration: 0.3s;
+.table-card-enter-active {
+    animation-name: card_appear;
+    animation-duration: $animation-duration;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+    animation-timing-function: ease;
+}
+
+.table-card-leave-active {
+    animation-name: card_appear;
+    animation-duration: $animation-duration;
+    animation-fill-mode: forwards;
+    animation-direction: reverse;
+    animation-timing-function: ease;
+}
+
+@keyframes card_appear {
+    0%{
+        opacity: 0%;
+        visibility: hidden;
+        transform: scale(1.5);
+    }
+    100%{
+        opacity: 100%;
+        visibility: visible;
+        transform: scale(1);
+    }
+}
 
     .slot-wrapper{
         // margin-top: 20px;

@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper" :class="classHidden()" @click="onClickSelect()">
+    <div class="wrapper" @click="onClickSelect()">
         <div class="card" :class="classIsSelected(), classClickable(), classNotSelectedInQueue()">
             {{ text }}
         </div>
@@ -125,6 +125,7 @@
         .selected{
             transform: scale(1.05);
             outline-color: #BDFF00 !important;
+            font-variation-settings: "wght" 600;
         }
         .clickable {
             cursor: pointer;
@@ -138,10 +139,6 @@
             background-size: 83px;
             opacity: 65%;
         }
-    }
-
-    .hidden{
-        visibility: hidden;
     }
 
 </style>
