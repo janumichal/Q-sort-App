@@ -1,8 +1,6 @@
 <template>
     <div class="slot-wrapper">
-        <Transition name="table-card">
-            <CardVue v-if="c_visible" :text="card_text" :id="card_id" :in_queue="false"></CardVue>
-        </Transition>
+        <CardVue :visible="c_visible" :text="card_text" :id="card_id" :in_queue="false"></CardVue>
         <div class="slot" >
             <div class="slot-empty" :class="classMovable()" @click="onClickMove()">
             </div>
@@ -33,9 +31,18 @@
         (newVal, oldVal) =>{
             var card = cd_store.getTableCard(props.row, props.col)
             if(card!= null){
-                card_id.value = card.id
-                card_text.value = card.text
-                c_visible.value = true
+                if(c_visible.value && card_id.value != card.id){
+                    c_visible.value = false
+                    setTimeout(() => {
+                        card_id.value = card.id
+                        card_text.value = card.text
+                        c_visible.value = true
+                    }, 300)                    
+                }else{
+                    card_id.value = card.id
+                    card_text.value = card.text
+                    c_visible.value = true
+                }
             }else{
                 c_visible.value = false
             }
@@ -43,7 +50,6 @@
     )
 
     function onClickMove(){
-        
         cd_store.moveToSlot(props.row, props.col)
     }
 
@@ -60,36 +66,6 @@
 
 
 <style lang="scss" scoped>
-
-$animation-duration: 0.3s;
-.table-card-enter-active {
-    animation-name: card_appear;
-    animation-duration: $animation-duration;
-    animation-fill-mode: forwards;
-    animation-direction: normal;
-    animation-timing-function: ease;
-}
-
-.table-card-leave-active {
-    animation-name: card_appear;
-    animation-duration: $animation-duration;
-    animation-fill-mode: forwards;
-    animation-direction: reverse;
-    animation-timing-function: ease;
-}
-
-@keyframes card_appear {
-    0%{
-        opacity: 0%;
-        visibility: hidden;
-        transform: scale(1.5);
-    }
-    100%{
-        opacity: 100%;
-        visibility: visible;
-        transform: scale(1);
-    }
-}
 
     .slot-wrapper{
         // margin-top: 20px;
