@@ -4,7 +4,10 @@
             <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-back" :class="classDisabled(true)" @click="btnMoveLeft()">
         </div>
         <div class="queue">
-            <CardVue :visible="true" :style="getCardQueueStyle(index)" v-for="(item, index) in cd_store.queue" :key="index" :idx="index"  :text="item.text" :id="item.id" :in_queue="true"></CardVue>
+            <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards">
+                <!-- <CardVue v-for="(item, index) in cd_store.queue" :key="item.id" :idx="index"  :text="item.text" :id="item.id" :in_queue="true" :visible="true" ></CardVue> -->
+                <CardVue :style="getCardQueueStyle(index)" v-for="(item, index) in cd_store.queue" :key="item.id" :idx="index"  :text="item.text" :id="item.id" :in_queue="true" :visible="true" ></CardVue>
+            </TransitionGroup>
         </div>
         <div class="btn-wrapper">
             <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-forward" :class="classDisabled(false)" @click="btnMoveRight()">
@@ -86,6 +89,36 @@
 
 
 <style lang="scss" scoped>  
+
+    $animation-duration: 0.3s;
+    .queue-enter-active{
+        animation-name: card_appear;
+        animation-duration: $animation-duration;
+        animation-delay: $animation-duration;
+        animation-fill-mode: both;
+        animation-direction: normal;
+        animation-timing-function: ease;
+    }
+    .queue-leave-active {
+        animation-name: card_appear;
+        animation-duration: $animation-duration;
+        animation-fill-mode: forwards;
+        animation-direction: reverse;
+        animation-timing-function: ease;
+    }
+
+    @keyframes card_appear {
+        0%{
+            opacity: 0%;
+            // visibility: hidden;
+            transform: scale(1.5);
+        }
+        100%{
+            opacity: 100%;
+            // visibility: visible;
+            transform: scale(1);
+        }
+    }
     .card-selector{
         // height: 180px;
         min-height: 123px;
@@ -136,6 +169,14 @@
             display: flex;
             justify-content: space-evenly;
             align-items: center;
+
+            .trans-group-cards{
+                height: 100%;
+                width: 100%;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+            }
         }
     }
     .btn-disabled{

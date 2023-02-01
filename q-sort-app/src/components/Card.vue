@@ -110,6 +110,8 @@
         display: flow-root;
         transition: all .4s ease;
         position: absolute;
+        // position: relative;
+
         z-index: 1;
         .card{
             
