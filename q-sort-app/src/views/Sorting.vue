@@ -48,7 +48,9 @@
     const queue = ref(null)
     const table = ref(null)
 
+    //Load dataset
     cd_store.loadDataset(json_data)
+
 
     function getBottomBgColor(){
         return {"background-color": cd_store.colors[cd_store.colors.length-1]}

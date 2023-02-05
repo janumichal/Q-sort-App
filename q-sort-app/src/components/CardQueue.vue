@@ -5,8 +5,7 @@
         </div>
         <div class="queue">
             <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards">
-                <!-- <CardVue v-for="(item, index) in cd_store.queue" :key="item.id" :idx="index"  :text="item.text" :id="item.id" :in_queue="true" :visible="true" ></CardVue> -->
-                <CardVue :style="getCardQueueStyle(index)" v-for="(item, index) in cd_store.queue" :key="item.id" :idx="index"  :text="item.text" :id="item.id" :in_queue="true" :visible="true" ></CardVue>
+                <CardVue :style="getCardQueueStyle(index)" v-for="(id, index) in cd_store.queue" :key="id" :idx="index"  :text="cd_store.getCardText(id)" :id="id" :in_queue="true" :visible="true" ></CardVue>
             </TransitionGroup>
         </div>
         <div class="btn-wrapper">
@@ -73,9 +72,14 @@
         translateX = layer * translateX + (num * layer * Math.pow(layer,offset))
         scale = 1 + layer * scale
         
-        return {
+        return layer < 4 ? {
             "transform": "translateX("+translateX+"%) scale("+scale+")",
             "z-index": (top_layer-layer)
+        } : {
+            "transform": "translateX("+translateX+"%) scale("+scale+")",
+            "z-index": (top_layer-layer),
+            "opacity": "0",
+            "pointer-events": "none"
         }
     }
 
@@ -169,7 +173,7 @@
             display: flex;
             justify-content: space-evenly;
             align-items: center;
-
+            overflow: hidden;
             .trans-group-cards{
                 height: 100%;
                 width: 100%;

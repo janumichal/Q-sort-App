@@ -14,11 +14,6 @@
     const cd_store = useCardDatesetStore()
     const wrapper = ref(null)
     defineExpose({wrapper})
-    
-
-    function isOnPos(index, position){
-        return index == position
-    }
 
     function getColorClass(index){
         return {"background-color": cd_store.colors[index]}
@@ -28,11 +23,11 @@
         const positive_pos = 0
         const neutral_pos = Math.round(cd_store.table.length / 2) - 1
         const negative_pos = cd_store.table.length - 1
-        if(isOnPos(index, positive_pos)){
+        if(index == positive_pos){
             return cd_store.delimiters[0].toUpperCase()
-        }else if(isOnPos(index, neutral_pos)){
+        }else if(index == neutral_pos){
             return cd_store.delimiters[1].toUpperCase()
-        }else if(isOnPos(index, negative_pos)){
+        }else if(index == negative_pos){
             return cd_store.delimiters[2].toUpperCase()
         }else{
             return ""

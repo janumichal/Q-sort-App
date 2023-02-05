@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 
+
 export const useCardDatesetStore = defineStore({
     id: "card-dataset",
     state: () => ({
@@ -8,18 +9,19 @@ export const useCardDatesetStore = defineStore({
         question: "",
         delimiters: [],
         colors: [],
-        selected_card: {
-            id: null,
-            text: "",
-        },
+        selected_card_id: null,
         queue: [],
-        selected_idx: null,
+        selected_idx: 0,
         table: [],
         selected_row: null,
-        selected_col: null
+        selected_col: null,
+        card_list: {},
+        cookie_table: "",
+        cookie_queue: ""
     }),
 
     getters: {
+
     },
 
     actions: {
@@ -28,24 +30,113 @@ export const useCardDatesetStore = defineStore({
          * @param {String} json Loads the json file into the structure
          */
         loadDataset(json){
-            this.name = json.name
+            //General Q-sort info
             this.uid = json.uid
+            this.name = json.name
             this.question = json.question
             this.delimiters = json.delimiters
-            this.queue = json.cards
-            this.selected_idx = 0
-            this.selected_card.id = json.cards[this.selected_idx].id
-            this.selected_card.text = json.cards[this.selected_idx].text
             this.table = this.loadJsonTable(json.table)
             this.colors = this.getAllRowColors(json.colors)
+            this.card_list = this.loadCards(json.cards)
+
+            this.cookie_table = "Q-sortApp-"+ this.uid +"-table"
+            this.cookie_queue = "Q-sortApp-"+ this.uid +"-queue"
+
+            // Table
+            if($cookies.isKey(this.cookie_table)){
+                //Load table from cookie
+                var c_table = this.loadCookieToArray(true)
+                setTimeout(()=>{
+                    this.table = this.loadTable(c_table)
+                }, 50)
+            }else{
+                //Create empty cookie 
+                this.updateCookies(true)
+            }
+
+            // Queue
+            if($cookies.isKey(this.cookie_queue)){
+                //load queue from cookie
+                var c_queue = this.loadCookieToArray(false)
+                setTimeout(() =>{
+                    this.queue = c_queue.map(Number)
+                    this.setSelected()
+                }, 50)
+            }else{
+                //Add all cards to cookie and load them to queue
+                this.queue = this.loadCardIds()
+                this.updateCookies(false)
+            }
+            
+            //Selected card generated based on queue
+            if(this.table.length > 0){
+                this.selected_card_id = json.cards[this.selected_idx].id
+            }else{
+                this.unselect()
+            }
+
+
+            
+        },
+        loadCookieToArray(is_table){
+            var cookie_value = $cookies.get(is_table ? this.cookie_table : this.cookie_queue)
+            if(cookie_value == null){
+                return []
+            }else{
+                return cookie_value.split(",")
+            }
+        },
+        updateCookies(is_table){
+            var arr = is_table ? this.get2dTo1dArray(this.table) : this.queue
+            var csv_str = arr.join(",")
+            $cookies.set(is_table ? this.cookie_table : this.cookie_queue, csv_str)
+        },
+        updateBothCookies(){
+            this.updateCookies(true)
+            this.updateCookies(false)
+        },
+        loadTable(array){
+            var arr = this.table
+            var linear_idx = 0
+            for (var i = 0; i < arr.length; i++) {
+                for (var j = 0; j < arr[i].length; j++) {
+                    if(array[linear_idx] != ""){
+                        arr[i][j] = parseInt(array[linear_idx])
+                    }else{
+                        arr[i][j] = null
+                    }
+                    linear_idx++
+                }
+            }
+            return arr
+        },
+        loadCards(cards){
+            var arr = {}
+            cards.forEach(card => {
+                arr[card.id] = card.text
+            })
+            return arr
+        },
+        loadCardIds(){
+            var arr = Object.keys(this.card_list)
+            arr = arr.map(id => parseInt(id))
+            return arr
+        },
+        get2dTo1dArray(array_2D){
+            var array_1D = []
+            for (var row of array_2D) for (var element of row) array_1D.push(element)
+            return array_1D
+        },
+        getCardText(id){
+            return this.card_list[id]
         },
         
         /**
          * Add card to the end of queue
          * @param {dict} card Adds card (with id and text) into the card queue
          */
-        addCardToQueue(card){
-            this.queue.push(card)
+        addCardToQueue(card_id){
+            this.queue.push(card_id)
             //TODO add card to the cookie with queue and remove it from cookie with current table
         },
 
@@ -57,8 +148,7 @@ export const useCardDatesetStore = defineStore({
             if(this.selected_idx + change >= 0 && 
                 this.selected_idx + change < this.queue.length){
                     this.selected_idx += change
-                    this.selected_card.id = this.queue[this.selected_idx].id
-                    this.selected_card.text = this.queue[this.selected_idx].text
+                    this.selected_card_id = this.queue[this.selected_idx]
                 }
         },
         /**
@@ -89,15 +179,6 @@ export const useCardDatesetStore = defineStore({
             })
 
             return array
-        },
-        /**
-         * check if index has equal value as position
-         * @param {Number} index 
-         * @param {Number} position 
-         * @returns {boolean}
-         */
-        isOnPos(index, position){
-            return index == position
         },
         /**
          * Get Colors between two colors
@@ -132,7 +213,7 @@ export const useCardDatesetStore = defineStore({
             if(this.queue.length > 0){
                 this.queue.splice(this.selected_idx, 1)
                 if(this.queue.length  == 0){
-                    this.setSelected({id: null, text: null})
+                    this.unselect()
                 } else if(this.queue.length - 1 < this.selected_idx){
                     this.setSelected(this.queue[--this.selected_idx])
                 }else{
@@ -144,7 +225,7 @@ export const useCardDatesetStore = defineStore({
          * removes card from table and changes selected card
          */
         removeCardFromTable(){
-            var old_pos = this.getCardPos(this.selected_card.text, this.selected_card.id)
+            var old_pos = this.getCardPos(this.selected_card_id)
             this.table[old_pos.row][old_pos.col] = null
             if(this.queue.length!=0){
                 this.setSelected()
@@ -158,9 +239,8 @@ export const useCardDatesetStore = defineStore({
          * @param {Number} row Row of card if it has one
          * @param {Number} col Col of card if it has one
          */
-        setSelected(card=this.queue[this.selected_idx], row=null, col=null){
-            this.selected_card.id = card.id
-            this.selected_card.text = card.text
+        setSelected(card_id=this.queue[this.selected_idx], row=null, col=null){
+            this.selected_card_id = card_id
             this.selected_row = row
             this.selected_col = col
         },
@@ -169,8 +249,7 @@ export const useCardDatesetStore = defineStore({
          * @returns {boolean}
          */
         isSelectedInQueue(){
-            return this.queue.some(item => item.id == this.selected_card.id &&
-                item.text == this.selected_card.text)
+            return this.queue.includes(this.selected_card_id)
         },
         /**
          * Loads JSON value basd on which creates table array
@@ -191,13 +270,14 @@ export const useCardDatesetStore = defineStore({
          */
         moveToSlot(row, col){
             if(!this.isNothingSelected()){
-                var tmp = {...this.selected_card}
+                var tmp_card_id = this.selected_card_id
                 if(this.isSelectedInQueue()){
                     this.removeCardFromQueue()
                 }else{
                     this.removeCardFromTable()
                 }
-                this.table[row][col] = tmp
+                this.table[row][col] = tmp_card_id
+                this.updateBothCookies()
             }
         },
         /**
@@ -206,7 +286,7 @@ export const useCardDatesetStore = defineStore({
          * @param {Number} col of card slot
          * @returns 
          */
-        getTableCard(row, col){
+        getTableCardId(row, col){
             return this.table[row][col]
         },
         /**
@@ -215,11 +295,11 @@ export const useCardDatesetStore = defineStore({
          * @param {Number} id of card
          * @returns {dict} card pos
          */
-        getCardPos(text, id){
+        getCardPos(id){
             for (var row = 0; row < this.table.length; row++) {
                 for (var col = 0; col < this.table[row].length; col++) {
-                    var card = this.table[row][col]
-                    if(card != null && card.id == id && card.text == text){
+                    var card_id = this.table[row][col]
+                    if(card_id != null && card_id == id){
                         return {'row': row, 'col': col}
                     }
                 }
@@ -231,22 +311,23 @@ export const useCardDatesetStore = defineStore({
          * @param {*} id of card to swap with (nonselected)
          * @param {*} text of card to swap with (nonselected)
          */
-        swapSlots(id, text){
+        swapSlots(id){
             if(!this.isNothingSelected()){
-                var card1_pos = this.getCardPos(text, id)
+                var card1_pos = this.getCardPos(id)
                 var card2_pos = {col: this.selected_col, row: this.selected_row}
 
-                var card1 = this.getTableCard(card1_pos.row, card1_pos.col)
-                var card2 = this.getTableCard(card2_pos.row, card2_pos.col)
+                var card1_id = this.getTableCardId(card1_pos.row, card1_pos.col)
+                var card2_id = this.getTableCardId(card2_pos.row, card2_pos.col)
 
-                this.table[card1_pos.row][card1_pos.col] = {...card2}
-                this.table[card2_pos.row][card2_pos.col] = {...card1}
+                this.table[card1_pos.row][card1_pos.col] = card2_id
+                this.table[card2_pos.row][card2_pos.col] = card1_id
                 
                 if(this.queue.length==0){
                     this.unselect()
                 }else{
                     this.setSelected()
                 }
+                this.updateBothCookies()
             }
         },
         /**
@@ -254,13 +335,13 @@ export const useCardDatesetStore = defineStore({
          * @returns {boolean}
          */
         isNothingSelected(){
-            return this.selected_card.id == null
+            return this.selected_card_id == null
         },
         /**
          * Unselects all cards
          */
         unselect(){
-            this.selected_card = {id: null, text: null}
+            this.selected_card_id = null
         },
         getRowValue(idx){
             var offset = Math.round(this.table.length / 2) - 1

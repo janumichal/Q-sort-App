@@ -1,6 +1,6 @@
 <template>
     <div class="slot-wrapper">
-        <CardVue :visible="c_visible" :text="card_text" :id="card_id" :in_queue="false"></CardVue>
+        <CardVue :visible="c_visible" :text="card.text" :id="card.id" :in_queue="false"></CardVue>
         <div class="slot" >
             <div class="slot-empty" :class="classMovable()" @click="onClickMove()">
             </div>
@@ -23,24 +23,26 @@
     const cd_store = useCardDatesetStore()
     const c_visible = ref(false)
 
-    const card_id = ref(null)
-    const card_text = ref("")
+    const card = ref({
+        id: null,
+        text: ""
+    })
 
     watch(
         cd_store.table,
-        (newVal, oldVal) =>{
-            var card = cd_store.getTableCard(props.row, props.col)
-            if(card!= null){
-                if(c_visible.value && card_id.value != card.id){
+        (new_val, old_val) =>{
+            var card_id = cd_store.getTableCardId(props.row, props.col)
+            if(card_id!= null){
+                if(c_visible.value && card.value.id != card_id){
                     c_visible.value = false
                     setTimeout(() => {
-                        card_id.value = card.id
-                        card_text.value = card.text
+                        card.value.id = card_id
+                        card.value.text = cd_store.getCardText(card_id)
                         c_visible.value = true
                     }, 300)                    
                 }else{
-                    card_id.value = card.id
-                    card_text.value = card.text
+                    card.value.id = card_id
+                    card.value.text = cd_store.getCardText(card_id)
                     c_visible.value = true
                 }
             }else{
