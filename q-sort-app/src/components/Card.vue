@@ -25,8 +25,8 @@
     const cd_store = useCardDatesetStore()
 
     function isSelected(){
-        return props.id == cd_store.selected_card.id &&
-         props.text == cd_store.selected_card.text
+        return props.id == cd_store.selected_card_id &&
+         props.text == cd_store.getCardText(cd_store.selected_card_id)
     }
 
 
@@ -59,11 +59,10 @@
 
     function onClickSelect(){
         if(!props.in_queue && cd_store.isSelectedInQueue() || cd_store.isNothingSelected() || !cd_store.isSelectedInQueue() && props.in_queue && cd_store.selected_idx == props.idx){
-            var card_pos = cd_store.getCardPos(props.text, props.id)
-            cd_store.setSelected({text: props.text, id: props.id}, card_pos.row, card_pos.col)
+            var card_pos = cd_store.getCardPos(props.id)
+            cd_store.setSelected(props.id, card_pos.row, card_pos.col)
         }else if(!cd_store.isSelectedInQueue() && !props.in_queue){
-
-            cd_store.swapSlots(props.id, props.text)
+            cd_store.swapSlots(props.id)
         }
     }
         
