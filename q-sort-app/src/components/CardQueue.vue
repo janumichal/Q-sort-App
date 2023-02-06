@@ -128,6 +128,7 @@
         min-height: 123px;
         height: min(35vmin, 180px);
         min-width: 320px;
+        aspect-ratio: 32/18;
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -166,9 +167,9 @@
 
         .queue{
             position: relative;
-            // width: 320px;
-            width: min(50vmin, 320px);
-            min-width: 160px;
+            // width: 320px; // TODO DELETE
+            width: min(60vmin, 320px);
+            min-width: 192px;
             height: 100%;
             display: flex;
             justify-content: space-evenly;

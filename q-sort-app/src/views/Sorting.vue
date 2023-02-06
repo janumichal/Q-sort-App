@@ -174,6 +174,10 @@
             }
         }
     }
+    .srt-table{
+        min-width: max-content;
+    }
+
 
     .question-enter-active{
         animation-name: hide-question;
