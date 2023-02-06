@@ -84,14 +84,15 @@
         align-items: stretch;
         // min-height: 130px; 
         // min-width: 220px;
-        height:  min(25vmin, 130px);
-        min-height: 80px;
+        // height:  min(25vmin, 130px);
+        // min-height: 80px;
         width: min(43vmin, 220px);
+        aspect-ratio: 22/13;
         min-width: 138px;
         margin: 4px;
 
         border-radius: 6px;
-        outline: 4px;
+        outline: max(3.5px, min(.8vmin, 4px));
         outline-style: dotted;
         outline-color: #000000;
 

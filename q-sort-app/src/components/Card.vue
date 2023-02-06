@@ -119,8 +119,9 @@
             // height: 130px;
             width: min(43vmin, 220px);
             min-width: 138px;
-            height: min(25vmin, 130px);
-            min-height: 80px;
+            // height: min(25vmin, 130px);
+            // min-height: 80px;
+            aspect-ratio: 22/13;
             margin: 4px;
     
             display: flex;
@@ -128,7 +129,7 @@
             align-items: center;
             
             border-radius: 6px;
-            outline-width: 4px;
+            outline-width:max(3.5px, min(.8vmin, 4px));
             outline-style: solid;
             outline-color: #000000;
             

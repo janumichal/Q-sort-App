@@ -65,6 +65,7 @@
             opacity: 30%;
             margin-left: min(3vmin, 30px);
             z-index: 0;
+            white-space: nowrap;
         }
     }
 </style>
