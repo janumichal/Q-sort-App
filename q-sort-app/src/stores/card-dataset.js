@@ -346,6 +346,14 @@ export const useCardDatesetStore = defineStore({
         getRowValue(idx){
             var offset = Math.round(this.table.length / 2) - 1
             return offset - idx
+        },
+        returnCardToQueue(){
+            if(!this.isSelectedInQueue()){
+                this.queue.push(this.selected_card_id)
+                this.table[this.selected_row][this.selected_col] = null
+                this.setSelected()
+                this.updateBothCookies()
+            }
         }
     },
 })
