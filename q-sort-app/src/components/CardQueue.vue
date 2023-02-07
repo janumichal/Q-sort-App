@@ -12,7 +12,6 @@
             <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-forward" :class="classDisabled(false)" @click="btnMoveRight()">
         </div>
     </div>
-
 </template>
 
 
@@ -136,7 +135,7 @@
         align-items: center;
 
         background-color: #39DBFF;
-        border-radius: 0px 0px 10px 10px;
+        border-radius: 0px 0px 6px 6px;
 
         .btn-back{
             transform: rotate(180deg);
