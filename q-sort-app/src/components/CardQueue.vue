@@ -10,7 +10,7 @@
                 </TransitionGroup>
             </div>
             <Transition name="return-btn">
-                <div class="return-card-wrapper" v-if="visible_return_btn">
+                <div class="return-card-wrapper" v-if="!cd_store.isSelectedInQueue()">
                     <div class="return-card" @click="cd_store.returnCardToQueue()">
                         <div class="return-card-text">
                             Return
@@ -30,16 +30,22 @@
 
 
 <script setup>
-    import { ref } from 'vue'
+    import { ref, watch } from 'vue'
     import { useCardDatesetStore } from "../stores/card-dataset"
     import CardVue from '../components/Card.vue'
 
-    const visible_return_btn = ref(false)
+    // const visible_return_btn = ref(false)
 
     const cd_store = useCardDatesetStore()
     const step = ref(1)
 
-    visible_return_btn.value = cd_store.isSelectedInQueue()
+
+    // watch(
+    //     cd_store.isNothingSelected(),
+    //     (new_, old_) =>{
+    //         visible_return_btn = !cd_store.isSelectedInQueue()
+    //     }
+    // )
 
     function btnMoveRight(){
         cd_store.changeSelectedIdx(step.value)
@@ -111,9 +117,11 @@
 
 <style lang="scss" scoped>  
 
+    $animation-duration: 0.3s;
+
     .return-btn-enter-active{
         animation-name: show-btn;
-        animation-duration: 1s;
+        animation-duration: $animation-duration;
         animation-fill-mode: forwards;
         animation-direction: normal;
         animation-timing-function: ease;
@@ -121,7 +129,7 @@
 
     .return-btn-leave-active{
         animation-name: show-btn;
-        animation-duration: 1s;
+        animation-duration: $animation-duration;
         animation-fill-mode: forwards;
         animation-direction: reverse;
         animation-timing-function: ease;
@@ -129,14 +137,14 @@
 
     @keyframes show-btn {
         0%{
-            opacity: 100%;
+            opacity: 0%;
+
         }
         100%{
-            opacity: 0%;
+            opacity: 100%;
         }
     }
 
-    $animation-duration: 0.3s;
     .queue-enter-active{
         animation-name: card_appear;
         animation-duration: $animation-duration;
@@ -235,14 +243,15 @@
                 display: flex;
                 justify-content: center;
                 z-index: 1000;
+                width: max-content;
                 .return-card{
-                    max-width: fit-content;
                     background-color: #329DFF;
                     padding: 6px 11px 6px 11px;
                     border-radius: 6px;
                     display: flex;
-                    align-content: center;
+                    align-content: space-between;
                     gap: 5px;
+
                     opacity: 80%;
 
                     .return-card-text{
@@ -250,7 +259,7 @@
                         align-items: center;
                         height: 100%;
                         color: #FFFFFF;
-                        font-size: max(11px, min(4vmin, 14px));
+                        font-size: max(13px, min(3vmin, 15px));
                         white-space: nowrap;
                     }
                     .return-card-icon{
@@ -258,6 +267,8 @@
                         align-content: center;
                         height: 100%;
                         aspect-ratio: 1/1;
+                        width: max(15px, min(3vmin, 30px));
+
 
                     }
                 }
