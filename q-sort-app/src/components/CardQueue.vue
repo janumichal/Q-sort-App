@@ -10,7 +10,7 @@
                 </TransitionGroup>
             </div>
             <Transition name="return-btn">
-                <div class="return-card-wrapper" v-if="!cd_store.isSelectedInQueue()">
+                <div class="return-card-wrapper" v-if="!cd_store.isSelectedInQueue() && cd_store.selected_card_id != null">
                     <div class="return-card" @click="cd_store.returnCardToQueue()">
                         <div class="return-card-text">
                             Return
