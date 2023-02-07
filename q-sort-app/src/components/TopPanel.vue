@@ -21,16 +21,7 @@
         <div>
             <CardQueueVue />
         </div>
-        <div class="return-card-wrapper">
-            <div class="return-card">
-                <div class="return-card-text">
-                    Return card to queue
-                </div>
-                <div class="return-card-icon">
-                    <img src="../assets/icons/queue_white_24dp.svg" />
-                </div>
-            </div>
-        </div>
+        
     </div>
 </template>
 
@@ -120,40 +111,7 @@
             cursor: pointer;
             background-color: #1d92ff;
         }
-        .return-card-wrapper{
-            display: flex;
-            justify-content: center;
-            .return-card{
-                max-width: fit-content;
-                background-color: #329DFF;
-                padding: 5px 10px 5px 10px;
-                border-bottom-left-radius: 6px;
-                border-bottom-right-radius: 6px;
-                display: flex;
-                align-content: center;
-                gap: 5px;
-
-                .return-card-text{
-                    display: flex;
-                    align-items: center;
-                    height: 100%;
-                    color: #FFFFFF;
-                    font-size: max(11px, min(4vmin, 14px));
-                    white-space: nowrap;
-                }
-                .return-card-icon{
-                    display: flex;
-                    align-content: center;
-                    height: 100%;
-                    aspect-ratio: 1/1;
-
-                }
-            }
-            .return-card:hover{
-                cursor: pointer;
-                background-color: #1d92ff;
-            }
-        }
+        
     }
 
     .question-enter-active{

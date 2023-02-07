@@ -3,10 +3,24 @@
         <div class="btn-wrapper">
             <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-back" :class="classDisabled(true)" @click="btnMoveLeft()">
         </div>
-        <div class="queue">
-            <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards">
-                <CardVue :style="getCardQueueStyle(index)" v-for="(id, index) in cd_store.queue" :key="id" :idx="index"  :text="cd_store.getCardText(id)" :id="id" :in_queue="true" :visible="true" ></CardVue>
-            </TransitionGroup>
+        <div class="queue-wrapper">
+            <div class="queue">
+                <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards">
+                    <CardVue :style="getCardQueueStyle(index)" v-for="(id, index) in cd_store.queue" :key="id" :idx="index"  :text="cd_store.getCardText(id)" :id="id" :in_queue="true" :visible="true" ></CardVue>
+                </TransitionGroup>
+            </div>
+            <Transition name="return-btn">
+                <div class="return-card-wrapper" v-if="visible_return_btn">
+                    <div class="return-card" @click="cd_store.returnCardToQueue()">
+                        <div class="return-card-text">
+                            Return
+                        </div>
+                        <div class="return-card-icon">
+                            <img src="../assets/icons/queue_white_24dp.svg" />
+                        </div>
+                    </div>
+                </div>
+            </Transition>
         </div>
         <div class="btn-wrapper">
             <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-forward" :class="classDisabled(false)" @click="btnMoveRight()">
@@ -20,8 +34,12 @@
     import { useCardDatesetStore } from "../stores/card-dataset"
     import CardVue from '../components/Card.vue'
 
+    const visible_return_btn = ref(false)
+
     const cd_store = useCardDatesetStore()
     const step = ref(1)
+
+    visible_return_btn.value = cd_store.isSelectedInQueue()
 
     function btnMoveRight(){
         cd_store.changeSelectedIdx(step.value)
@@ -93,6 +111,31 @@
 
 <style lang="scss" scoped>  
 
+    .return-btn-enter-active{
+        animation-name: show-btn;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+        animation-direction: normal;
+        animation-timing-function: ease;
+    }
+
+    .return-btn-leave-active{
+        animation-name: show-btn;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+        animation-direction: reverse;
+        animation-timing-function: ease;
+    }
+
+    @keyframes show-btn {
+        0%{
+            opacity: 100%;
+        }
+        100%{
+            opacity: 0%;
+        }
+    }
+
     $animation-duration: 0.3s;
     .queue-enter-active{
         animation-name: card_appear;
@@ -163,23 +206,66 @@
             height: 90%;
             width: 90%;
         }
-
-        .queue{
-            position: relative;
-            // width: 320px; // TODO DELETE
-            width: min(60vmin, 320px);
-            min-width: 192px;
+        .queue-wrapper{
             height: 100%;
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-            overflow: hidden;
-            .trans-group-cards{
+            .queue{
+                position: relative;
+                // width: 320px; // TODO DELETE
+                width: min(60vmin, 320px);
+                min-width: 192px;
                 height: 100%;
-                width: 100%;
                 display: flex;
                 justify-content: space-evenly;
                 align-items: center;
+                overflow: hidden;
+                .trans-group-cards{
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-evenly;
+                    align-items: center;
+                }
+            }
+            .return-card-wrapper{
+                
+                position: absolute;
+                bottom: 6px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                justify-content: center;
+                z-index: 1000;
+                .return-card{
+                    max-width: fit-content;
+                    background-color: #329DFF;
+                    padding: 6px 11px 6px 11px;
+                    border-radius: 6px;
+                    display: flex;
+                    align-content: center;
+                    gap: 5px;
+                    opacity: 80%;
+
+                    .return-card-text{
+                        display: flex;
+                        align-items: center;
+                        height: 100%;
+                        color: #FFFFFF;
+                        font-size: max(11px, min(4vmin, 14px));
+                        white-space: nowrap;
+                    }
+                    .return-card-icon{
+                        display: flex;
+                        align-content: center;
+                        height: 100%;
+                        aspect-ratio: 1/1;
+
+                    }
+                }
+                .return-card:hover{
+                    cursor: pointer;
+                    background-color: #1d92ff;
+                    opacity: 100%;
+                }
             }
         }
     }
