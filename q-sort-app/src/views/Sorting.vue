@@ -1,4 +1,5 @@
 <template>
+    <Settings />
     <div class="sorting-wrapper"  :style="getTopBgColor()">
             <div class="top-panel-wrapper">
                 <TopPanelVue ref="top_panel" />
@@ -12,6 +13,7 @@
 <script setup>
     import TopPanelVue from "../components/TopPanel.vue"
     import SortingTableVue from "../components/SortingTable.vue"
+    import Settings from "../components/Settings.vue"
     import { useCardDatesetStore } from "../stores/card-dataset"
     import { ref } from 'vue'
     import json_data from "../assets/datasets/food-sort.json"
@@ -34,10 +36,10 @@
 
 <style lang="scss" scoped>
     
-    .sorting-wrapper{ //TODO change card size and animate question closure 
+    .sorting-wrapper{
         overflow-x: auto;
         height: 100vh;
-        width: 100vw;
+        width: 100%;
         display: flex;
         flex-flow: column;
 

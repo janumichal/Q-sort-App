@@ -34,18 +34,9 @@
     import { useCardDatesetStore } from "../stores/card-dataset"
     import CardVue from '../components/Card.vue'
 
-    // const visible_return_btn = ref(false)
 
     const cd_store = useCardDatesetStore()
     const step = ref(1)
-
-
-    // watch(
-    //     cd_store.isNothingSelected(),
-    //     (new_, old_) =>{
-    //         visible_return_btn = !cd_store.isSelectedInQueue()
-    //     }
-    // )
 
     function btnMoveRight(){
         cd_store.changeSelectedIdx(step.value)
@@ -252,7 +243,7 @@
                     align-content: space-between;
                     gap: 5px;
 
-                    opacity: 80%;
+                    opacity: 95%;
 
                     .return-card-text{
                         display: flex;

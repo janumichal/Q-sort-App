@@ -1,6 +1,6 @@
 <template>
     <div class="slot-wrapper">
-        <CardVue :visible="c_visible" :text="card.text" :id="card.id" :in_queue="false"></CardVue>
+        <Card :visible="c_visible" :text="card.text" :id="card.id" :in_queue="false" />
         <div class="slot" >
             <div class="slot-empty" :class="classMovable()" @click="onClickMove()">
             </div>
@@ -11,7 +11,7 @@
 
 
 <script setup>
-    import CardVue from '../components/Card.vue'
+    import Card from '../components/Card.vue'
     import { ref, watch } from "vue"
     import { useCardDatesetStore } from '../stores/card-dataset';
 

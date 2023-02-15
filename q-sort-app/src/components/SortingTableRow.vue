@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="row-value">{{ props.row_value }}</div>
-        <EmptySlotVue v-for="index in props.slot_count" :key="index-1" @change="renewTable" :row="props.row" :col="index-1"></EmptySlotVue>
+        <EmptySlot v-for="index in props.slot_count" :key="index-1" @change="renewTable" :row="props.row" :col="index-1" />
         <div class="delimiter-text">{{ props.delimiter_text }}</div>
     </div>
 </template>
@@ -9,7 +9,7 @@
 
 
 <script setup>
-    import EmptySlotVue from '../components/EmptySlot.vue'
+    import EmptySlot from '../components/EmptySlot.vue'
     import { ref } from 'vue'
     import { useCardDatesetStore } from '../stores/card-dataset'
     

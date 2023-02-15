@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router"
-import Home from "../views/Home.vue"
 import Sorting from "../views/Sorting.vue"
 
 const routes = [

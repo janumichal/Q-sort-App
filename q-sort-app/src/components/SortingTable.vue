@@ -1,6 +1,6 @@
 <template>
     <div class="table-wrapper">
-        <SortingTableRowVue v-for="(arr, index) in cd_store.table" :key="index" :slot_count="arr.length" :style="getColorClass(index)" :delimiter_text="getDelimiterTest(index)" :row_value="cd_store.getRowValue(index)" :row="index"></SortingTableRowVue>
+        <SortingTableRow v-for="(arr, index) in cd_store.table" :key="index" :slot_count="arr.length" :style="getColorClass(index)" :delimiter_text="getDelimiterTest(index)" :row_value="cd_store.getRowValue(index)" :row="index" />
     </div>
 </template>
 
@@ -8,7 +8,7 @@
 
 <script setup>
     import { ref } from "vue";
-    import SortingTableRowVue from "../components/SortingTableRow.vue";
+    import SortingTableRow from "../components/SortingTableRow.vue";
     import { useCardDatesetStore } from '../stores/card-dataset'
 
     const cd_store = useCardDatesetStore()
