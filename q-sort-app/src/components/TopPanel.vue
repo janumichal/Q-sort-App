@@ -2,31 +2,32 @@
     <div class="top-panel">
         <Transition name="question">
             <div ref="question_wrapper" class="question-wrapper" v-if="question_visible">
-                <div class="question-info-icon" @click="onClickToggleQuestion()">
+                <div class="question-info-icon">
                     <img src="../assets/icons/info_black_24dp.svg" />
                 </div>
                 <div class="question">
                     {{ cd_store.question }}
                 </div>
-                <div class="question-close-icon" @click="onClickToggleQuestion()">
-                    <img  src="../assets/icons/close_white_24dp.svg"/>
-                </div>
+                <RoundButton @click="onClickToggleQuestion()" />
             </div>
         </Transition>
         <Transition name="question-toggle">
-            <div class="question-toggle" @click="onClickToggleQuestion()" v-if="!question_visible">
-                <img src="../assets/icons/info_black_24dp.svg" />
-            </div>
+            <RoundButton @click="onClickToggleQuestion()" v-if="!question_visible" :style="'position: absolute; margin: 8px;'">
+                <img src="../assets/icons/info_black_24dp.svg"/>
+            </RoundButton>
         </Transition>
+        <RoundButton :style="'margin: 8px; float: right; margin-bottom: -40px; position:relative;'">
+                <img src="../assets/icons/info_black_24dp.svg"/>
+        </RoundButton>
         <div>
-            <CardQueueVue />
+            <CardQueue />
         </div>
-        
     </div>
 </template>
 
 <script setup>
-    import CardQueueVue from "../components/CardQueue.vue"
+    import CardQueue from "./CardQueue.vue"
+    import RoundButton from "./default/RoundButton.vue";
     import { useCardDatesetStore } from "../stores/card-dataset"
     import { ref } from 'vue'
 
@@ -66,29 +67,15 @@
             justify-content: space-around;
             align-items: center;
 
-            .question-info-icon, .question-close-icon{
+            .question-info-icon{
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 width: 40px;
                 height: 40px;
                 margin: 0px;
-            }
-            .question-info-icon{
-                cursor: pointer;
                 img{
                     width: 30px;
-                }
-            }
-            .question-close-icon{
-                img{
-                    transition: transform ease-in-out 0.2s;
-                }
-            }
-            .question-close-icon:hover{
-                img{
-                    transform: scale(1.3);
-                    cursor: pointer;
                 }
             }
         }
