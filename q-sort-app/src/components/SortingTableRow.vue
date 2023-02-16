@@ -11,9 +11,9 @@
 <script setup>
     import EmptySlot from '../components/EmptySlot.vue'
     import { ref } from 'vue'
-    import { useCardDatesetStore } from '../stores/card-dataset'
+    import { useQSortStore } from '../stores/q-sort'
     
-    const cd_store = useCardDatesetStore()
+    const q_store = useQSortStore()
     const props = defineProps({
         row: Number,
         slot_count: Number,

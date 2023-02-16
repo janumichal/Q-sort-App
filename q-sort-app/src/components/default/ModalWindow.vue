@@ -1,6 +1,6 @@
 <template>
-    <Transition name="modal">
-        <div class="modal-wrapper" v-if="visible">
+    <Transition name="modal" appear>
+        <div class="modal-wrapper" v-if="modal_visisble" @click.self="onClickClose()">
             <div class="modal-inner">
                 <div class="modal-header">
                     <RoundButton @click="onClickClose()"/>
@@ -20,16 +20,58 @@
 
 <script setup>
     import RoundButton from './RoundButton.vue';
-    import { ref } from "vue"
+    import { ref, nextTick } from "vue"
 
-    const visible = ref(false)
+    const emit = defineEmits(['toggleModal'])
+
+    const props = defineProps({
+        visible: {
+            type: Boolean,
+            required: false
+        }
+    })
+
+    const modal_visisble = ref(props.visible)
 
     function onClickClose(){
-        visible.value = !visible.value
+        modal_visisble.value = !modal_visisble.value
+        nextTick(() => {
+            emit("toggleModal", modal_visisble.value)
+        })
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+
+    $animation-duration: .2s;
+    .modal-enter-active{
+        animation-name: appear_modal;
+        animation-duration: $animation-duration;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-out;
+        animation-direction: normal;
+    }
+
+    .modal-leave-active{
+        animation-name: appear_modal;
+        animation-duration: $animation-duration;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-out;
+        animation-direction: reverse;
+    }
+
+    @keyframes appear_modal {
+        0%{
+            opacity: 0%;
+            transform: scale(1.1);
+        }
+        100%{
+            opacity: 100%;
+            transform: scale(1);
+        }
+    }
+
+
     .modal-wrapper{
         z-index: 9999;
         position: fixed;
@@ -43,7 +85,7 @@
         backdrop-filter: blur(4px);
 
         .modal-inner{
-            width: 400px;
+            width: 300px;
             height: fit-content;
             background-color: #50475c;
             display: flex;

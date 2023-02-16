@@ -13,14 +13,14 @@
 <script setup>
     import Card from '../components/Card.vue'
     import { ref, watch } from "vue"
-    import { useCardDatesetStore } from '../stores/card-dataset';
+    import { useQSortStore } from '../stores/q-sort';
 
     const props = defineProps({
         row: Number,
         col: Number
     })
 
-    const cd_store = useCardDatesetStore()
+    const q_store = useQSortStore()
     const c_visible = ref(false)
 
     const card = ref({
@@ -29,20 +29,20 @@
     })
 
     watch(
-        cd_store.table,
+        q_store.table,
         (new_val, old_val) =>{
-            var card_id = cd_store.getTableCardId(props.row, props.col)
+            var card_id = q_store.getTableCardId(props.row, props.col)
             if(card_id!= null){
                 if(c_visible.value && card.value.id != card_id){
                     c_visible.value = false
                     setTimeout(() => {
                         card.value.id = card_id
-                        card.value.text = cd_store.getCardText(card_id)
+                        card.value.text = q_store.getCardText(card_id)
                         c_visible.value = true
                     }, 300)                    
                 }else{
                     card.value.id = card_id
-                    card.value.text = cd_store.getCardText(card_id)
+                    card.value.text = q_store.getCardText(card_id)
                     c_visible.value = true
                 }
             }else{
@@ -52,11 +52,11 @@
     )
 
     function onClickMove(){
-        cd_store.moveToSlot(props.row, props.col)
+        q_store.moveToSlot(props.row, props.col)
     }
 
     function classMovable(){
-        if(!cd_store.isNothingSelected()){
+        if(!q_store.isNothingSelected()){
             return "movable"
         }else{
             return ""

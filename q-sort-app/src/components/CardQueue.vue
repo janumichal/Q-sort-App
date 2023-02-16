@@ -6,12 +6,12 @@
         <div class="queue-wrapper">
             <div class="queue">
                 <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards">
-                    <CardVue :style="getCardQueueStyle(index)" v-for="(id, index) in cd_store.queue" :key="id" :idx="index"  :text="cd_store.getCardText(id)" :id="id" :in_queue="true" :visible="true" ></CardVue>
+                    <CardVue :style="getCardQueueStyle(index)" v-for="(id, index) in q_store.queue" :key="id" :idx="index"  :text="q_store.getCardText(id)" :id="id" :in_queue="true" :visible="true" ></CardVue>
                 </TransitionGroup>
             </div>
             <Transition name="return-btn">
-                <div class="return-card-wrapper" v-if="!cd_store.isSelectedInQueue() && cd_store.selected_card_id != null">
-                    <div class="return-card" @click="cd_store.returnCardToQueue()">
+                <div class="return-card-wrapper" v-if="!q_store.isSelectedInQueue() && q_store.selected_card_id != null">
+                    <div class="return-card" @click="q_store.returnCardToQueue()">
                         <div class="return-card-text">
                             Return
                         </div>
@@ -31,42 +31,42 @@
 
 <script setup>
     import { ref, watch } from 'vue'
-    import { useCardDatesetStore } from "../stores/card-dataset"
+    import { useQSortStore } from "../stores/q-sort"
     import CardVue from '../components/Card.vue'
 
 
-    const cd_store = useCardDatesetStore()
+    const q_store = useQSortStore()
     const step = ref(1)
 
     function btnMoveRight(){
-        cd_store.changeSelectedIdx(step.value)
+        q_store.changeSelectedIdx(step.value)
     }
 
     function btnMoveLeft(){
-        cd_store.changeSelectedIdx(-step.value)
+        q_store.changeSelectedIdx(-step.value)
     }
 
     function classDisabled(isFirst){
         if(isFirst){
-            return cd_store.selected_idx == 0 || cd_store.queue.length == 0 ? "btn-disabled" : ""
+            return q_store.selected_idx == 0 || q_store.queue.length == 0 ? "btn-disabled" : ""
         }else{
-            return cd_store.selected_idx == (cd_store.queue.length-1) || cd_store.queue.length == 0 ? "btn-disabled" : ""
+            return q_store.selected_idx == (q_store.queue.length-1) || q_store.queue.length == 0 ? "btn-disabled" : ""
         }
     }
 
 
     function isCardLeft(index){
-        if(cd_store.selected_idx < index){
+        if(q_store.selected_idx < index){
             return false
         }
-        if(cd_store.selected_idx > index){
+        if(q_store.selected_idx > index){
             return true
         }
         return null
     }
     
     function getCardLayer(index){
-        return Math.abs(index - cd_store.selected_idx)
+        return Math.abs(index - q_store.selected_idx)
     }
     
     function getCardQueueStyle(index){

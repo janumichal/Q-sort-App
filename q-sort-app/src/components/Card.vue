@@ -13,7 +13,7 @@
 
 <script setup>
     import { ref } from 'vue'
-    import { useCardDatesetStore } from '../stores/card-dataset'
+    import { useQSortStore } from '../stores/q-sort'
     const props = defineProps({
         text: String,
         id: Number,
@@ -22,11 +22,11 @@
         visible: Boolean
     })
     const visible_cards = ref(3) 
-    const cd_store = useCardDatesetStore()
+    const q_store = useQSortStore()
 
     function isSelected(){
-        return props.id == cd_store.selected_card_id &&
-         props.text == cd_store.getCardText(cd_store.selected_card_id)
+        return props.id == q_store.selected_card_id &&
+         props.text == q_store.getCardText(q_store.selected_card_id)
     }
 
 
@@ -40,9 +40,9 @@
 
     function classClickable(){
         var class_str = ""
-        if(!isSelected() && (!props.in_queue || props.in_queue && props.idx == cd_store.selected_idx)){
+        if(!isSelected() && (!props.in_queue || props.in_queue && props.idx == q_store.selected_idx)){
             class_str += "clickable"
-            if(!cd_store.isSelectedInQueue() && !props.in_queue && !cd_store.isNothingSelected()){
+            if(!q_store.isSelectedInQueue() && !props.in_queue && !q_store.isNothingSelected()){
                 class_str += class_str.length == 0 ? "" : " "
                 class_str += "swapable"
             }
@@ -58,11 +58,11 @@
     }
 
     function onClickSelect(){
-        if(!props.in_queue && cd_store.isSelectedInQueue() || cd_store.isNothingSelected() || !cd_store.isSelectedInQueue() && props.in_queue && cd_store.selected_idx == props.idx){
-            var card_pos = cd_store.getCardPos(props.id)
-            cd_store.setSelected(props.id, card_pos.row, card_pos.col)
-        }else if(!cd_store.isSelectedInQueue() && !props.in_queue){
-            cd_store.swapSlots(props.id)
+        if(!props.in_queue && q_store.isSelectedInQueue() || q_store.isNothingSelected() || !q_store.isSelectedInQueue() && props.in_queue && q_store.selected_idx == props.idx){
+            var card_pos = q_store.getCardPos(props.id)
+            q_store.setSelected(props.id, card_pos.row, card_pos.col)
+        }else if(!q_store.isSelectedInQueue() && !props.in_queue){
+            q_store.swapSlots(props.id)
         }
     }
         
