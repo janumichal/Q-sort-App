@@ -11,7 +11,10 @@
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+    @use "../../scss/Colors" as *;
+    $opacity-static: .4;
+    $opacity-hover: .8;
     .button-inner{
         display: flex;
         align-items: center;
@@ -19,10 +22,10 @@
         width: fit-content;
         height: fit-content;
         border-radius: 100px;
-        padding: 3px;
+        padding: 4px;
         margin: 0px;
         cursor: pointer;
-        background-color: rgba($color: #000000, $alpha: .1);
+        background-color: rgba($default_btn_clr, $alpha: $opacity-static);
         transition: background-color ease-in-out 0.2s;
 
         img{
@@ -31,7 +34,7 @@
             height: $size;
         }
         &:hover{
-            background-color: rgba($color: #000000, $alpha: .3);
+            background-color: rgba($default_btn_clr, $alpha: $opacity-hover);
         }
     }
 </style>

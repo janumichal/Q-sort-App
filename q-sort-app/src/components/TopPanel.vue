@@ -1,23 +1,23 @@
 <template>
     <div class="top-panel">
         <Transition name="question">
-            <div ref="question_wrapper" class="question-wrapper" v-if="question_visible">
+            <div class="question-wrapper" v-if="s_store.question_opened">
                 <div class="question-info-icon">
                     <img src="../assets/icons/info_black_24dp.svg" />
                 </div>
                 <div class="question">
-                    {{ cd_store.question }}
+                    {{ q_store.question }}
                 </div>
                 <RoundButton @click="onClickToggleQuestion()" />
             </div>
         </Transition>
         <Transition name="question-toggle">
-            <RoundButton @click="onClickToggleQuestion()" v-if="!question_visible" :style="'position: absolute; margin: 8px;'">
+            <RoundButton @click="onClickToggleQuestion()" v-if="!s_store.question_opened" :style="'position: absolute; margin: 8px;'">
                 <img src="../assets/icons/info_black_24dp.svg"/>
             </RoundButton>
         </Transition>
-        <RoundButton :style="'margin: 8px; float: right; margin-bottom: -40px; position:relative;'">
-                <img src="../assets/icons/info_black_24dp.svg"/>
+        <RoundButton :style="'margin: 8px; float: right; margin-bottom: -40px; position:relative;'" @click="onClickOpenSettings()">
+                <img src="../assets/icons/settings_white_24dp.svg"/>
         </RoundButton>
         <div>
             <CardQueue />
@@ -28,17 +28,22 @@
 <script setup>
     import CardQueue from "./CardQueue.vue"
     import RoundButton from "./default/RoundButton.vue";
-    import { useCardDatesetStore } from "../stores/card-dataset"
+    import { useQSortStore } from "../stores/q-sort"
+    import { useSettingsStore } from "../stores/settings";
+    import { useGlobalStore } from "../stores/global";
     import { ref } from 'vue'
 
-    const cd_store = useCardDatesetStore()
-    const question_visible = ref(true)
-    defineExpose({question_visible}) //TODO delete if unused
-
-    const question_wrapper = ref(null)
+    const q_store = useQSortStore()
+    const s_store = useSettingsStore()
+    const g_store = useGlobalStore()
 
     function onClickToggleQuestion(){
-        question_visible.value = !question_visible.value
+        s_store.question_opened = !s_store.question_opened
+        s_store.updateSettings()
+    }
+
+    function onClickOpenSettings(){
+        g_store.settings_visible = !g_store.settings_visible
     }
 
 </script>

@@ -2,7 +2,7 @@
     <Settings />
     <div class="sorting-wrapper"  :style="getTopBgColor()">
             <div class="top-panel-wrapper">
-                <TopPanelVue ref="top_panel" />
+                <TopPanelVue />
             </div>
         <div class="sorting-table" :style="getBottomBgColor()">
             <SortingTableVue />
@@ -14,21 +14,23 @@
     import TopPanelVue from "../components/TopPanel.vue"
     import SortingTableVue from "../components/SortingTable.vue"
     import Settings from "../components/Settings.vue"
-    import { useCardDatesetStore } from "../stores/card-dataset"
+    import { useQSortStore } from "../stores/q-sort"
     import { ref } from 'vue'
     import json_data from "../assets/datasets/food-sort.json"
+import { useGlobalStore } from "../stores/global"
 
-    const cd_store = useCardDatesetStore()
-    const top_panel = ref(null)
+    const q_store = useQSortStore()
+    const g_store = useGlobalStore()
+
 
     //Load dataset
-    cd_store.loadDataset(json_data)
+    q_store.loadDataset(json_data)
 
     function getBottomBgColor(){
-        return {"background-color": cd_store.colors[cd_store.colors.length-1]}
+        return {"background-color": q_store.colors[q_store.colors.length-1]}
     }
     function getTopBgColor(){
-        return {"background-color": cd_store.colors[0]}
+        return {"background-color": q_store.colors[0]}
     }
 
 
