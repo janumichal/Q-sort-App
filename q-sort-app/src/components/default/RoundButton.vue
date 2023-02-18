@@ -25,7 +25,7 @@
         padding: 4px;
         margin: 0px;
         cursor: pointer;
-        background-color: rgba($default_btn_clr, $alpha: $opacity-static);
+        background-color: rgba($default_btn_clr, $opacity-static);
         transition: background-color ease-in-out 0.2s;
 
         img{
@@ -34,7 +34,7 @@
             height: $size;
         }
         &:hover{
-            background-color: rgba($default_btn_clr, $alpha: $opacity-hover);
+            background-color: rgba($default_btn_clr, $opacity-hover);
         }
     }
 </style>

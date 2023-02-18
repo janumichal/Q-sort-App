@@ -11,16 +11,24 @@
                 <RoundButton @click="onClickToggleQuestion()" />
             </div>
         </Transition>
-        <Transition name="question-toggle">
-            <RoundButton @click="onClickToggleQuestion()" v-if="!s_store.question_opened" :style="'position: absolute; margin: 8px;'">
-                <img src="../assets/icons/info_black_24dp.svg"/>
-            </RoundButton>
-        </Transition>
-        <RoundButton :style="'margin: 8px; float: right; margin-bottom: -40px; position:relative;'" @click="onClickOpenSettings()">
-                <img src="../assets/icons/settings_white_24dp.svg"/>
-        </RoundButton>
-        <div>
-            <CardQueue />
+        <div class="queue-buttons-wrapper">
+            <div class="overlayed-buttons-wrapper">
+                <div>
+                    <Transition name="question-toggle">
+                        <RoundButton @click="onClickToggleQuestion()" v-if="!s_store.question_opened" class="interactable">
+                            <img src="../assets/icons/info_black_24dp.svg"/>
+                        </RoundButton>
+                    </Transition>
+                </div>
+                <div>
+                    <RoundButton @click="onClickOpenSettings()" class="interactable">
+                        <img src="../assets/icons/settings_white_24dp.svg"/>
+                    </RoundButton>
+                </div>
+            </div>
+            <div class="card-queue-wrapper">
+                <CardQueue />
+            </div>
         </div>
     </div>
 </template>
@@ -84,24 +92,26 @@
                 }
             }
         }
-        .question-toggle{
-            transition: background-color .3s ease;
-            display: flex;
-            position: absolute;
-            background-color: #329DFF;
-            width: fit-content;
-            height: fit-content;
-            justify-content: center;
-            border-radius: 20px;
-            padding: 4px;
-            margin: 8px;
-            img{
-                width: min(7vmin, 28px);
+
+        .queue-buttons-wrapper{
+            display: grid;
+            grid-template-columns: 1fr;
+
+            .card-queue-wrapper, .overlayed-buttons-wrapper{
+                    grid-row-start: 1;
+                    grid-column-start: 1;
+                }
+            .overlayed-buttons-wrapper{
+                z-index: 9999;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px;
+                pointer-events: none;
+                .interactable{
+                    pointer-events: all;
+                }
             }
-        }
-        .question-toggle:hover{
-            cursor: pointer;
-            background-color: #1d92ff;
         }
         
     }
@@ -155,11 +165,11 @@
 
     @keyframes hide-question-toggle {
         0%{
-            visibility: visible;
+            // visibility: visible;
             opacity: 1;
         }
         100%{
-            visibility: hidden;
+            // visibility: hidden;
             transform: scale(1.1);
             opacity: 0;
         }
