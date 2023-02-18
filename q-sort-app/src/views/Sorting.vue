@@ -44,6 +44,7 @@ import { useGlobalStore } from "../stores/global"
         width: 100%;
         display: flex;
         flex-flow: column;
+        user-select: none;
 
         .top-panel-wrapper{
             pointer-events: none;
