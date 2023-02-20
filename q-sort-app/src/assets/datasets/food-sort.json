@@ -21,6 +21,26 @@
         {
             "id":3,
             "text":"Ham"
+        },
+        {
+            "id":4,
+            "text":"Orange"
+        },
+        {
+            "id":5,
+            "text":"Pineaple pizza"
+        },
+        {
+            "id":6,
+            "text":"Liver"
+        },
+        {
+            "id":7,
+            "text":"Steak"
+        },
+        {
+            "id":8,
+            "text":"Banana"
         }
     ]
 }
