@@ -367,6 +367,7 @@ export const useQSortStore = defineStore("q-sort", () => {
                     }
                 }
             }
+            setSelected()
             updateBothCookies()
         }
         return {
