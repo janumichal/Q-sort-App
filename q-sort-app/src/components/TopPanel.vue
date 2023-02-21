@@ -30,6 +30,9 @@
                 <CardQueue />
             </div>
         </div>
+        <div class="hide-top-panel">
+
+        </div>
     </div>
 </template>
 
@@ -57,12 +60,25 @@
 </script>
 
 <style lang="scss" scoped>
+    @use "../scss/Colors/Colors" as *;
+
     .top-panel{
         pointer-events: all;
-        // min-width: 380px;
-        width: min(60vmin, 380px);
+        width: min(60vmin, 380px); // TODO fix this not setting
         width: 100%;
-        max-width: 530px;
+        max-width: 440px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0;
+        flex-grow: 0;
+
+        .hide-top-panel{
+            height: 30px;
+            width: 30px;
+            background-color: red;
+        }
+
         .question-wrapper{
             display: flex;
             $question-wrapper-padding: min(2vmin, 10px);
@@ -73,7 +89,7 @@
             font-size: max(13px, min(4vmin, 20px));
             font-variation-settings: 'wght' 500;
             color: #FFFFFF;
-            background-color: #329DFF;
+            background-color: $secondary_bg;
             overflow: hidden;
 
             gap: 10px;
@@ -96,6 +112,7 @@
         .queue-buttons-wrapper{
             display: grid;
             grid-template-columns: 1fr;
+            width: inherit;
 
             .card-queue-wrapper, .overlayed-buttons-wrapper{
                     grid-row-start: 1;
@@ -106,7 +123,7 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
-                padding: 10px;
+                padding: min(2vmin, 10px);
                 pointer-events: none;
                 .interactable{
                     pointer-events: all;

@@ -73,6 +73,7 @@
 
 
 <style lang="scss" scoped>
+    @use "../scss/Colors/Colors" as *;
 
     $animation-duration: 0.3s;
     .card-enter-active {
@@ -114,7 +115,7 @@
         z-index: 1;
         .card{
             
-            background-color: #B2EDFF;
+            background-color: $primary_card; 
             // width: 220px;
             // height: 130px;
             width: min(43vmin, 220px);
@@ -148,7 +149,7 @@
         }
 
         .selected{
-            transform: scale(1.05);
+            // transform: scale(1.05);
             outline-color: #BDFF00 !important;
             font-variation-settings: "wght" 600;
         }

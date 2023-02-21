@@ -42,6 +42,7 @@
 </script>
 
 <style lang="scss" scoped>
+    @use "../../scss/Colors/Colors" as *;
 
     $animation-duration: .2s;
     .modal-enter-active{
@@ -87,7 +88,7 @@
         .modal-inner{
             width: 300px;
             height: fit-content;
-            background-color: #50475c;
+            background-color: $primary_bg;
             display: flex;
             flex-direction: column;
             padding: 15px;
