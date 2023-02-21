@@ -1,7 +1,7 @@
 <template>
     <div class="card-selector">
         <div class="btn-wrapper">
-            <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-back" :class="classDisabled(true)" @click="btnMoveLeft()">
+            <img src="../assets/icons/right_arrow.svg" class="btn-back" :class="classDisabled(true)" @click="btnMoveLeft()">
         </div>
         <div class="queue-wrapper">
             <div class="queue">
@@ -23,7 +23,7 @@
             </Transition>
         </div>
         <div class="btn-wrapper">
-            <img src="../assets/icons/arrow_forward_ios_white_24dp.svg" class="btn-forward" :class="classDisabled(false)" @click="btnMoveRight()">
+            <img src="../assets/icons/right_arrow.svg" class="btn-forward" :class="classDisabled(false)" @click="btnMoveRight()">
         </div>
     </div>
 </template>
@@ -72,9 +72,9 @@
     function getCardQueueStyle(index){
         var layer = getCardLayer(index)
         var translateX = 22
-        var scale = -0.2
+        var scale = -0.25
         var num = 1.5
-        var offset = 1.5
+        var offset = 1.2
         var top_layer = 100
         
         if(isCardLeft(index)){
@@ -107,7 +107,7 @@
 
 
 <style lang="scss" scoped>  
-
+    @use "../scss/Colors/Colors" as *;
     $animation-duration: 0.3s;
 
     .return-btn-enter-active{
@@ -173,10 +173,11 @@
         width: 100%;
         display: flex;
         flex-direction: row;
-        justify-content: space-evenly;
+        justify-content: center;
         align-items: center;
+        gap: 10px;
 
-        background-color: #39DBFF;
+        background-color: $primary_bg;
         border-radius: 0px 0px 6px 6px;
 
         .btn-back{
@@ -190,8 +191,8 @@
             opacity: 65%;
         }
         .btn-wrapper{
-            height: 60px;
-            width: 60px;
+            height: fit-content;
+            width: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
