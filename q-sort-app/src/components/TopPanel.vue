@@ -112,7 +112,7 @@
         .queue-buttons-wrapper{
             display: grid;
             grid-template-columns: 1fr;
-            width: inherit;
+            width: fit-content;
 
             .card-queue-wrapper, .overlayed-buttons-wrapper{
                     grid-row-start: 1;

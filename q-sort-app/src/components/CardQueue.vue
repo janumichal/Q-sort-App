@@ -165,12 +165,11 @@
         }
     }
     .card-selector{
-        // height: 180px;
         min-height: 123px;
         height: min(35vmin, 180px);
-        min-width: 320px;
         aspect-ratio: 32/18;
-        width: 100%;
+        min-width: 320px;
+        width: min(100vmin, 450px);
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -208,7 +207,11 @@
         }
         .queue-wrapper{
             height: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
             .queue{
+                grid-row-start: 1;
+                grid-column-start: 1;
                 position: relative;
                 // width: 320px; // TODO DELETE
                 width: min(60vmin, 320px);
@@ -227,15 +230,18 @@
                 }
             }
             .return-card-wrapper{
-                
-                position: absolute;
-                bottom: 6px;
-                left: 50%;
-                transform: translateX(-50%);
+                grid-row-start: 1;
+                grid-column-start: 1;
+                // position: absolute;
+                // bottom: 6px;
+                // left: 50%;
+                // transform: translateX(-50%);
+                width: 100%;
                 display: flex;
                 justify-content: center;
+                align-items: flex-end;
                 z-index: 1000;
-                width: max-content;
+                pointer-events: none;
                 .return-card{
                     background-color: #329DFF;
                     padding: 6px 11px 6px 11px;
@@ -243,8 +249,10 @@
                     display: flex;
                     align-content: space-between;
                     gap: 5px;
-
+                    height: fit-content;
                     opacity: 95%;
+                    transform: translateY(-30%);
+                    pointer-events: all;
 
                     .return-card-text{
                         display: flex;
