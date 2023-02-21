@@ -1,38 +1,44 @@
 <template>
-    <div class="top-panel">
-        <Transition name="question">
-            <div class="question-wrapper" v-if="s_store.question_opened">
-                <div class="question-info-icon">
-                    <img src="../assets/icons/question.svg" />
+    <div class="question-queue-hide">
+        <Transition name="question-queue">
+            <div class="question-queue" v-if="panel_visible">
+                <Transition name="question">
+                    <div class="question-wrapper" v-if="s_store.question_opened">
+                        <div class="question-animation-wrapper">
+                            <div class="question-info-icon">
+                                <img src="../assets/icons/question.svg" />
+                            </div>
+                            <div class="question">
+                                {{ q_store.question }}
+                            </div>
+                            <RoundButton @click="onClickToggleQuestion()" class="interactable"/>
+                        </div>
+                    </div>
+                </Transition>
+                <div class="queue-buttons-wrapper">
+                    <div class="overlayed-buttons-wrapper">
+                        <div>
+                            <Transition name="question-toggle">
+                                <RoundButton @click="onClickToggleQuestion()" v-if="!s_store.question_opened" class="interactable">
+                                    <img src="../assets/icons/question.svg"/>
+                                </RoundButton>
+                            </Transition>
+                        </div>
+                        <div>
+                            <RoundButton @click="onClickOpenSettings()" class="interactable">
+                                <img src="../assets/icons/settings_white_24dp.svg"/>
+                            </RoundButton>
+                        </div>
+                    </div>
+                    <div class="card-queue-wrapper">
+                        <CardQueue />
+                    </div>
                 </div>
-                <div class="question">
-                    {{ q_store.question }}
-                </div>
-                <RoundButton @click="onClickToggleQuestion()" />
             </div>
         </Transition>
-        <div class="queue-buttons-wrapper">
-            <div class="overlayed-buttons-wrapper">
-                <div>
-                    <Transition name="question-toggle">
-                        <RoundButton @click="onClickToggleQuestion()" v-if="!s_store.question_opened" class="interactable">
-                            <img src="../assets/icons/question.svg"/>
-                        </RoundButton>
-                    </Transition>
-                </div>
-                <div>
-                    <RoundButton @click="onClickOpenSettings()" class="interactable">
-                        <img src="../assets/icons/settings_white_24dp.svg"/>
-                    </RoundButton>
-                </div>
-            </div>
-            <div class="card-queue-wrapper">
-                <CardQueue />
-            </div>
-        </div>
-        <div class="hide-top-panel-wrapper">
-            <RoundButton @click="" class="interactable">
-                <img class="drop-down" src="../assets/icons/drop_down.svg"/>
+        <div class="hide-btn" >
+            <RoundButton @click="hideTopPanel()" class="interactable" :style="styleSelectedQueue()">
+                <img class="drop-down" :style="getRotation()" src="../assets/icons/drop_down.svg"/>
             </RoundButton>
         </div>
     </div>
@@ -46,6 +52,7 @@
     import { useGlobalStore } from "../stores/global";
     import { ref } from 'vue'
 
+    const panel_visible = ref(true)
     const q_store = useQSortStore()
     const s_store = useSettingsStore()
     const g_store = useGlobalStore()
@@ -59,106 +66,140 @@
         g_store.settings_visible = !g_store.settings_visible
     }
 
+    function hideTopPanel(){
+        panel_visible.value = !panel_visible.value
+    }
+
+    function getRotation(){
+        if(panel_visible.value){
+            return ""
+        }else{
+            return {'transform': "rotate(0deg)"}
+        }
+    }
+
+    function styleSelectedQueue(){
+        if(q_store.isSelectedInQueue() && !panel_visible.value){
+            return {"border": "2px solid yellow"}
+        }
+        return {"border": "2px solid transparent"}
+    }
+
 </script>
 
 <style lang="scss" scoped>
     @use "../scss/Colors/Colors" as *;
+    .question-queue-hide{
+        width: fit-content;
+        display: grid;
+        grid-template-columns: 1fr;
 
-    .top-panel{
-        pointer-events: all;
-        width: min(60vmin, 380px); // TODO fix this not setting
-        width: 100%;
-        max-width: 450px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .hide-top-panel-wrapper{
-            transform: translateY(-100%);
-            width: 100%;
+        .hide-btn{
+            grid-row-start: 1;
+            grid-column-start: 1;
+            height: 100%;
+            width: min(100vmin, 450px);
+            min-width: 320px;
             box-sizing: border-box;
             display: flex;
             justify-content: flex-end;
+            align-items: flex-end;
             padding: 10px;
             margin: 0;
+            pointer-events: none;
+            align-self: center;
+            & *{
+                pointer-events: all;
+            }
             img{
                 transform: rotate(180deg);
             }
-            // .hide-top-panel{
-            //     transition: all .2s ease-out;
-            //     background-color: rgba($secondary_bg, .85);
-            //     padding: 5px;
-            //     width: 30px;
-            //     height: 18px;
-            //     display: flex;
-            //     align-items: center;
-            //     justify-content: center;
-            //     border-radius: 6px;
-            //     border: 0px;
-            //     cursor: pointer;
-            //     img{
-            //         width: 15px;
-            //         transform: rotate(180deg);
-            //     }
-            //     &:hover{
-            //         background-color: rgba($secondary_bg, 1);
-            //     }
-            // }
         }
-
-
-        .question-wrapper{
-            display: flex;
-            $question-wrapper-padding: min(2vmin, 5px);
+        .question-queue{
+            grid-row-start: 1;
+            grid-column-start: 1;
+            pointer-events: all;
             width: 100%;
-            // min-width: calc(320px - 2 * $question-wrapper-padding);
-            padding: min(2vmin, 10px);
-            max-height: 200px;
-            font-size: max(13px, min(4vmin, 20px));
-            font-variation-settings: 'wght' 500;
-            color: #FFFFFF;
-            background-color: $secondary_bg;
-            overflow: hidden;
-            box-sizing: border-box;
-
-            gap: 10px;
-            justify-content: space-around;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
+            overflow: hidden;
+            .question-wrapper{
+                $question-wrapper-padding: min(2vmin, 5px);
+                width: 100%;
+                // padding: min(2vmin, 10px);
+                max-height: 200px;
+                font-size: max(13px, min(4vmin, 20px));
+                font-variation-settings: 'wght' 500;
+                color: #FFFFFF;
+                background-color: $secondary_bg;
+                overflow: hidden;
+                box-sizing: border-box;
+    
+                
 
-            .question-info-icon{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 40px;
-                height: 40px;
-                margin: 0px;
-                img{
-                    width: 30px;
+                .question-animation-wrapper{
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    gap: 10px;
+
+                    padding: min(2vmin, 10px);
+                    .question-info-icon{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 40px;
+                        height: 40px;
+                        margin: 0px;
+                        img{
+                            width: 30px;
+                        }
+                    }
                 }
+    
             }
-        }
-
-        .queue-buttons-wrapper{
-            display: grid;
-            grid-template-columns: 1fr;
-            width: fit-content;
-
-            .card-queue-wrapper, .overlayed-buttons-wrapper{
+    
+            .queue-buttons-wrapper{
+                display: grid;
+                grid-template-columns: 1fr;
+                width: fit-content;
+    
+                .card-queue-wrapper, .overlayed-buttons-wrapper{
                     grid-row-start: 1;
                     grid-column-start: 1;
                 }
-            .overlayed-buttons-wrapper{
-                z-index: 9999;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                padding: min(2vmin, 10px);
-                pointer-events: none;
-                .interactable{
-                    pointer-events: all;
+                .overlayed-buttons-wrapper{
+                    z-index: 9999;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    padding: min(2vmin, 10px);
+                    pointer-events: none;
+                    
                 }
             }
         }
-        
+    }
+    .interactable{
+        pointer-events: all;
+    }
+
+    .question-queue-enter-active{
+        animation-name: hide-panel;
+        animation-direction: reverse;
+        animation-fill-mode: forwards;
+        animation-duration: .5s;
+        animation-timing-function: ease;
+    }
+
+    .question-queue-leave-active{
+        animation-name: hide-panel;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-duration: .5s;
+        animation-timing-function: ease;
     }
 
     .question-enter-active{
@@ -166,7 +207,7 @@
         animation-direction: reverse;
         animation-fill-mode: forwards;
         animation-duration: .5s;
-        animation-timing-function: ease;
+        animation-timing-function: ease-out;
     }
 
     .question-leave-active{
@@ -174,7 +215,7 @@
         animation-direction: normal;
         animation-fill-mode: forwards;
         animation-duration: .5s;
-        animation-timing-function: ease;
+        animation-timing-function: ease-out;
     }
 
     .question-toggle-enter-active{
@@ -193,28 +234,30 @@
         animation-timing-function: ease;
     }
 
-
+    @keyframes hide-panel {
+        0%{
+            transform: translateY(0%);
+        }
+        100%{
+            transform: translateY(-100%);
+        }
+    }
 
 
     @keyframes hide-question {
         0%{
-            visibility: visible;
+            max-height: 100%s;
         }
         100%{
-            visibility: hidden;
             max-height: 0px;
-            padding-top: 0px;
-            padding-bottom: 0px;
         }
     }
 
     @keyframes hide-question-toggle {
         0%{
-            // visibility: visible;
             opacity: 1;
         }
         100%{
-            // visibility: hidden;
             transform: scale(1.1);
             opacity: 0;
         }
