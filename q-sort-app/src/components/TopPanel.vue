@@ -3,7 +3,7 @@
         <Transition name="question">
             <div class="question-wrapper" v-if="s_store.question_opened">
                 <div class="question-info-icon">
-                    <img src="../assets/icons/info_black_24dp.svg" />
+                    <img src="../assets/icons/question.svg" />
                 </div>
                 <div class="question">
                     {{ q_store.question }}
@@ -16,7 +16,7 @@
                 <div>
                     <Transition name="question-toggle">
                         <RoundButton @click="onClickToggleQuestion()" v-if="!s_store.question_opened" class="interactable">
-                            <img src="../assets/icons/info_black_24dp.svg"/>
+                            <img src="../assets/icons/question.svg"/>
                         </RoundButton>
                     </Transition>
                 </div>
@@ -30,8 +30,10 @@
                 <CardQueue />
             </div>
         </div>
-        <div class="hide-top-panel">
-
+        <div class="hide-top-panel-wrapper">
+            <RoundButton @click="" class="interactable">
+                <img class="drop-down" src="../assets/icons/drop_down.svg"/>
+            </RoundButton>
         </div>
     </div>
 </template>
@@ -66,31 +68,57 @@
         pointer-events: all;
         width: min(60vmin, 380px); // TODO fix this not setting
         width: 100%;
-        max-width: 440px;
+        max-width: 450px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        flex-shrink: 0;
-        flex-grow: 0;
-
-        .hide-top-panel{
-            height: 30px;
-            width: 30px;
-            background-color: red;
+        .hide-top-panel-wrapper{
+            transform: translateY(-100%);
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+            margin: 0;
+            img{
+                transform: rotate(180deg);
+            }
+            // .hide-top-panel{
+            //     transition: all .2s ease-out;
+            //     background-color: rgba($secondary_bg, .85);
+            //     padding: 5px;
+            //     width: 30px;
+            //     height: 18px;
+            //     display: flex;
+            //     align-items: center;
+            //     justify-content: center;
+            //     border-radius: 6px;
+            //     border: 0px;
+            //     cursor: pointer;
+            //     img{
+            //         width: 15px;
+            //         transform: rotate(180deg);
+            //     }
+            //     &:hover{
+            //         background-color: rgba($secondary_bg, 1);
+            //     }
+            // }
         }
+
 
         .question-wrapper{
             display: flex;
-            $question-wrapper-padding: min(2vmin, 10px);
-            width: calc(100% - 2 * $question-wrapper-padding);
-            min-width: calc(320px - 2 * $question-wrapper-padding);
-            padding: $question-wrapper-padding;
+            $question-wrapper-padding: min(2vmin, 5px);
+            width: 100%;
+            // min-width: calc(320px - 2 * $question-wrapper-padding);
+            padding: min(2vmin, 10px);
             max-height: 200px;
             font-size: max(13px, min(4vmin, 20px));
             font-variation-settings: 'wght' 500;
             color: #FFFFFF;
             background-color: $secondary_bg;
             overflow: hidden;
+            box-sizing: border-box;
 
             gap: 10px;
             justify-content: space-around;

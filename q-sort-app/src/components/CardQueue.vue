@@ -247,7 +247,8 @@
                     padding: 6px 11px 6px 11px;
                     border-radius: 6px;
                     display: flex;
-                    align-content: space-between;
+                    align-content: center;
+                    justify-content: center;
                     gap: 5px;
                     height: fit-content;
                     opacity: 95%;
@@ -257,7 +258,9 @@
                     .return-card-text{
                         display: flex;
                         align-items: center;
-                        height: 100%;
+                        text-align: center;
+                        justify-content: center;
+                        height: initial;
                         color: #FFFFFF;
                         font-size: max(13px, min(3vmin, 15px));
                         white-space: nowrap;

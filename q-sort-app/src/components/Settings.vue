@@ -59,11 +59,14 @@
 
 </script>
 <style lang="scss" scoped>
+@use "../scss/Colors/Colors" as *;
     .options-wrapper{
         display:flex;
         flex-direction: column;
         gap: 15px;
         padding: 10px;
+        border-radius: 6px;
+        background-color: $secondary_bg;
         .option{
             display: flex;
             flex-direction: row;

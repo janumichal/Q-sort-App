@@ -29,7 +29,7 @@
         transition: background-color ease-in-out 0.2s;
 
         img{
-            $size: 27px;
+            $size: 25px;
             width: $size;
             height: $size;
         }
