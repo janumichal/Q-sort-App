@@ -2,17 +2,17 @@
     <Settings />
     <div class="sorting-wrapper"  :style="getTopBgColor()">
             <div class="top-panel-wrapper">
-                <TopPanelVue />
+                <TopPanel />
             </div>
         <div class="sorting-table" :style="getBottomBgColor()">
-            <SortingTableVue />
+            <SortingTable />
         </div>
     </div>
 </template>
 
 <script setup>
-    import TopPanelVue from "../components/TopPanel.vue"
-    import SortingTableVue from "../components/SortingTable.vue"
+    import TopPanel from "../components/TopPanel.vue"
+    import SortingTable from "../components/SortingTable.vue"
     import Settings from "../components/Settings.vue"
     import { useQSortStore } from "../stores/q-sort"
     import { ref } from 'vue'
@@ -45,6 +45,7 @@ import { useGlobalStore } from "../stores/global"
         display: flex;
         flex-flow: column;
         user-select: none;
+        
 
         .top-panel-wrapper{
             pointer-events: none;
