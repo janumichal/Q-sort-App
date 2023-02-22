@@ -41,7 +41,6 @@
     const g_store = useGlobalStore()
 
     const reload_modal = ref(0)
-    const emited_value = ref()
 
     function updateVisibility(visibility){
         g_store.settings_visible = visibility
