@@ -106,6 +106,7 @@
         padding: min(2vmin, 10px);
         display: flex;
         justify-content: flex-end;
+        box-sizing: border-box;
     }
 
     .question-queue{
