@@ -7,14 +7,13 @@ export const useSettingsStore = defineStore("settings", () => {
     const cookie_name = "Q-sortApp-settings"
 
     function updateSettings(){
-        $cookies.set(cookie_name, {saving: saving_enabled.value, question: question_opened.value})
+        $cookies.set(cookie_name, {saving: saving_enabled.value})
     }
 
     function loadSettings(){
         if($cookies.isKey(cookie_name)){
             var settings = $cookies.get(cookie_name)
             saving_enabled.value = settings.saving
-            question_opened.value = settings.question
         }else{
             updateSettings()
         }
@@ -22,7 +21,6 @@ export const useSettingsStore = defineStore("settings", () => {
 
     return {
         saving_enabled, question_opened,
-
 
         updateSettings, loadSettings
     }
