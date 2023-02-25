@@ -1,7 +1,7 @@
 <template>
     <div class="button-inner">
         <slot>
-            <img src="../../assets/icons/close_white_24dp.svg"/>
+            <img src="../../assets/icons/close.svg"/>
         </slot>
     </div>
 </template>
