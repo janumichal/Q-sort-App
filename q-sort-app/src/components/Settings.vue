@@ -65,7 +65,7 @@
         gap: 15px;
         padding: 10px;
         border-radius: 6px;
-        background-color: $secondary_bg;
+        background-color: rgba($color: $secondary_bg, $alpha: 0.6);
         .option{
             display: flex;
             flex-direction: row;

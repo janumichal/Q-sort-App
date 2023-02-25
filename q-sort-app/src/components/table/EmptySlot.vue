@@ -11,9 +11,9 @@
 
 
 <script setup>
-    import Card from '../components/Card.vue'
+    import Card from '../../components/Card.vue'
     import { ref, watch } from "vue"
-    import { useQSortStore } from '../stores/q-sort';
+    import { useQSortStore } from '../../stores/q-sort';
 
     const props = defineProps({
         row: Number,
@@ -105,7 +105,7 @@
         }
         .movable:hover{
             background-color: #B2EDFF;
-            background-image: url(../assets/icons/redo_black_24dp.svg);
+            background-image: url(../../assets/icons/move.svg);
             background-repeat: no-repeat;
             background-position: center;
             background-size: 62px;
