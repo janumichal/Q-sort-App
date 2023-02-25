@@ -65,7 +65,7 @@
 
     function onClickToggleQuestion(){
         s_store.question_opened = !s_store.question_opened
-        s_store.updateSettings()
+        // s_store.updateSettings()
     }
 
     function onClickOpenSettings(){
@@ -121,13 +121,12 @@
         .question-wrapper{
             $question-wrapper-padding: min(2vmin, 5px);
             width: 100%;
-            // padding: min(2vmin, 10px);
             max-height: 200px;
             font-size: max(13px, min(4vmin, 20px));
             font-variation-settings: 'wght' 500;
             color: #FFFFFF;
             background-color: $secondary_bg;
-            overflow: hidden;
+            // overflow: hidden;
             box-sizing: border-box;
 
             .question-animation-wrapper{

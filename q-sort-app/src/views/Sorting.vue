@@ -39,13 +39,20 @@ import { useGlobalStore } from "../stores/global"
 <style lang="scss" scoped>
     
     .sorting-wrapper{
-        overflow: hidden;
+        overflow-x: auto;
         height: 100vh;
         width: 100%;
         display: flex;
         flex-flow: column;
         user-select: none;
         cursor: grab;
+
+        // hide scrollbar
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar{
+            display: none;
+        }
         
 
         .top-panel-wrapper{
@@ -58,6 +65,7 @@ import { useGlobalStore } from "../stores/global"
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding-top: env(safe-area-inset-top);
         }
         .sorting-table{
             min-width: max-content;
