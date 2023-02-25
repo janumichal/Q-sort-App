@@ -1,6 +1,6 @@
 <template>
     <Settings />
-    <div class="sorting-wrapper"  :style="getTopBgColor()">
+    <div class="sorting-wrapper"  :style="getTopBgColor()" v-dragscroll="true">
             <div class="top-panel-wrapper">
                 <TopPanel />
             </div>
@@ -11,8 +11,8 @@
 </template>
 
 <script setup>
-    import TopPanel from "../components/TopPanel.vue"
-    import SortingTable from "../components/SortingTable.vue"
+    import TopPanel from "../components/panel/TopPanel.vue"
+    import SortingTable from "../components/table/SortingTable.vue"
     import Settings from "../components/Settings.vue"
     import { useQSortStore } from "../stores/q-sort"
     import { ref } from 'vue'
@@ -39,12 +39,13 @@ import { useGlobalStore } from "../stores/global"
 <style lang="scss" scoped>
     
     .sorting-wrapper{
-        overflow-x: auto;
+        overflow: hidden;
         height: 100vh;
         width: 100%;
         display: flex;
         flex-flow: column;
         user-select: none;
+        cursor: grab;
         
 
         .top-panel-wrapper{

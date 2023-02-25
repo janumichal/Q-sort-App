@@ -1,7 +1,7 @@
 <template>
     <div class="card-selector">
         <div class="btn-wrapper">
-            <img src="../assets/icons/right_arrow.svg" class="btn-back" :class="classDisabled(true)" @click="btnMoveLeft()">
+            <img src="../../assets/icons/right_arrow.svg" class="btn-back" :class="classDisabled(true)" @click="btnMoveLeft()">
         </div>
         <div class="queue-wrapper">
             <div class="queue">
@@ -16,14 +16,14 @@
                             Return
                         </div>
                         <div class="return-card-icon">
-                            <img src="../assets/icons/queue_white_24dp.svg" />
+                            <img src="../../assets/icons/return_card.svg" />
                         </div>
                     </div>
                 </div>
             </Transition>
         </div>
         <div class="btn-wrapper">
-            <img src="../assets/icons/right_arrow.svg" class="btn-forward" :class="classDisabled(false)" @click="btnMoveRight()">
+            <img src="../../assets/icons/right_arrow.svg" class="btn-forward" :class="classDisabled(false)" @click="btnMoveRight()">
         </div>
     </div>
 </template>
@@ -31,8 +31,8 @@
 
 <script setup>
     import { ref, watch } from 'vue'
-    import { useQSortStore } from "../stores/q-sort"
-    import CardVue from '../components/Card.vue'
+    import { useQSortStore } from "../../stores/q-sort"
+    import CardVue from '../Card.vue'
 
 
     const q_store = useQSortStore()
@@ -107,7 +107,7 @@
 
 
 <style lang="scss" scoped>  
-    @use "../scss/Colors/Colors" as *;
+    @use "../../scss/Colors/Colors" as *;
     $animation-duration: 0.3s;
 
     .return-btn-enter-active{
@@ -270,7 +270,7 @@
                         align-content: center;
                         height: 100%;
                         aspect-ratio: 1/1;
-                        width: max(15px, min(3vmin, 30px));
+                        width: max(15px, min(3vmin, 20px));
 
 
                     }

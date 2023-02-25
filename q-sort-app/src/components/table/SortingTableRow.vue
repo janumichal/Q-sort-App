@@ -9,9 +9,9 @@
 
 
 <script setup>
-    import EmptySlot from '../components/EmptySlot.vue'
+    import EmptySlot from './EmptySlot.vue'
     import { ref } from 'vue'
-    import { useQSortStore } from '../stores/q-sort'
+    import { useQSortStore } from '../../stores/q-sort'
     
     const q_store = useQSortStore()
     const props = defineProps({

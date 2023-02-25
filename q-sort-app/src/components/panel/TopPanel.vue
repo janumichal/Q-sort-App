@@ -5,7 +5,7 @@
                 <div class="question-wrapper" v-if="s_store.question_opened">
                     <div class="question-animation-wrapper">
                         <div class="question-info-icon">
-                            <img src="../assets/icons/question.svg" />
+                            <img src="../../assets/icons/question.svg" />
                         </div>
                         <div class="question">
                             {{ q_store.question }}
@@ -19,13 +19,13 @@
                     <div>
                         <Transition name="question-toggle">
                             <RoundButton @click="onClickToggleQuestion()" v-if="!s_store.question_opened" class="interactable">
-                                <img src="../assets/icons/question.svg"/>
+                                <img src="../../assets/icons/question.svg"/>
                             </RoundButton>
                         </Transition>
                     </div>
                     <div>
                         <RoundButton @click="onClickOpenSettings()" class="interactable">
-                            <img src="../assets/icons/settings_white_24dp.svg"/>
+                            <img src="../../assets/icons/settings.svg"/>
                         </RoundButton>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="hide-btn" >
                     <RoundButton @click="toggleTopPanel()" class="interactable">
-                        <img class="drop-down" src="../assets/icons/drop_down.svg"/>
+                        <img class="drop-down" src="../../assets/icons/drop_down.svg"/>
                     </RoundButton>
                 </div>
             </div>
@@ -43,18 +43,18 @@
     <Transition name="show-btn" @after-leave="showPanel()">
         <div class="show-button" v-if="show_btn_visible">
             <RoundButton @click="toggleTopPanel()" class="interactable" :style="styleSelectedQueue()">
-                <img class="drop-down" style="transform: rotate(0deg);" src="../assets/icons/drop_down.svg"/>
+                <img class="drop-down" style="transform: rotate(0deg);" src="../../assets/icons/drop_down.svg"/>
             </RoundButton>
         </div>
     </Transition>
 </template>
 
 <script setup>
-    import CardQueue from "./CardQueue.vue"
-    import RoundButton from "./default/RoundButton.vue";
-    import { useQSortStore } from "../stores/q-sort"
-    import { useSettingsStore } from "../stores/settings";
-    import { useGlobalStore } from "../stores/global";
+    import CardQueue from "../panel/CardQueue.vue"
+    import RoundButton from "../default/RoundButton.vue";
+    import { useQSortStore } from "../../stores/q-sort"
+    import { useSettingsStore } from "../../stores/settings";
+    import { useGlobalStore } from "../../stores/global";
     import { ref } from 'vue'
 
     const panel_visible = ref(true)
@@ -98,7 +98,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @use "../scss/Colors/Colors" as *;
+    @use "../../scss/Colors/Colors" as *;
 
     .show-button{
         min-width: 320px;

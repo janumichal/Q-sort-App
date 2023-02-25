@@ -110,7 +110,7 @@
         display: flow-root;
         transition: all .4s ease;
         position: absolute;
-        // position: relative;
+        cursor: default;
 
         z-index: 1;
         .card{
@@ -159,7 +159,7 @@
 
         .swapable:hover{
             background-color: #B2EDFF;
-            background-image: url(../assets/icons/cached_black_24dp.svg);
+            background-image: url(../assets/icons/swap.svg);
             background-repeat: no-repeat;
             background-position: center;
             background-size: 83px;

@@ -8,8 +8,8 @@
 
 <script setup>
     import { ref } from "vue";
-    import SortingTableRow from "../components/SortingTableRow.vue";
-    import { useQSortStore } from '../stores/q-sort'
+    import SortingTableRow from "./SortingTableRow.vue";
+    import { useQSortStore } from '../../stores/q-sort'
 
     const q_store = useQSortStore()
 
