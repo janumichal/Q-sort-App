@@ -6,7 +6,7 @@
         <div class="queue-wrapper">
             <div class="queue">
                 <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards">
-                    <CardVue :style="getCardQueueStyle(index)" v-for="(id, index) in q_store.queue" :key="id" :idx="index"  :text="q_store.getCardText(id)" :id="id" :in_queue="true" :visible="true" ></CardVue>
+                    <Card :style="getCardQueueStyle(index)" v-for="(id, index) in q_store.queue" :key="id" :idx="index"  :text="q_store.getCardText(id)" :id="id" :in_queue="true" :visible="true" />
                 </TransitionGroup>
             </div>
             <Transition name="return-btn">
@@ -32,7 +32,7 @@
 <script setup>
     import { ref, watch } from 'vue'
     import { useQSortStore } from "../../stores/q-sort"
-    import CardVue from '../Card.vue'
+    import Card from '../Card.vue'
 
 
     const q_store = useQSortStore()

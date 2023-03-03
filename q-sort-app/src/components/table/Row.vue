@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="row-value">{{ props.row_value }}</div>
-        <EmptySlot v-for="index in props.slot_count" :key="index-1" @change="renewTable" :row="props.row" :col="index-1" />
+        <CardSlot v-for="index in props.slot_count" :key="index-1" :row="props.idx" :col="index-1" />
         <div class="delimiter-text">{{ props.delimiter_text }}</div>
     </div>
 </template>
@@ -9,23 +9,14 @@
 
 
 <script setup>
-    import EmptySlot from './EmptySlot.vue'
-    import { ref } from 'vue'
-    import { useQSortStore } from '../../stores/q-sort'
+    import CardSlot from './CardSlot.vue'
     
-    const q_store = useQSortStore()
     const props = defineProps({
-        row: Number,
+        idx: Number,
         slot_count: Number,
         delimiter_text: String,
         row_value: Number
     })
-    const is_empty = ref(true)
-
-    function renewTable(payload){
-        is_empty.value = false
-        col.value = payload.col
-    }
 
 </script>
 
@@ -39,17 +30,14 @@
         display: flex;
         justify-content: flex-start;
         flex-direction: row;
-        // gap: 15px;
         gap: min(.8vmin, 10px);
         align-items: center;
 
         .row-value{
             color: #FFFFFF;
-            // width: 45px;
             width: min(8vmin, 45px);
             min-width: 26px;
             font-variation-settings: 'wght' 700;
-            // font-size: 20px;
             font-size: max(10pt ,min(4vmin, 15pt));
             align-self: stretch;
             display: flex;

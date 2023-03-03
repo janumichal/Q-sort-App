@@ -1,5 +1,5 @@
 <template>
-    <ModalWindow @toggleModal="updateVisibility" :key="reload_modal" :visible="g_store.settings_visible">
+    <ModalWindow @toggleModal="updateVisibility($event)" :key="reload_modal" :visible="g_store.settings_visible">
         <template v-slot:header>
             Settings
         </template>
@@ -10,7 +10,15 @@
                         Auto-saving progress
                     </div>
                     <div class="interactable">
-                        <ToggleButton/>
+                        <ToggleButton :toggled="s_store.saving_enabled" @update:saving="updateSaving($event)"/>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        Minimap enabled
+                    </div>
+                    <div class="interactable">
+                        <ToggleButton :toggled="s_store.minimap_enabled" @update:minimap="updateMinimap($event)"/>
                     </div>
                 </div>
                 <div class="option">
@@ -42,9 +50,22 @@
 
     const reload_modal = ref(0)
 
-    function updateVisibility(visibility){
-        g_store.settings_visible = visibility
+    function updateVisibility(value){
+        g_store.settings_visible = value
     }
+
+    const emits = defineEmits(["update:saving", "update:minimap"])
+
+    function updateSaving(value){
+        s_store.saving_enabled = value
+        console.log("saving");
+    }
+
+    function updateMinimap(value){
+        s_store.minimap_enabled = value
+        console.log("minimap");
+    }
+
 
     watch(
         g_store,
