@@ -48,7 +48,7 @@
 
     watch(
         g_store,
-        (new_, old_) =>{
+        () =>{
             reload_modal.value++
             s_store.updateSettings()
         }

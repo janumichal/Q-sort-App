@@ -4,6 +4,7 @@ import { ref } from "vue"
 export const useSettingsStore = defineStore("settings", () => {
     const saving_enabled = ref(true)
     const question_opened = ref(true)
+    const panel_opened = ref(true)
     const cookie_name = "Q-sortApp-settings"
 
     function updateSettings(){
@@ -20,7 +21,7 @@ export const useSettingsStore = defineStore("settings", () => {
     }
 
     return {
-        saving_enabled, question_opened,
+        saving_enabled, question_opened, panel_opened,
 
         updateSettings, loadSettings
     }
