@@ -9,7 +9,7 @@
                 <SortingTable />
             </div>
         </div>
-        <Minimap ref="minimap"/>
+        <Minimap v-if="s_store.minimap_enabled" ref="minimap"/>
     </div>
 </template>
 

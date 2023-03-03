@@ -208,6 +208,23 @@ export const useQSortStore = defineStore("q-sort", () => {
             })  
             return new_colors
         }
+        function getColorStyle(index){
+            return {"background-color": colors.value[index]}
+        }
+        function getDelimiterText(index){
+            const positive_pos = 0
+            const neutral_pos = Math.round(table.value.length / 2) - 1
+            const negative_pos = table.value.length - 1
+            if(index == positive_pos){
+                return delimiters.value[0].toUpperCase()
+            }else if(index == neutral_pos){
+                return delimiters.value[1].toUpperCase()
+            }else if(index == negative_pos){
+                return delimiters.value[2].toUpperCase()
+            }else{
+                return ""
+            }
+        }
         /**
          * removes card from queue and choses new elected color
          */
@@ -376,6 +393,6 @@ export const useQSortStore = defineStore("q-sort", () => {
 
             loadDataset, changeSelectedIdx, getCardText, addCardToQueue, getAllRowColors, setSelected, 
             isSelectedInQueue, moveToSlot, getTableCardId, getCardPos, swapSlots, 
-            isNothingSelected, getRowValue, returnCardToQueue, resetTable
+            isNothingSelected, getRowValue, returnCardToQueue, resetTable, getColorStyle, getDelimiterText
         }
     })

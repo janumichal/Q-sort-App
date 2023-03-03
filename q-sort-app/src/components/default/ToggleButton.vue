@@ -1,14 +1,27 @@
 <template>
     <div class="toggle-wrapper">
-        <input class="toggle" id="toggle-id" type="checkbox" v-model="s_store.saving_enabled"/>
+        <input class="toggle" id="toggle-id" type="checkbox" v-model="isChecked"/>
         <label class="toggle-button" for="toggle-id"></label>
     </div>
 </template>
 
 <script setup>
-    import { ref } from 'vue'
-    import { useSettingsStore } from '../../stores/settings';
-    const s_store = useSettingsStore()
+    import { computed, defineEmits } from 'vue';
+    const props = defineProps({
+        toggled: {
+            required: true,
+            type: Boolean
+        }
+    })
+    const emits = defineEmits(["update:saving"])
+    const isChecked = computed({
+        get(){
+            return props.toggled
+        },
+        set(value){
+            emits("update:saving", value)
+        }
+    })
 </script>
 
 <style lang="scss" scoped>

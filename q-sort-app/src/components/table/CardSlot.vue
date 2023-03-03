@@ -11,7 +11,7 @@
 
 
 <script setup>
-    import Card from '../../components/Card.vue'
+    import Card from '../Card.vue'
     import { ref, watch } from "vue"
     import { useQSortStore } from '../../stores/q-sort';
 
@@ -70,11 +70,7 @@
 <style lang="scss" scoped>
 
     .slot-wrapper{
-        // margin-top: 20px;
-        // margin-bottom: 20px;
-        // margin-inline-start: 15px;
         margin-top: max(10px, min(3vmin, 20px));
-        
         margin-bottom: max(10px, min(3vmin, 20px));
         margin-inline-start:max(8px, min(3vmin, 15px));
     }
@@ -82,10 +78,6 @@
     .slot {
         display: flex; 
         align-items: stretch;
-        // min-height: 130px; 
-        // min-width: 220px;
-        // height:  min(25vmin, 130px);
-        // min-height: 80px;
         width: min(43vmin, 220px);
         aspect-ratio: 22/13;
         min-width: 138px;
@@ -95,8 +87,6 @@
         outline: max(3.5px, min(.8vmin, 4px));
         outline-style: dotted;
         outline-color: #000000;
-
-        
 
         .slot-empty{
             min-height: 100%;
