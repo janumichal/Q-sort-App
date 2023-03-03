@@ -1,7 +1,14 @@
 <template>
-    <Transition name="question-queue" @after-leave="showButton()">
-        <div class="question-queue" v-if="panel_visible">
-            <Transition name="question">
+    <Transition name="question-queue" 
+        @after-leave="showButton()"
+        @before-leave="g_store.addTransition()" 
+        @after-enter="g_store.removeTransition()">
+        <div class="question-queue" v-if="s_store.panel_opened">
+            <Transition name="question" 
+                @before-leave="g_store.addTransition()" 
+                @after-leave="g_store.removeTransition()"
+                @before-enter="g_store.addTransition()" 
+                @after-enter="g_store.removeTransition()">
                 <div class="question-wrapper" v-if="s_store.question_opened">
                     <div class="question-animation-wrapper">
                         <div class="question-info-icon">
@@ -40,7 +47,9 @@
             </div>
         </div>
     </Transition>
-    <Transition name="show-btn" @after-leave="showPanel()">
+    <Transition name="show-btn" @after-leave="showPanel()" 
+            @before-leave="g_store.addTransition()" 
+            @after-enter="g_store.removeTransition()">
         <div class="show-button" v-if="show_btn_visible">
             <RoundButton @click="toggleTopPanel()" class="interactable" :style="styleSelectedQueue()">
                 <img class="drop-down" style="transform: rotate(0deg);" src="../../assets/icons/drop_down.svg"/>
@@ -57,7 +66,6 @@
     import { useGlobalStore } from "../../stores/global";
     import { ref } from 'vue'
 
-    const panel_visible = ref(true)
     const show_btn_visible = ref(false)
     const q_store = useQSortStore()
     const s_store = useSettingsStore()
@@ -76,12 +84,12 @@
         if(show_btn_visible.value){
             show_btn_visible.value = !show_btn_visible.value
         }else{
-            panel_visible.value = !panel_visible.value
+            s_store.panel_opened = !s_store.panel_opened
         }
     }
 
     function styleSelectedQueue(){
-        if(q_store.isSelectedInQueue() && !panel_visible.value){
+        if(q_store.isSelectedInQueue() && !s_store.panel_opened){
             return {"border": "2px solid yellow"}
         }
         return {"border": "2px solid transparent"}
@@ -92,7 +100,7 @@
     }
 
     function showPanel(){
-        panel_visible.value = !panel_visible.value
+        s_store.panel_opened = !s_store.panel_opened
     }
 
 </script>

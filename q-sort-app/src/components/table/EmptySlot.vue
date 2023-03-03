@@ -30,7 +30,7 @@
 
     watch(
         q_store.table,
-        (new_val, old_val) =>{
+        () =>{
             var card_id = q_store.getTableCardId(props.row, props.col)
             if(card_id!= null){
                 if(c_visible.value && card.value.id != card_id){

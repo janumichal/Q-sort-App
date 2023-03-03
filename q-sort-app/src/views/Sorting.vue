@@ -1,12 +1,15 @@
 <template>
     <Settings />
-    <div class="sorting-wrapper"  :style="getTopBgColor()" v-dragscroll="true">
-            <div class="top-panel-wrapper">
+    <div class="mm-s-wrapper">
+        <div id="container" class="sorting-wrapper"  :style="getTopBgColor()" v-dragscroll="true">
+            <div id="panel-h" class="top-panel-wrapper">
                 <TopPanel />
             </div>
-        <div class="sorting-table" :style="getBottomBgColor()">
-            <SortingTable />
+            <div id="table-h" class="sorting-table" :style="getBottomBgColor()">
+                <SortingTable />
+            </div>
         </div>
+        <Minimap ref="minimap"/>
     </div>
 </template>
 
@@ -14,13 +17,15 @@
     import TopPanel from "../components/panel/TopPanel.vue"
     import SortingTable from "../components/table/SortingTable.vue"
     import Settings from "../components/Settings.vue"
+    import Minimap from "../components/scrollbar/Minimap.vue"
     import { useQSortStore } from "../stores/q-sort"
-    import { ref } from 'vue'
+    import { useSettingsStore } from "../stores/settings"
     import json_data from "../assets/datasets/food-sort.json"
-import { useGlobalStore } from "../stores/global"
+    import { ref, watch } from "vue"
 
     const q_store = useQSortStore()
-    const g_store = useGlobalStore()
+    const s_store = useSettingsStore()
+    const minimap = ref()
 
 
     //Load dataset
@@ -33,43 +38,54 @@ import { useGlobalStore } from "../stores/global"
         return {"background-color": q_store.colors[0]}
     }
 
+    watch(
+        s_store,
+        () => {
+            minimap.value.init()
+        }
+    )
 
 </script>
 
 <style lang="scss" scoped>
-    
-    .sorting-wrapper{
-        overflow-x: auto;
-        height: 100vh;
-        width: 100%;
+    .mm-s-wrapper{
         display: flex;
-        flex-flow: column;
-        user-select: none;
-        cursor: grab;
+        flex-direction: row;
+        .sorting-wrapper{
+            overflow: auto;
+            
 
-        // hide scrollbar
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        &::-webkit-scrollbar{
-            display: none;
-        }
-        
-
-        .top-panel-wrapper{
-            pointer-events: none;
-            position: sticky;
-            top: 0;
-            left: 0;
-            z-index: 1000;
+            height: 100vh;
             width: 100%;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: env(safe-area-inset-top);
-        }
-        .sorting-table{
-            min-width: max-content;
-            flex-grow: 1;
+            flex-flow: column;
+            user-select: none;
+            cursor: grab;
+    
+            // hide scrollbar
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            &::-webkit-scrollbar{
+                display: none;
+            }
+            
+    
+            .top-panel-wrapper{
+                pointer-events: none;
+                position: sticky;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-top: env(safe-area-inset-top);
+            }
+            .sorting-table{
+                min-width: max-content;
+                flex-grow: 1;
+            }
         }
     }
 

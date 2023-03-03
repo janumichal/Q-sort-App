@@ -64,6 +64,7 @@
             font-size: max(80px, min(25vmin, 100px));
             opacity: 30%;
             margin-left: min(3vmin, 30px);
+            margin-right: min(3vmin, 30px);
             z-index: 0;
             white-space: nowrap;
         }
