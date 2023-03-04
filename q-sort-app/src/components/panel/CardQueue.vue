@@ -214,7 +214,6 @@
                 grid-row-start: 1;
                 grid-column-start: 1;
                 position: relative;
-                // width: 320px; // TODO DELETE
                 width: min(60vmin, 320px);
                 min-width: 192px;
                 height: 100%;

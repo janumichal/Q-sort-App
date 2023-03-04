@@ -7,7 +7,7 @@
             <div class="options-wrapper">
                 <div class="option">
                     <div class="text">
-                        Auto-saving progress
+                        Progress auto-saving
                     </div>
                     <div class="interactable">
                         <ToggleButton :id="'save'" v-model="s_store.saving_enabled"/>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="option">
                     <div class="text">
-                        Minimap enabled
+                        Scrollbar minimap
                     </div>
                     <div class="interactable">
                         <ToggleButton :id="'minimap'" v-model="s_store.minimap_enabled"/>
@@ -53,30 +53,9 @@
     const toggle1 = ref(true)
     const toggle2 = ref(true)
 
-    watch(
-        s_store,
-        () => {
-            console.log("saving", s_store.saving_enabled);
-            console.log("minimap", s_store.minimap_enabled);
-        }
-    )
-
     function updateVisibility(value){
         g_store.settings_visible = value
     }
-
-    const emits = defineEmits(["update:saving", "update:minimap"])
-
-    function updateSaving(value){
-        s_store.saving_enabled = value
-        console.log("saving");
-    }
-
-    function updateMinimap(value){
-        s_store.minimap_enabled = value
-        console.log("minimap");
-    }
-
 
     watch(
         g_store,

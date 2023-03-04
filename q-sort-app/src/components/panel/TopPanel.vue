@@ -110,7 +110,8 @@
 
     .show-button{
         min-width: 320px;
-        width: min(100vmin, 450px);
+        max-width: 450px;
+        width: 100%;
         padding: min(2vmin, 10px);
         display: flex;
         justify-content: flex-end;

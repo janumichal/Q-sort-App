@@ -19,9 +19,9 @@
 <style lang="scss" scoped>
     .tile{
         width: 100%;
-        flex-grow: 1;
-        flex-shrink: 1;
-        flex-basis: auto;
+        // flex-grow: 1;
+        // flex-shrink: 1;
+        // flex-basis: auto;
         box-sizing: border-box;
         display: flex;
         justify-content: center;
