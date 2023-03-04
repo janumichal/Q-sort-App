@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-    import { ref, onMounted, onUnmounted, defineExpose, nextTick } from 'vue';
+    import { ref, onMounted, onUnmounted } from 'vue';
     import { useGlobalStore } from '../../stores/global';
     import { useQSortStore } from '../../stores/q-sort';
     import { useSettingsStore } from '../../stores/settings';
@@ -131,6 +131,8 @@
             var table = document.getElementById("table-h")
     
             page_height.value = panel.offsetHeight + table.offsetHeight
+            // page_height.value = table.offsetHeight
+            
             track_height.value = track.value.offsetHeight
             display_height.value = window.innerHeight
     
@@ -155,8 +157,8 @@
 <style lang="scss" scoped>
     @use "../../scss/Colors/Colors" as *;
     .mm-track{
-        position: sticky;
-        height: 100vh;
+        position: fixed;
+        height: 100%;
         width: min(9vmin, 70px);
         min-width: 35px;
         background-color: red;
@@ -167,7 +169,7 @@
             width: 100%;
             background-color: transparent;
             border: solid 3px black;
-            border-radius: 6px 0 0 6px;
+            border-radius: 6px;
             position: absolute;
             cursor: move;
             box-sizing: border-box;
@@ -185,8 +187,9 @@
                 background-color: $primary_bg;
             }
             .tiles{
-                display: flex;
-                flex-direction: column;
+                display: grid;
+                grid-auto-rows: 1fr;
+                // flex-direction: column;
                 width: 100%;
                 height: 100%;
             }
