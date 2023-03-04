@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-    import { ref, watch } from 'vue';
+    import { ref, watch, onMounted } from 'vue';
     import { useQSortStore } from '../../stores/q-sort';
     const props = defineProps({
         row: Number,
@@ -15,17 +15,23 @@
     const q_store = useQSortStore()
     const filled = ref(false)
 
-    watch(
-        q_store.table,
-        () => {
-            var card_id = q_store.getTableCardId(props.row, props.col)
+    function lookUpFilled(){
+        var card_id = q_store.getTableCardId(props.row, props.col)
             if(card_id != null){
                 filled.value = true
             }else{
                 filled.value = false
             }
+    }
+    watch(
+        q_store.table,
+        () => {
+            lookUpFilled()
         }
     )
+    onMounted(() => {
+        lookUpFilled()
+    })
 </script>
 
 <style lang="scss" scoped>

@@ -57,6 +57,8 @@
     .mm-s-wrapper{
         display: flex;
         flex-direction: row;
+        height: 100%;
+        width: 100%;
         .sorting-wrapper{
             overflow: auto;
             
