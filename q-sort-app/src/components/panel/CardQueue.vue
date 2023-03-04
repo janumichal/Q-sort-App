@@ -169,7 +169,8 @@
         height: min(35vmin, 180px);
         aspect-ratio: 32/18;
         min-width: 320px;
-        width: min(100vmin, 450px);
+        // width: min(100vmin, 450px);
+        width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: center;

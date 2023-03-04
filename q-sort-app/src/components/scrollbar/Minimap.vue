@@ -1,11 +1,11 @@
 <template>
     <div ref="track" class="mm-track" 
-        @mousedown.left.self="onMouseDownTrack($event)" >
+        @mousedown.left="onMouseDownTrack($event)" >
         <div ref="thumb" class="mm-thumb" 
-            @mousedown.left.self="onMouseDownThumb($event)" 
-            @mouseup.left.self="onMouseUpThumb()" 
-            @mousemove.self="onMoveThumb($event)" 
-            @mouseleave.left.self="onMouseUpThumb()">
+            @mousedown.left="onMouseDownThumb($event)" 
+            @mouseup.left="onMouseUpThumb()" 
+            @mousemove="onMoveThumb($event)" 
+            @mouseleave.left="onMouseUpThumb()">
 
         </div>
         <div class="wrapper">
@@ -50,12 +50,14 @@
     defineExpose({init})
 
     function onMouseDownTrack(event){
+        event.stopPropagation();
         track_click.value = true
         pressed.value = true
         moveThumb(event)
     }
 
     function onMouseDownThumb(event){
+        event.stopPropagation();
         track_click.value = false
         thumb_offset.value = event.clientY
         pressed.value = true
@@ -81,10 +83,11 @@
         var new_pos
         if(track_click.value){
             offset = thumb_height.value/2
+            new_pos = event.clientY - offset
         }else{
             offset = thumb_offset.value
+            new_pos = event.clientY - offset + thumb_pos.value
         }
-        new_pos = event.clientY - offset + thumb_pos.value
         setThumbPosY(new_pos)
     }
 
@@ -154,7 +157,8 @@
     .mm-track{
         position: sticky;
         height: 100vh;
-        width: 70px;
+        width: min(9vmin, 70px);
+        min-width: 35px;
         background-color: red;
         right: 0px;
         cursor: pointer;
@@ -163,10 +167,11 @@
             width: 100%;
             background-color: transparent;
             border: solid 3px black;
-            border-radius: 6px;
+            border-radius: 6px 0 0 6px;
             position: absolute;
             cursor: move;
             box-sizing: border-box;
+
         }
         .wrapper{
             display: flex;

@@ -120,6 +120,7 @@
     .question-queue{
         pointer-events: all;
         width: 100%;
+        min-width: 320px;
         max-width: 450px;
         display: flex;
         flex-direction: column;
@@ -143,6 +144,8 @@
                 align-items: center;
                 gap: 10px;
                 padding: min(2vmin, 10px);
+                width: 100%;
+                box-sizing: border-box;
                 .question-info-icon{
                     display: flex;
                     align-items: center;
@@ -161,7 +164,7 @@
         .queue-buttons-wrapper{
             display: grid;
             grid-template-columns: 1fr;
-            width: fit-content;
+            width: 100%;
 
             .card-queue-wrapper, .overlayed-buttons-wrapper{
                 grid-row-start: 1;
@@ -174,13 +177,14 @@
                 justify-content: space-between;
                 padding: min(2vmin, 10px);
                 pointer-events: none;
-                
+                box-sizing: border-box;
             }
             .hide-btn{
                 grid-row-start: 1;
                 grid-column-start: 1;
                 height: 100%;
-                width: min(100vmin, 450px);
+                // width: min(100vmin, 450px);
+                width: 100%;
                 min-width: 320px;
                 box-sizing: border-box;
                 display: flex;
