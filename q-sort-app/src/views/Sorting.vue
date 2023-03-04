@@ -9,9 +9,7 @@
                 <SortingTable />
             </div>
         </div>
-        <Transition>
-            <Minimap v-if="s_store.minimap_enabled" ref="minimap"/>
-        </Transition>
+        <Minimap v-if="s_store.minimap_enabled" ref="minimap"/>
     </div>
 </template>
 
@@ -23,7 +21,7 @@
     import { useQSortStore } from "../stores/q-sort"
     import { useSettingsStore } from "../stores/settings"
     import json_data from "../assets/datasets/food-sort.json"
-    import { ref, watch, nextTick } from "vue"
+    import { ref, watch, nextTick, onMounted } from "vue"
 
     const q_store = useQSortStore()
     const s_store = useSettingsStore()
@@ -50,6 +48,12 @@
             })
         }
     )
+
+    onMounted(() => {
+        if(window.innerWidth < 370){
+            s_store.minimap_enabled = false
+        }
+    })
 
 </script>
 
