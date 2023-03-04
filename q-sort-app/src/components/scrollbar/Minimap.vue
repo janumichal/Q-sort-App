@@ -26,10 +26,12 @@
     import { ref, onMounted, onUnmounted, defineExpose, nextTick } from 'vue';
     import { useGlobalStore } from '../../stores/global';
     import { useQSortStore } from '../../stores/q-sort';
+    import { useSettingsStore } from '../../stores/settings';
     import Tile from "./Tile.vue"
 
     const g_store = useGlobalStore()
     const q_store = useQSortStore()
+    const s_store = useSettingsStore()
 
     const thumb = ref()
     const track = ref()
@@ -121,17 +123,19 @@
     }
 
     function minimapSetup(){
-        var panel = document.getElementById("panel-h")
-        var table = document.getElementById("table-h")
-
-        page_height.value = panel.offsetHeight + table.offsetHeight
-        track_height.value = track.value.offsetHeight
-        display_height.value = window.innerHeight
-
-        thumb_height.value = convertPage2Scroll(display_height.value)
-        thumb.value.style.height = thumb_height.value.toString() + "px"
-
-        panel_fill.value.style.height = convertPage2Scroll(panel.offsetHeight).toString() + "px"
+        if(s_store.minimap_enabled){
+            var panel = document.getElementById("panel-h")
+            var table = document.getElementById("table-h")
+    
+            page_height.value = panel.offsetHeight + table.offsetHeight
+            track_height.value = track.value.offsetHeight
+            display_height.value = window.innerHeight
+    
+            thumb_height.value = convertPage2Scroll(display_height.value)
+            thumb.value.style.height = thumb_height.value.toString() + "px"
+    
+            panel_fill.value.style.height = convertPage2Scroll(panel.offsetHeight).toString() + "px"
+        }
     }
 
     onMounted(() => {

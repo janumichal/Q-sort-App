@@ -1,27 +1,28 @@
 <template>
     <div class="toggle-wrapper">
-        <input class="toggle" id="toggle-id" type="checkbox" v-model="isChecked"/>
-        <label class="toggle-button" for="toggle-id"></label>
+        <input class="toggle" :id="id" type="checkbox" @change="toggle" v-model="isToggled"/>
+        <label class="toggle-button" :for="id"></label>
     </div>
 </template>
 
 <script setup>
-    import { computed, defineEmits } from 'vue';
+    import { ref, defineEmits } from 'vue';
     const props = defineProps({
-        toggled: {
+        modelValue: {
             required: true,
-            type: Boolean
-        }
-    })
-    const emits = defineEmits(["update:saving"])
-    const isChecked = computed({
-        get(){
-            return props.toggled
+            type: Boolean,
         },
-        set(value){
-            emits("update:saving", value)
+        id: {
+            type: String,
+            default: ""
         }
     })
+    const isToggled = ref(props.modelValue)
+    const emits = defineEmits(["update:modelValue"])
+    function toggle(){
+        emits("update:modelValue", isToggled.value)
+    }
+
 </script>
 
 <style lang="scss" scoped>
