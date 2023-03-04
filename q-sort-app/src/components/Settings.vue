@@ -10,7 +10,7 @@
                         Auto-saving progress
                     </div>
                     <div class="interactable">
-                        <ToggleButton :toggled="s_store.saving_enabled" @update:saving="updateSaving($event)"/>
+                        <ToggleButton :id="'save'" v-model="s_store.saving_enabled"/>
                     </div>
                 </div>
                 <div class="option">
@@ -18,7 +18,7 @@
                         Minimap enabled
                     </div>
                     <div class="interactable">
-                        <ToggleButton :toggled="s_store.minimap_enabled" @update:minimap="updateMinimap($event)"/>
+                        <ToggleButton :id="'minimap'" v-model="s_store.minimap_enabled"/>
                     </div>
                 </div>
                 <div class="option">
@@ -49,6 +49,17 @@
     const g_store = useGlobalStore()
 
     const reload_modal = ref(0)
+
+    const toggle1 = ref(true)
+    const toggle2 = ref(true)
+
+    watch(
+        s_store,
+        () => {
+            console.log("saving", s_store.saving_enabled);
+            console.log("minimap", s_store.minimap_enabled);
+        }
+    )
 
     function updateVisibility(value){
         g_store.settings_visible = value
