@@ -40,38 +40,38 @@
         return {"background-color": q_store.colors[0]}
     }
 
-    function setMarginOfPanel(){
-        g_store.waitForTransitions().then(() => {
-            var panel = document.getElementById("panel-h")
-            var table = document.getElementById("table-h")
-            table.style.marginTop = panel.offsetHeight.toString() + "px"
-        })
-    }
+    // function setMarginOfPanel(){
+    //     g_store.waitForTransitions().then(() => {
+    //         var panel = document.getElementById("panel-h")
+    //         var table = document.getElementById("table-h")
+    //         table.style.marginTop = panel.offsetHeight.toString() + "px"
+    //     })
+    // }
 
-    watch(
-        s_store,
-        () => {
-            nextTick(() => {
-                var container = document.getElementById("container")
-                if(s_store.minimap_enabled){
-                    container.style.marginRight = minimap.value.$el.offsetWidth.toString() + "px"
-                    minimap.value.init()
-                }else{
-                    container.style.marginRight = "0px"
-                }
-            })
-        }
-    )
+    // watch(
+    //     s_store,
+    //     () => {
+    //         nextTick(() => {
+    //             var container = document.getElementById("container")
+    //             if(s_store.minimap_enabled){
+    //                 container.style.marginRight = minimap.value.$el.offsetWidth.toString() + "px"
+    //                 minimap.value.init()
+    //             }else{
+    //                 container.style.marginRight = "0px"
+    //             }
+    //         })
+    //     }
+    // )
 
 
     onMounted(() => {
         if(window.innerWidth < 370){ 
             s_store.minimap_enabled = false
         }
-        if(s_store.minimap_enabled){
-            var container = document.getElementById("container")
-            container.style.marginRight = minimap.value.$el.offsetWidth.toString() + "px"
-        }
+        // if(s_store.minimap_enabled){
+        //     var container = document.getElementById("container")
+        //     container.style.marginRight = minimap.value.$el.offsetWidth.toString() + "px"
+        // }
     })
 
 </script>
