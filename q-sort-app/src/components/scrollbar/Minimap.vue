@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-    import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+    import { ref, onMounted, onUnmounted, watch } from 'vue';
     import { useGlobalStore } from '../../stores/global';
     import { useQSortStore } from '../../stores/q-sort';
     import { useSettingsStore } from '../../stores/settings';
@@ -157,7 +157,8 @@
     }
 
     function updateThumbHeight(){
-        thumb_height.value = tile_count.value*tile_height.value - Math.max(fill_height.value - convertPage2ScrollHeight(container.scrollTop), 0)
+        var container = document.getElementById("container")
+        thumb_height.value = Math.min(tile_count.value*tile_height.value - Math.max(fill_height.value - convertPage2ScrollHeight(container.scrollTop), 0), display_height.value)
         thumb.value.style.height = thumb_height.value.toString() + "px"
     }
 
@@ -168,6 +169,14 @@
     function convertSctoll2pageHeight(height){
         return (height / track_height.value ) * page_height.value
     }
+
+    watch(
+        s_store
+        ,() => {
+            g_store.waitForTransitions().then(() => {
+                minimapSetup()
+            })
+    })
 
     onMounted(() => {
         minimapSetup()
@@ -183,7 +192,7 @@
 <style lang="scss" scoped>
     @use "../../scss/Colors/Colors" as *;
     .mm-track{
-        position: fixed;
+        position: sticky;
         height: 100%;
         width: min(9vmin, 70px);
         min-width: 35px;
