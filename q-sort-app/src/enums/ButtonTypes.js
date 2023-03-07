@@ -1,6 +1,7 @@
 const ButtonTypes = Object.freeze({
     Normal: "normal",
-    Warning: "warning"
+    Warning: "warning",
+    NormalNoOpacity: "normal-no-opacity"
 })
 
 export default ButtonTypes;

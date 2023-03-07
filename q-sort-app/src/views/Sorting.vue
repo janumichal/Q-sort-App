@@ -20,13 +20,11 @@
     import Minimap from "../components/scrollbar/Minimap.vue"
     import { useQSortStore } from "../stores/q-sort"
     import { useSettingsStore } from "../stores/settings"
-    import { useGlobalStore } from "../stores/global"
     import json_data from "../assets/datasets/food-sort.json"
-    import { ref, watch, nextTick, onMounted } from "vue"
+    import { ref, onMounted } from "vue"
 
     const q_store = useQSortStore()
     const s_store = useSettingsStore()
-    const g_store = useGlobalStore()
     const minimap = ref(null)
 
 
@@ -40,39 +38,13 @@
         return {"background-color": q_store.colors[0]}
     }
 
-    // function setMarginOfPanel(){
-    //     g_store.waitForTransitions().then(() => {
-    //         var panel = document.getElementById("panel-h")
-    //         var table = document.getElementById("table-h")
-    //         table.style.marginTop = panel.offsetHeight.toString() + "px"
-    //     })
-    // }
-
-    // watch(
-    //     s_store,
-    //     () => {
-    //         nextTick(() => {
-    //             var container = document.getElementById("container")
-    //             if(s_store.minimap_enabled){
-    //                 container.style.marginRight = minimap.value.$el.offsetWidth.toString() + "px"
-    //                 minimap.value.init()
-    //             }else{
-    //                 container.style.marginRight = "0px"
-    //             }
-    //         })
-    //     }
-    // )
-
-
+    
     onMounted(() => {
         if(window.innerWidth < 370){ 
             s_store.minimap_enabled = false
         }
-        // if(s_store.minimap_enabled){
-        //     var container = document.getElementById("container")
-        //     container.style.marginRight = minimap.value.$el.offsetWidth.toString() + "px"
-        // }
     })
+
 
 </script>
 
@@ -87,13 +59,16 @@
         .sorting-wrapper{
             overflow: auto;
             height: 100%;
-            // min-height: 100vh;
             width: 100%;
             display: flex;
             flex-flow: column;
             user-select: none;
             cursor: grab;
             position: relative;
+
+            &:active{
+                cursor: grabbing;
+            }
     
             // hide scrollbar
             -ms-overflow-style: none;

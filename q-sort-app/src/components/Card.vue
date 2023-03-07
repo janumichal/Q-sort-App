@@ -116,12 +116,8 @@
         .card{
             
             background-color: $primary_card; 
-            // width: 220px;
-            // height: 130px;
             width: min(43vmin, 220px);
             min-width: 138px;
-            // height: min(25vmin, 130px);
-            // min-height: 80px;
             aspect-ratio: 22/13;
             margin: 4px;
     
