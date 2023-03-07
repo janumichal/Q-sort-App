@@ -127,6 +127,7 @@
         flex-direction: column;
         align-items: center;
         overflow: hidden;
+        cursor: default;
 
         .question-wrapper{
             $question-wrapper-padding: min(2vmin, 5px);

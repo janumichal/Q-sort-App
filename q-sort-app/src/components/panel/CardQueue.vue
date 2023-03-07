@@ -11,14 +11,15 @@
             </div>
             <Transition name="return-btn">
                 <div class="return-card-wrapper" v-if="!q_store.isSelectedInQueue() && q_store.selected_card_id != null">
-                    <div class="return-card" @click="q_store.returnCardToQueue()">
+                    <NormalButton class="return-card" @click="q_store.returnCardToQueue()" 
+                        :btn_type="ButtonTypes.NormalNoOpacity">
                         <div class="return-card-text">
                             Return
                         </div>
                         <div class="return-card-icon">
                             <img src="../../assets/icons/return_card.svg" />
                         </div>
-                    </div>
+                    </NormalButton>
                 </div>
             </Transition>
         </div>
@@ -30,9 +31,11 @@
 
 
 <script setup>
-    import { ref, watch } from 'vue'
+    import { ref } from 'vue'
     import { useQSortStore } from "../../stores/q-sort"
+    import { ButtonTypes } from '../../enums';
     import Card from '../Card.vue'
+    import NormalButton from '../default/NormalButton.vue';
 
 
     const q_store = useQSortStore()
@@ -232,10 +235,6 @@
             .return-card-wrapper{
                 grid-row-start: 1;
                 grid-column-start: 1;
-                // position: absolute;
-                // bottom: 6px;
-                // left: 50%;
-                // transform: translateX(-50%);
                 width: 100%;
                 display: flex;
                 justify-content: center;
@@ -243,7 +242,6 @@
                 z-index: 1000;
                 pointer-events: none;
                 .return-card{
-                    background-color: #329DFF;
                     padding: 6px 11px 6px 11px;
                     border-radius: 6px;
                     display: flex;
@@ -251,7 +249,6 @@
                     justify-content: center;
                     gap: 5px;
                     height: fit-content;
-                    opacity: 95%;
                     transform: translateY(-30%);
                     pointer-events: all;
 
@@ -261,7 +258,8 @@
                         text-align: center;
                         justify-content: center;
                         height: initial;
-                        color: #FFFFFF;
+                        color: #000000;
+                        font-variation-settings: "wght" 500;
                         font-size: max(13px, min(3vmin, 15px));
                         white-space: nowrap;
                     }
@@ -274,11 +272,6 @@
 
 
                     }
-                }
-                .return-card:hover{
-                    cursor: pointer;
-                    background-color: #1d92ff;
-                    opacity: 100%;
                 }
             }
         }

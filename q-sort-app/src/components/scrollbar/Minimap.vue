@@ -169,6 +169,7 @@
     function convertSctoll2pageHeight(height){
         return (height / track_height.value ) * page_height.value
     }
+    
 
     watch(
         s_store
@@ -200,6 +201,7 @@
         right: 0px;
         cursor: pointer;
         box-sizing: border-box;
+        border-left: solid rgba($color: #3a3a3a, $alpha: .5) 1px;
         .mm-thumb{
             width: 100%;
             background-color: transparent;

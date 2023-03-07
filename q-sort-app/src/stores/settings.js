@@ -7,6 +7,7 @@ export const useSettingsStore = defineStore("settings", () => {
     const question_opened = ref(true)
     const panel_opened = ref(true)
     const cookie_name = "Q-sortApp-settings"
+    
 
     function updateSettings(){
         $cookies.set(cookie_name, {saving: saving_enabled.value, minimap: minimap_enabled.value})

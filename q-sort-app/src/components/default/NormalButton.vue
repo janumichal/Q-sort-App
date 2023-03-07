@@ -50,4 +50,11 @@
             background-color: rgba($warning_btn_clr, $alpha: $opacity-hover);
         }
     }
+    .button-normal-no-opacity{
+        background-color: $default_btn_nop_clr;
+
+        &:hover{
+            background-color: $default_btn_nop_clr_hover;
+        }
+    }
 </style>
