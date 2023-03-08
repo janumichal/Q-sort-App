@@ -120,20 +120,6 @@
         container.value.scrollTo(0, convertSctoll2pageHeight(thumb_pos.value))
     }
 
-    function setThumbPosY(){
-        if(scroll_pos.value < 0){
-            scroll_pos.value = 0
-        }
-        changeThumbOnScroll()
-    }
-
-    function changeThumbOnScroll(){
-        var container = document.getElementById("container")
-        container.scrollTo(0, convertSctoll2pageHeight(scroll_pos.value))
-        getScroll()
-    }
-
-    // ###############################################################################################################################################
     function getScroll(){
         thumb.value.style.top = Math.max(convertPage2ScrollHeight(container.value.scrollTop) - fill_height.value,0).toString() + "px"
         updateThumbHeight()

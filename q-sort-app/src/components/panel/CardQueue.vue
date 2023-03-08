@@ -9,19 +9,6 @@
                     <Card :style="getCardQueueStyle(index)" v-for="(id, index) in q_store.queue" :key="id" :idx="index"  :text="q_store.getCardText(id)" :id="id" :in_queue="true" :visible="true" />
                 </TransitionGroup>
             </div>
-            <Transition name="return-btn">
-                <div class="return-card-wrapper" v-if="!q_store.isSelectedInQueue() && q_store.selected_card_id != null">
-                    <NormalButton class="return-card" @click="q_store.returnCardToQueue()" 
-                        :btn_type="ButtonTypes.NormalNoOpacity">
-                        <div class="return-card-text">
-                            Return
-                        </div>
-                        <div class="return-card-icon">
-                            <img src="../../assets/icons/return_card.svg" />
-                        </div>
-                    </NormalButton>
-                </div>
-            </Transition>
         </div>
         <div class="btn-wrapper">
             <img src="../../assets/icons/right_arrow.svg" class="btn-forward" :class="classDisabled(false)" @click="btnMoveRight()">
@@ -33,9 +20,7 @@
 <script setup>
     import { ref } from 'vue'
     import { useQSortStore } from "../../stores/q-sort"
-    import { ButtonTypes } from '../../enums';
     import Card from '../Card.vue'
-    import NormalButton from '../default/NormalButton.vue';
 
 
     const q_store = useQSortStore()
@@ -113,32 +98,6 @@
     @use "../../scss/Colors/Colors" as *;
     $animation-duration: 0.3s;
 
-    .return-btn-enter-active{
-        animation-name: show-btn;
-        animation-duration: $animation-duration;
-        animation-fill-mode: forwards;
-        animation-direction: normal;
-        animation-timing-function: ease;
-    }
-
-    .return-btn-leave-active{
-        animation-name: show-btn;
-        animation-duration: $animation-duration;
-        animation-fill-mode: forwards;
-        animation-direction: reverse;
-        animation-timing-function: ease;
-    }
-
-    @keyframes show-btn {
-        0%{
-            opacity: 0%;
-
-        }
-        100%{
-            opacity: 100%;
-        }
-    }
-
     .queue-enter-active{
         animation-name: card_appear;
         animation-duration: $animation-duration;
@@ -158,12 +117,10 @@
     @keyframes card_appear {
         0%{
             opacity: 0%;
-            // visibility: hidden;
             transform: scale(1.5);
         }
         100%{
             opacity: 100%;
-            // visibility: visible;
             transform: scale(1);
         }
     }
@@ -172,7 +129,6 @@
         height: min(35vmin, 180px);
         aspect-ratio: 32/18;
         min-width: 320px;
-        // width: min(100vmin, 450px);
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -211,11 +167,8 @@
         }
         .queue-wrapper{
             height: 100%;
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
             .queue{
-                grid-row-start: 1;
-                grid-column-start: 1;
                 position: relative;
                 width: min(60vmin, 320px);
                 min-width: 192px;
@@ -230,48 +183,6 @@
                     display: flex;
                     justify-content: space-evenly;
                     align-items: center;
-                }
-            }
-            .return-card-wrapper{
-                grid-row-start: 1;
-                grid-column-start: 1;
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: flex-end;
-                z-index: 1000;
-                pointer-events: none;
-                .return-card{
-                    padding: 6px 11px 6px 11px;
-                    border-radius: 6px;
-                    display: flex;
-                    align-content: center;
-                    justify-content: center;
-                    gap: 5px;
-                    height: fit-content;
-                    transform: translateY(-30%);
-                    pointer-events: all;
-
-                    .return-card-text{
-                        display: flex;
-                        align-items: center;
-                        text-align: center;
-                        justify-content: center;
-                        height: initial;
-                        color: #000000;
-                        font-variation-settings: "wght" 500;
-                        font-size: max(13px, min(3vmin, 15px));
-                        white-space: nowrap;
-                    }
-                    .return-card-icon{
-                        display: flex;
-                        align-content: center;
-                        height: 100%;
-                        aspect-ratio: 1/1;
-                        width: max(15px, min(3vmin, 20px));
-
-
-                    }
                 }
             }
         }
