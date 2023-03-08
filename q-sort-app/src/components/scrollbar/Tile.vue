@@ -19,16 +19,13 @@
 <style lang="scss" scoped>
     .tile{
         width: 100%;
-        // flex-grow: 1;
-        // flex-shrink: 1;
-        // flex-basis: auto;
         box-sizing: border-box;
         display: flex;
         justify-content: center;
         align-items: center;
         align-content: center;
-        gap: 5px;
-        padding: 3px;
+        gap: 4px;
+        // padding: 3px;
         flex-wrap: wrap;
     }
 </style>
