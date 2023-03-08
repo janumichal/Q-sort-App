@@ -1,11 +1,14 @@
 <template>
     <div ref="track" class="mm-track" 
         @mousedown.left="onMouseDownTrack($event)" 
+        @mousemove="onMoveThumb($event)" 
+        @touchmove="onMoveThumb($event)"
         @touchstart="onMouseDownTrack($event)"
         @touchend="onMouseUpThumb()"
         @touchcancel="onMouseUpThumb()">
+        
         <div ref="thumb" class="mm-thumb" 
-            @mousedown.left="onMouseDownThumb($event)" 
+        @mousedown.left="onMouseDownThumb($event)" 
             @touchstart.prevent="onMouseDownThumb($event)"
             @mouseup.left="onMouseUpThumb()" 
             @touchend="onMouseUpThumb()"
@@ -13,11 +16,10 @@
             @mousemove="onMoveThumb($event)" 
             @touchmove="onMoveThumb($event)"
             @mouseleave.left="onMouseUpThumb()">
+            
 
         </div>
         <div class="wrapper">
-            <!-- <div ref="panel_fill" class="panel-fill" :style="q_store.getColorStyle(0)">
-            </div> -->
             <div ref="tiles" class="tiles">
                 <Tile v-for="(arr, index) in q_store.table" 
                     :key="index" 
@@ -36,6 +38,8 @@
     import { useSettingsStore } from '../../stores/settings';
     import Tile from "./Tile.vue"
 
+    const container = ref(null)
+
     const tiles = ref(null)
 
     const g_store = useGlobalStore()
@@ -48,18 +52,18 @@
     const page_height = ref()
     const display_height = ref()
     const row_height = ref()
-
     const track_height = ref()
     const thumb_height = ref()
     const fill_height = ref()
     const tile_height = ref()
-    const thumb_offset = ref(0)
     const tile_count = ref()
-
-    const prev_scroll_pos = ref(0)
-    const scroll_pos = ref(0)
+    const thumb_top = ref()
     
-
+    
+    
+    const thumb_offset = ref(0)
+    const prev_thumb_pos = ref(0)
+    const thumb_pos = ref(0)
     const track_click = ref(false)
     const pressed = ref(false)
 
@@ -87,14 +91,14 @@
     function onMouseDownThumb(event){
         event.stopPropagation();
         track_click.value = false
-        thumb_offset.value = getPosFromEvent(event)
         pressed.value = true
+        thumb_offset.value = getPosFromEvent(event)
         moveThumb(event)
     }
 
     function onMouseUpThumb(){
         if(pressed.value){
-            prev_scroll_pos.value = scroll_pos.value
+            prev_thumb_pos.value = thumb_pos.value
             pressed.value = false
             track_click.value = false
         }
@@ -107,13 +111,13 @@
     }
 
     function moveThumb(event){
-        var pos = getPosFromEvent(event)
+        var event_position = getPosFromEvent(event)
         if(track_click.value){
-            scroll_pos.value = pos - thumb_height.value/2
+            thumb_pos.value = (event_position - tile_count.value*tile_height.value/2) + fill_height.value
         }else{
-            scroll_pos.value = prev_scroll_pos.value + pos - thumb_offset.value
+            thumb_pos.value = prev_thumb_pos.value + event_position - thumb_offset.value
         }
-        setThumbPosY()
+        container.value.scrollTo(0, convertSctoll2pageHeight(thumb_pos.value))
     }
 
     function setThumbPosY(){
@@ -129,38 +133,38 @@
         getScroll()
     }
 
+    // ###############################################################################################################################################
     function getScroll(){
-        var container = document.getElementById("container")
-        thumb.value.style.top = Math.max(convertPage2ScrollHeight(container.scrollTop) - fill_height.value,0).toString() + "px"
+        thumb.value.style.top = Math.max(convertPage2ScrollHeight(container.value.scrollTop) - fill_height.value,0).toString() + "px"
         updateThumbHeight()
     }
 
-    function init(){
-        g_store.waitForTransitions().then(() => {
-            minimapSetup()
-        })
-    }
 
     function minimapSetup(){
         if(s_store.minimap_enabled){
-            var panel = document.getElementById("panel-h")
-            var table = document.getElementById("table-h")
-            
             display_height.value = window.innerHeight
-            page_height.value = table.offsetHeight
-            row_height.value = document.getElementsByClassName("row")[0].offsetHeight
-            
+            page_height.value = document.getElementById("table-h").offsetHeight
             track_height.value = track.value.offsetHeight
-            fill_height.value = convertPage2ScrollHeight(panel.offsetHeight)
+            row_height.value = document.getElementsByClassName("row")[0].offsetHeight
+            fill_height.value = convertPage2ScrollHeight(document.getElementById("panel-h").offsetHeight)
             tile_height.value = document.getElementsByClassName("tile")[0].offsetHeight
             tile_count.value = display_height.value / row_height.value
+            thumb_top.value = getThumbTop()
             updateThumbHeight()
         }
     }
+    function getThumbTop(){
+        return Math.max(convertPage2ScrollHeight(container.value.scrollTop) - fill_height.value, 0)
+    }
+
+    function getFillDecreaseTop(){
+        return Math.max(fill_height.value - convertPage2ScrollHeight(container.value.scrollTop) , 0)
+    }
 
     function updateThumbHeight(){
-        var container = document.getElementById("container")
-        thumb_height.value = Math.min(tile_count.value*tile_height.value - Math.max(fill_height.value - convertPage2ScrollHeight(container.scrollTop), 0), display_height.value)
+        thumb_top.value = getThumbTop()
+        thumb_height.value = tile_count.value*tile_height.value - getFillDecreaseTop()
+        thumb_height.value = Math.min(display_height.value < thumb_top.value + thumb_height.value ? display_height.value - thumb_top.value : thumb_height.value, display_height.value)
         thumb.value.style.height = thumb_height.value.toString() + "px"
     }
 
@@ -178,36 +182,27 @@
         }
     }
 
-    watch(
-        tiles,
-        () => {
-            if(tiles.value != null){
-                disableIfOverflows()
-            }
-        }
-    )
-
+    function init(){
+        g_store.waitForTransitions().then(() => {
+            minimapSetup()
+        })
+    }
 
     watch(
         s_store,
         () => {
-            g_store.waitForTransitions().then(() => {
-                minimapSetup()
-            })
+            init()
     })
-
-
 
     onMounted(() => {
-        disableIfOverflows() 
+        container.value = document.getElementById("container")
         minimapSetup()
-        var cont = document.getElementById("container")
-        cont.addEventListener("scroll", getScroll)
+        disableIfOverflows() 
+        container.value.addEventListener("scroll", getScroll)
     })
     onUnmounted(() => {
-        var container = document.getElementById("container")
-        if(container != null){
-            container.removeEventListener("scroll", getScroll)
+        if(container.value != null){
+            container.value.removeEventListener("scroll", getScroll)
         }
     })
 </script>
@@ -222,7 +217,6 @@
         background-color: red;
         right: 0px;
         cursor: pointer;
-        box-sizing: border-box;
         border-left: solid rgba($color: #3a3a3a, $alpha: .5) 1px;
         .mm-thumb{
             width: 100%;
@@ -240,18 +234,20 @@
             height: 100%;
             min-height: fit-content;
             width: 100%;
+            box-sizing: border-box;
 
             .panel-fill{
                 width: 100%;
                 height: 30px;
                 background-color: $primary_bg;
+                box-sizing: border-box;
             }
             .tiles{
                 display: grid;
                 grid-auto-rows: 1fr;
-                // flex-direction: column;
                 width: 100%;
                 height: 100%;
+                box-sizing: border-box;
             }
         }
     }
