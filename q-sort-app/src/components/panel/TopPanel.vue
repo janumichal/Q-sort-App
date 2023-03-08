@@ -71,6 +71,10 @@
     const s_store = useSettingsStore()
     const g_store = useGlobalStore()
 
+    function onSubmitSort(){ // TODO needs implementation
+        // Create json and console.log it (represents sending the json to the server)
+    }
+
     function onClickToggleQuestion(){
         s_store.question_opened = !s_store.question_opened
         // s_store.updateSettings()

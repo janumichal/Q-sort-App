@@ -1,46 +1,60 @@
 {
-    "name":"Food sorting dataset",
-    "uid":"Foods",
-    "question":"What type of food do you like and what you don't like?",
-    "delimiters":["I Like", "Neutral", "I Don't Like"],
-    "colors":["#8CB37F", "#ECEBE5", "#F79696"],
-    "table":[1,2,3,2,1],
-    "cards":[
+    "name": "Food sorting dataset",
+    "uid": "0",
+    "question": "What type of food do you like and what you don't like?",
+    "delimiters": [
+        "I Like",
+        "Neutral",
+        "I Don't Like"
+    ],
+    "colors": [
+        "#8CB37F",
+        "#ECEBE5",
+        "#F79696"
+    ],
+    "table": [
+        1,
+        2,
+        3,
+        2,
+        1
+    ],
+    "cards": [
         {
-            "id":0,
-            "text":"Carp"
+            "id": 0,
+            "text": "Carp"
         },
         {
-            "id":1,
-            "text":"Potato"
+            "id": 1,
+            "text": "Potato"
         },
         {
-            "id":2,
-            "text":"Apple"
+            "id": 2,
+            "text": "Apple"
         },
         {
-            "id":3,
-            "text":"Ham"
+            "id": 3,
+            "text": "Ham"
         },
         {
-            "id":4,
-            "text":"Orange"
+            "id": 4,
+            "text": "Orange"
         },
         {
-            "id":5,
-            "text":"Pineaple pizza"
+            "id": 5,
+            "text": "Pineaple pizza"
         },
         {
-            "id":6,
-            "text":"Liver"
+            "id": 6,
+            "text": "Liver"
         },
         {
-            "id":7,
-            "text":"Steak"
+            "id": 7,
+            "text": "Steak"
         },
         {
-            "id":8,
-            "text":"Banana"
+            "id": 8,
+            "text": "Banana"
         }
     ]
 }

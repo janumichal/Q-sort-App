@@ -20,16 +20,24 @@
     import Minimap from "../components/scrollbar/Minimap.vue"
     import { useQSortStore } from "../stores/q-sort"
     import { useSettingsStore } from "../stores/settings"
-    import json_data from "../assets/datasets/food-sort.json"
-    import { ref, onMounted } from "vue"
-
+    import { useGlobalStore } from "../stores/global"
+    import { ref, onMounted} from "vue"
+    import { useRoute } from "vue-router"
+    
     const q_store = useQSortStore()
     const s_store = useSettingsStore()
-    const minimap = ref(null)
-
-
+    const g_store = useGlobalStore()
+    const route = useRoute()
+    
     //Load dataset
-    q_store.loadDataset(json_data)
+    q_store.loadDataset(getDataset(route.params.uid))
+    const minimap = ref(null)
+    
+
+    // this function could fetch the dataset from server
+    function getDataset(uid){
+        return g_store.datasets.find(element => element.uid == uid)
+    }
 
     function getBottomBgColor(){
         return {"background-color": q_store.colors[q_store.colors.length-1]}

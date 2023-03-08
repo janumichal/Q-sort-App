@@ -18,7 +18,7 @@
         <div class="wrapper">
             <!-- <div ref="panel_fill" class="panel-fill" :style="q_store.getColorStyle(0)">
             </div> -->
-            <div class="tiles">
+            <div ref="tiles" class="tiles">
                 <Tile v-for="(arr, index) in q_store.table" 
                     :key="index" 
                     :indicator_count="arr.length" 
@@ -35,6 +35,8 @@
     import { useQSortStore } from '../../stores/q-sort';
     import { useSettingsStore } from '../../stores/settings';
     import Tile from "./Tile.vue"
+
+    const tiles = ref(null)
 
     const g_store = useGlobalStore()
     const q_store = useQSortStore()
@@ -169,24 +171,44 @@
     function convertSctoll2pageHeight(height){
         return (height / track_height.value ) * page_height.value
     }
-    
+
+    function disableIfOverflows(){
+        if(tiles.value.scrollHeight > display_height.value){
+            s_store.minimap_enabled = false
+        }
+    }
 
     watch(
-        s_store
-        ,() => {
+        tiles,
+        () => {
+            if(tiles.value != null){
+                disableIfOverflows()
+            }
+        }
+    )
+
+
+    watch(
+        s_store,
+        () => {
             g_store.waitForTransitions().then(() => {
                 minimapSetup()
             })
     })
 
+
+
     onMounted(() => {
+        disableIfOverflows() 
         minimapSetup()
         var cont = document.getElementById("container")
         cont.addEventListener("scroll", getScroll)
     })
     onUnmounted(() => {
         var container = document.getElementById("container")
-        container.removeEventListener("scroll", getScroll)
+        if(container != null){
+            container.removeEventListener("scroll", getScroll)
+        }
     })
 </script>
 
@@ -195,7 +217,7 @@
     .mm-track{
         position: sticky;
         height: 100%;
-        width: min(9vmin, 70px);
+        width: min(11vmin, 85px);
         min-width: 35px;
         background-color: red;
         right: 0px;
@@ -216,6 +238,7 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            min-height: fit-content;
             width: 100%;
 
             .panel-fill{
