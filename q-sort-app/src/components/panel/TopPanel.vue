@@ -112,9 +112,12 @@
 <style lang="scss" scoped>
     @use "../../scss/Colors/Colors" as *;
 
+    $minWidth-panel: 320px;
+    $maxWidth-panel: 550px;
+
     .show-button{
-        min-width: 320px;
-        max-width: 450px;
+        min-width: $minWidth-panel;
+        max-width: $maxWidth-panel;
         width: 100%;
         padding: min(2vmin, 10px);
         display: flex;
@@ -125,8 +128,8 @@
     .question-queue{
         pointer-events: all;
         width: 100%;
-        min-width: 320px;
-        max-width: 450px;
+        min-width: $minWidth-panel;
+        max-width: $maxWidth-panel;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -134,24 +137,24 @@
         cursor: default;
 
         .question-wrapper{
-            $question-wrapper-padding: min(2vmin, 5px);
             width: 100%;
-            max-height: 200px;
-            font-size: max(13px, min(4vmin, 20px));
-            font-variation-settings: 'wght' 500;
             color: #FFFFFF;
             background-color: $secondary_bg;
-            // overflow: hidden;
             box-sizing: border-box;
+            overflow: hidden;
 
             .question-animation-wrapper{
                 display: flex;
-                justify-content: space-around;
                 align-items: center;
                 gap: 10px;
                 padding: min(2vmin, 10px);
                 width: 100%;
                 box-sizing: border-box;
+                .question{
+                    font-size: max(13px, min(3.5vmin, 18px));
+                    font-variation-settings: 'wght' 500;
+
+                }
                 .question-info-icon{
                     display: flex;
                     align-items: center;
@@ -189,7 +192,6 @@
                 grid-row-start: 1;
                 grid-column-start: 1;
                 height: 100%;
-                // width: min(100vmin, 450px);
                 width: 100%;
                 min-width: 320px;
                 box-sizing: border-box;

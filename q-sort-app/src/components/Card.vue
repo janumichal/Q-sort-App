@@ -130,8 +130,7 @@
             outline-style: solid;
             outline-color: #000000;
             
-            // font-size: 12pt;
-            font-size: max(10pt, min(3.8vmin, 12pt));
+            font-size: max(8pt, min(3.5vmin, 12pt));
             font-family: "Maven Pro";
             text-align: center;
     

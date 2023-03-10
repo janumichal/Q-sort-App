@@ -1,7 +1,12 @@
 <template>
     <Settings />
     <div class="mm-s-wrapper">
-        <div id="container" class="sorting-wrapper"  :style="getTopBgColor()" v-dragscroll="true">
+        <div id="container" class="sorting-wrapper"  
+            :style="getTopBgColor()" 
+            v-dragscroll="true"
+            @dragscrollstart="start"
+            @dragscrollend="end"
+            @click.capture="click">
             <div id="panel-h" class="top-panel-wrapper">
                 <TopPanel />
             </div>
@@ -29,6 +34,25 @@
     const g_store = useGlobalStore()
     const route = useRoute()
     
+    let dragging = false;
+    let timer = null;
+
+    function start() {
+        timer = setTimeout(() => (dragging = true), 100);
+    }
+
+    function end() {
+        clearTimeout(timer);
+        setTimeout(() => (dragging = false));
+    }
+
+    function click(event) {
+        if (dragging) {
+            event.stopPropagation();
+        }   
+    }
+
+
     //Load dataset
     q_store.loadDataset(getDataset(route.params.uid))
     const minimap = ref(null)

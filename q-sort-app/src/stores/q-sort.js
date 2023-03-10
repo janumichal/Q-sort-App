@@ -6,6 +6,7 @@ export const useQSortStore = defineStore("q-sort", () => {
 
         const s_store = useSettingsStore()
 
+        const default_colors = ref(["#8CB37F","#ECEBE5","#F79696"])
         const name = ref(null)
         const uid = ref(null)
         const question = ref("")
@@ -159,6 +160,9 @@ export const useQSortStore = defineStore("q-sort", () => {
          * @returns {Array} interpolated colors of row
          */
         function getAllRowColors(delimiter_colors){
+            if(delimiter_colors == undefined || delimiter_colors.length != 3){
+                delimiter_colors = default_colors.value
+            }
             const row_count = table.value.length
             const positive_pos = 0
             const neutral_pos = Math.round(row_count / 2) - 1
