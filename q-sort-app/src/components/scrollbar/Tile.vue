@@ -25,7 +25,7 @@
         align-items: center;
         align-content: center;
         gap: 4px;
-        // padding: 3px;
         flex-wrap: wrap;
+        padding: 4px;
     }
 </style>

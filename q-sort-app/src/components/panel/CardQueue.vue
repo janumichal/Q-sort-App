@@ -1,17 +1,30 @@
 <template>
     <div class="card-selector">
         <div class="btn-wrapper">
-            <img src="../../assets/icons/right_arrow.svg" class="btn-back" :class="classDisabled(true)" @click="btnMoveLeft()">
+            <img 
+                src="../../assets/icons/right_arrow.svg" 
+                class="btn-back" :class="classDisabled(true)" 
+                @click="btnMoveLeft()">
         </div>
         <div class="queue-wrapper">
             <div class="queue">
                 <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards">
-                    <Card :style="getCardQueueStyle(index)" v-for="(id, index) in q_store.queue" :key="id" :idx="index"  :text="q_store.getCardText(id)" :id="id" :in_queue="true" :visible="true" />
+                    <Card 
+                        :style="getCardQueueStyle(index)" 
+                        v-for="(id, index) in q_store.queue" 
+                        :key="id" :idx="index"  
+                        :text="q_store.getCardText(id)" 
+                        :id="id" 
+                        :in_queue="true" 
+                        :visible="true" />
                 </TransitionGroup>
             </div>
         </div>
         <div class="btn-wrapper">
-            <img src="../../assets/icons/right_arrow.svg" class="btn-forward" :class="classDisabled(false)" @click="btnMoveRight()">
+            <img 
+                src="../../assets/icons/right_arrow.svg" 
+                class="btn-forward" :class="classDisabled(false)" 
+                @click="btnMoveRight()">
         </div>
     </div>
 </template>
@@ -125,8 +138,8 @@
         }
     }
     .card-selector{
-        min-height: 123px;
-        height: min(35vmin, 180px);
+        min-height: 110px;
+        height: min(32vmin, 170px);
         aspect-ratio: 32/18;
         min-width: 320px;
         width: 100%;
@@ -134,44 +147,55 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap: 10px;
+        // gap: 10px;
 
         background-color: $primary_bg;
         border-radius: 0px 0px 6px 6px;
 
-        .btn-back{
-            transform: rotate(180deg);
-        } 
-        .btn-back, .btn-forward{
-            transition: all .1s ease;
-            height: 100%;
-            width: 100%;
-            cursor: pointer;
-            opacity: 65%;
-        }
+        padding-left: 10px;
+        padding-right: 10px;
+        box-sizing: border-box;
+
+
         .btn-wrapper{
             height: fit-content;
-            width: 30px;
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+            .btn-back{
+                transform: rotate(180deg);
+            } 
+            .btn-back, .btn-forward{
+                transition: all .1s ease;
+                width: max(25px,min(7.5vmin,35px));
+                // height: 100%;
+                // width: 100%;
+                cursor: pointer;
+                opacity: 65%;
+            }
+
         }
 
         .btn-back:hover, .btn-forward:hover{
             opacity: 100%;
         }
 
-        .btn-back:active:not(.btn-disabled), .btn-forward:active:not(.btn-disabled){
-            height: 90%;
-            width: 90%;
+        .btn-back:active:not(.btn-disabled){
+            transform: scale(.9) rotate(180deg);
+
+        }
+         .btn-forward:active:not(.btn-disabled){
+            transform: scale(.9);
+
         }
         .queue-wrapper{
             height: 100%;
             display: flex;
             .queue{
                 position: relative;
-                width: min(60vmin, 320px);
-                min-width: 192px;
+                width: min(57vmin, 290px);
+                min-width: 182px;
                 height: 100%;
                 display: flex;
                 justify-content: space-evenly;

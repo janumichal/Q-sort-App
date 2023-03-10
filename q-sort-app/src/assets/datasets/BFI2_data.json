@@ -1,7 +1,7 @@
 {
     "name": "Big Five Inventory 2",
     "uid": "2",
-    "question": "Here are a number of characteristics that may or may not apply to you. Please indicate the extent to which you agree or disagree with each statement",
+    "question": "Here are a number of characteristics that may or may not apply to you. Please indicate the extent to which you agree or disagree with each statement.",
     "delimiters": [
         "Agree strongly",
         "Neutral",
@@ -28,7 +28,7 @@
     "cards": [
         {
             "id": 0,
-            "text": "Is outgoing; sociable.        "
+            "text": "Is outgoing; sociable."
         },
         {
             "id": 1,
@@ -36,7 +36,7 @@
         },
         {
             "id": 2,
-            "text": "Tends to be disorganized.        "
+            "text": "Tends to be disorganized."
         },
         {
             "id": 3,
@@ -44,7 +44,7 @@
         },
         {
             "id": 4,
-            "text": "Has few artistic interests.        "
+            "text": "Has few artistic interests."
         },
         {
             "id": 5,
@@ -52,7 +52,7 @@
         },
         {
             "id": 6,
-            "text": "Is respectful, treats others with respect.        "
+            "text": "Is respectful, treats others with respect."
         },
         {
             "id": 7,
@@ -60,7 +60,7 @@
         },
         {
             "id": 8,
-            "text": "Stays optimistic after experiencing a setback.   "
+            "text": "Stays optimistic after experiencing a setback."
         },
         {
             "id": 9,
@@ -68,7 +68,7 @@
         },
         {
             "id": 10,
-            "text": "Rarely feels excited or eager.        "
+            "text": "Rarely feels excited or eager."
         },
         {
             "id": 11,
@@ -76,7 +76,7 @@
         },
         {
             "id": 12,
-            "text": "Is dependable, steady.        "
+            "text": "Is dependable, steady."
         },
         {
             "id": 13,
@@ -84,7 +84,7 @@
         },
         {
             "id": 14,
-            "text": "Is inventive, finds clever ways to do things.    "
+            "text": "Is inventive, finds clever ways to do things."
         },
         {
             "id": 15,
@@ -92,7 +92,7 @@
         },
         {
             "id": 16,
-            "text": "Feels little sympathy for others.        "
+            "text": "Feels little sympathy for others."
         },
         {
             "id": 17,
@@ -100,7 +100,7 @@
         },
         {
             "id": 18,
-            "text": "Can be tense.        "
+            "text": "Can be tense."
         },
         {
             "id": 19,
@@ -108,7 +108,7 @@
         },
         {
             "id": 20,
-            "text": "Is dominant, acts as a leader.        "
+            "text": "Is dominant, acts as a leader."
         },
         {
             "id": 21,
@@ -116,7 +116,7 @@
         },
         {
             "id": 22,
-            "text": "Has difficulty getting started on tasks.        "
+            "text": "Has difficulty getting started on tasks."
         },
         {
             "id": 23,
@@ -132,7 +132,7 @@
         },
         {
             "id": 26,
-            "text": "Has a forgiving nature.        "
+            "text": "Has a forgiving nature."
         },
         {
             "id": 27,
@@ -140,7 +140,7 @@
         },
         {
             "id": 28,
-            "text": "Is emotionally stable, not easily upset.        "
+            "text": "Is emotionally stable, not easily upset."
         },
         {
             "id": 29,
@@ -148,7 +148,7 @@
         },
         {
             "id": 30,
-            "text": "Is sometimes shy, introverted.        "
+            "text": "Is sometimes shy, introverted."
         },
         {
             "id": 31,
@@ -156,7 +156,7 @@
         },
         {
             "id": 32,
-            "text": "Keeps things neat and tidy.        "
+            "text": "Keeps things neat and tidy."
         },
         {
             "id": 33,
@@ -164,7 +164,7 @@
         },
         {
             "id": 34,
-            "text": "Values are and beauty.        "
+            "text": "Values are and beauty."
         },
         {
             "id": 35,
@@ -172,7 +172,7 @@
         },
         {
             "id": 36,
-            "text": "Is sometimes rude to others.        "
+            "text": "Is sometimes rude to others."
         },
         {
             "id": 37,
@@ -180,7 +180,7 @@
         },
         {
             "id": 38,
-            "text": "Often feels sad.        "
+            "text": "Often feels sad."
         },
         {
             "id": 39,
@@ -188,7 +188,7 @@
         },
         {
             "id": 40,
-            "text": "Is full of energy.        "
+            "text": "Is full of energy."
         },
         {
             "id": 41,
@@ -196,7 +196,7 @@
         },
         {
             "id": 42,
-            "text": "Is reliable, can always be counted on.        "
+            "text": "Is reliable, can always be counted on."
         },
         {
             "id": 43,
@@ -204,7 +204,7 @@
         },
         {
             "id": 44,
-            "text": "Has difficulty imagining things.        "
+            "text": "Has difficulty imagining things."
         },
         {
             "id": 45,
@@ -212,7 +212,7 @@
         },
         {
             "id": 46,
-            "text": "Can be cold and uncaring.        "
+            "text": "Can be cold and uncaring."
         },
         {
             "id": 47,
@@ -220,7 +220,7 @@
         },
         {
             "id": 48,
-            "text": "Rarely feels anxious or afraid.        "
+            "text": "Rarely feels anxious or afraid."
         },
         {
             "id": 49,
@@ -228,7 +228,7 @@
         },
         {
             "id": 50,
-            "text": "Prefers to have others take charge.         "
+            "text": "Prefers to have others take charge."
         },
         {
             "id": 51,
@@ -236,7 +236,7 @@
         },
         {
             "id": 52,
-            "text": "Is persistent, works until the task is finished.   "
+            "text": "Is persistent, works until the task is finished."
         },
         {
             "id": 53,
@@ -244,7 +244,7 @@
         },
         {
             "id": 54,
-            "text": "Has little interest in abstract ideas.        "
+            "text": "Has little interest in abstract ideas."
         },
         {
             "id": 55,
@@ -252,7 +252,7 @@
         },
         {
             "id": 56,
-            "text": "Assumes the best about people.        "
+            "text": "Assumes the best about people."
         },
         {
             "id": 57,
@@ -260,7 +260,7 @@
         },
         {
             "id": 58,
-            "text": "Is temperamental, gets emotional easily.        "
+            "text": "Is temperamental, gets emotional easily."
         },
         {
             "id": 59,

@@ -1,24 +1,37 @@
 <template>
     <div class="wrapper">
-        <div class="q-list" @click="goToRoute('Sorting', {uid: 2})">
+        <div class="q-list">
             <div class="title">
                 Q-sorting Datasets
             </div>
             <div class="options-wrapper">
-
+                <DatasetTile 
+                    v-for="(dataset, index) in g_store.datasets" 
+                    :key="index" 
+                    :name="dataset.name"
+                    :statement_count="dataset.cards.length"
+                    :size="getDatasetSize(dataset.cards.length)"
+                    :question="dataset.question"
+                    :uid="dataset.uid"/>
             </div>
         </div>
     </div>
 </template>
 <script setup>
-    import { useRouter } from 'vue-router';
     import { useGlobalStore } from "../stores/global" 
-    const router = useRouter()
+    import DatasetTile from "../components/DatasetTile.vue";
     const g_store = useGlobalStore()
 
-    function goToRoute(route_name, params=null, ){
-        router.push({name: route_name, params: params==null? {} : params})
+    function getDatasetSize(count){
+        if(count >= 75){
+            return "Large"
+        }else if(count >= 25){
+            return "Medium"
+        }else{
+            return "Small"
+        }
     }
+
 </script>
 <style lang="scss" scoped>
     @use "../scss/Colors/Colors" as *;
@@ -27,11 +40,11 @@
         width: 100%;
         height: 100%;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        overflow-y: auto;
         .q-list{
-            min-width: 280px;
+            margin: auto;
             height: fit-content;
+            min-width: 280px;
             width: min(80vmin, 600px);
             background-color: $primary_bg;
             border-radius: 6px;
@@ -40,6 +53,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            box-sizing: border-box;
             .title{
                 color: #FFFFFF;
                 font-size: max(20pt, min(7vmin, 30pt));
@@ -47,9 +61,9 @@
             }
             .options-wrapper{
                 width: 100%;
-                height: 400px;
-                background-color: $secondary_bg;
-                border-radius: 6px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
             }
         }
     }
