@@ -32,6 +32,7 @@
         padding: 5px 10px 5px 10px;
         margin: 0px;
         cursor: pointer;
+        color: #FFFFFF;
         transition: background-color ease-in-out 0.2s;
     }
     $opacity-static:.4;
@@ -55,6 +56,16 @@
 
         &:hover{
             background-color: $default_btn_nop_clr_hover;
+        }
+    }
+    .button-submit{
+        background-color: $submit_btn;
+
+        &:hover{
+            background-color: $submit_btn_hover;
+        }
+        &:active{
+            background-color: $submit_btn_active;
         }
     }
 </style>

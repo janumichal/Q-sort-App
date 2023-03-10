@@ -3,6 +3,7 @@ import { ref } from "vue"
 
 export const useSettingsStore = defineStore("settings", () => {
     const saving_enabled = ref(true)
+    const queue_visible = ref(true)
     const minimap_enabled = ref(true)
     const question_opened = ref(true)
     const panel_opened = ref(true)
@@ -24,7 +25,7 @@ export const useSettingsStore = defineStore("settings", () => {
     }
 
     return {
-        saving_enabled, question_opened, panel_opened, minimap_enabled,
+        saving_enabled, question_opened, panel_opened, minimap_enabled, queue_visible,
 
         updateSettings, loadSettings
     }

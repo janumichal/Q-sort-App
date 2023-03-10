@@ -27,7 +27,7 @@
 
 <script setup>
     import Card from '../Card.vue'
-    import { ref, watch } from "vue"
+    import { ref, watch, onMounted } from "vue"
     import { useQSortStore } from '../../stores/q-sort';
     import NormalButton from '../default/NormalButton.vue';
     import { ButtonTypes } from '../../enums';
@@ -47,7 +47,7 @@
     })
 
     watch(
-        q_store.table,
+        () => q_store.table[props.row][props.col],
         () =>{
             var card_id = q_store.getTableCardId(props.row, props.col)
             if(card_id!= null){
@@ -82,6 +82,28 @@
             return ""
         }
     }
+
+    onMounted(() => {
+        var card_id = q_store.getTableCardId(props.row, props.col)
+        if(card_id!= null){
+            if(c_visible.value && card.value.id != card_id){
+                c_visible.value = false
+                setTimeout(() => {
+                    card.value.id = card_id
+                    card.value.text = q_store.getCardText(card_id)
+                    c_visible.value = true
+                }, 300)                    
+            }else{
+                card.value.id = card_id
+                card.value.text = q_store.getCardText(card_id)
+                c_visible.value = true
+            }
+        }else{
+            c_visible.value = false
+            card.id = null
+            card.text = ""
+        }
+    })
 
 </script>
 

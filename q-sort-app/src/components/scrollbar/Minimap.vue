@@ -175,14 +175,14 @@
     }
 
     watch(
-        s_store,
+        () => [s_store.minimap_enabled, s_store.question_opened, s_store.panel_opened, s_store.queue_visible],
         () => {
             init()
     })
 
     onMounted(() => {
         container.value = document.getElementById("container")
-        minimapSetup()
+        init()
         disableIfOverflows() 
         container.value.addEventListener("scroll", getScroll)
     })

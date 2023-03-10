@@ -8,7 +8,9 @@
         </div>
         <div class="queue-wrapper">
             <div class="queue">
-                <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards">
+                <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards"
+                    @before-leave="g_store.addTransition()"
+                    @after-enter="g_store.removeTransition()" appear>
                     <Card 
                         :style="getCardQueueStyle(index)" 
                         v-for="(id, index) in q_store.queue" 
@@ -16,7 +18,7 @@
                         :text="q_store.getCardText(id)" 
                         :id="id" 
                         :in_queue="true" 
-                        :visible="true" />
+                        :visible="true" appears/>
                 </TransitionGroup>
             </div>
         </div>
@@ -33,9 +35,10 @@
 <script setup>
     import { ref } from 'vue'
     import { useQSortStore } from "../../stores/q-sort"
+    import { useGlobalStore } from '../../stores/global';
     import Card from '../Card.vue'
 
-
+    const g_store = useGlobalStore()
     const q_store = useQSortStore()
     const step = ref(1)
 
@@ -99,9 +102,6 @@
     }
 
 
-    
-
-
 </script>
 
 
@@ -138,8 +138,7 @@
         }
     }
     .card-selector{
-        min-height: 110px;
-        height: min(32vmin, 170px);
+        height: max(110px, min(32vmin, 170px));
         aspect-ratio: 32/18;
         min-width: 320px;
         width: 100%;
@@ -147,7 +146,7 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        // gap: 10px;
+        overflow: hidden;
 
         background-color: $primary_bg;
         border-radius: 0px 0px 6px 6px;
