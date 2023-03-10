@@ -58,10 +58,10 @@
     }
 
     watch(
-        g_store,
+        () => g_store.settings_visible,
         () =>{
-            reload_modal.value++
-            s_store.updateSettings()
+                reload_modal.value++
+                s_store.updateSettings()
         }
     )
 

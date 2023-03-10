@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useSettingsStore } from './settings'
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 
 export const useQSortStore = defineStore("q-sort", () => {
 
@@ -47,9 +47,7 @@ export const useQSortStore = defineStore("q-sort", () => {
             if(s_store.saving_enabled && $cookies.isKey(cookie_table.value)){
                 //Load table from cookie
                 var c_table = loadCookieToArray(true)
-                setTimeout(()=>{
-                    table.value = loadTable(c_table)
-                }, 50)
+                table.value = loadTable(c_table)
             }else{
                 //Create empty cookie 
                 updateCookies(true)
@@ -59,10 +57,8 @@ export const useQSortStore = defineStore("q-sort", () => {
             if(s_store.saving_enabled && $cookies.isKey(cookie_queue.value)){
                 //load queue from cookie
                 var c_queue = loadCookieToArray(false)
-                setTimeout(() =>{
-                    queue.value = c_queue.map(Number)
-                    setSelected()
-                }, 50)
+                queue.value = c_queue.map(Number)
+                setSelected()
             }else{
                 //Add all cards to cookie and load them to queue
                 queue.value = loadCardIds()
@@ -76,8 +72,6 @@ export const useQSortStore = defineStore("q-sort", () => {
                 unselect()
             }
 
-
-            
         }
         function loadCookieToArray(is_table){
             var cookie_value = $cookies.get(is_table ? cookie_table.value : cookie_queue.value)
@@ -140,7 +134,6 @@ export const useQSortStore = defineStore("q-sort", () => {
          */
         function addCardToQueue(card_id){
             queue.value.push(card_id)
-            //TODO add card to the cookie with queue and remove it from cookie with current table
         }
 
         /**

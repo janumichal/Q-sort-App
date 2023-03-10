@@ -26,13 +26,14 @@
     import { useQSortStore } from "../stores/q-sort"
     import { useSettingsStore } from "../stores/settings"
     import { useGlobalStore } from "../stores/global"
-    import { ref, onMounted} from "vue"
-    import { useRoute } from "vue-router"
+    import { ref, onMounted, onBeforeMount, nextTick} from "vue"
+    import { useRoute, useRouter } from "vue-router"
     
     const q_store = useQSortStore()
     const s_store = useSettingsStore()
     const g_store = useGlobalStore()
     const route = useRoute()
+    const router = useRouter()
     
     let dragging = false;
     let timer = null;
@@ -53,8 +54,6 @@
     }
 
 
-    //Load dataset
-    q_store.loadDataset(getDataset(route.params.uid))
     const minimap = ref(null)
     
 
@@ -70,11 +69,15 @@
         return {"background-color": q_store.colors[0]}
     }
 
-    
     onMounted(() => {
         if(window.innerWidth < 370){ 
             s_store.minimap_enabled = false
         }
+    })
+    
+    onBeforeMount(() => {
+        //Load dataset
+        q_store.loadDataset(getDataset(route.params.uid))
     })
 
 

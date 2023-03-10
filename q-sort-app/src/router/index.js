@@ -13,8 +13,13 @@ const routes = [
 	//   name: 'Sorting',
 	//   component: Sorting
 	// }
+	// {
+	// 	path: process.env.NODE_ENV === "production" ? "/Q-SortApp/Sorting" : "/Sorting/:uid",
+	// 	name: "Sorting",
+	// 	component: Sorting
+	// },
 	{
-		path: process.env.NODE_ENV === "production" ? "/Q-SortApp/Sorting" : "/Sorting/:uid",
+		path: "/Sorting/:uid",
 		name: "Sorting",
 		component: Sorting
 	},

@@ -36,8 +36,27 @@
                         </RoundButton>
                     </div>
                 </div>
-                <div class="card-queue-wrapper">
-                    <CardQueue />
+                <div class="card-queue-wrapper" >
+                    <Transition name="queue-toggle"
+                        @after-leave="showSubmit(), g_store.removeTransition()"
+                        @before-leave="g_store.addTransition()" 
+                        @before-enter="g_store.addTransition()" 
+                        @after-enter="g_store.removeTransition()" appear>
+                        <CardQueue v-if="s_store.queue_visible"/>
+                    </Transition>
+                    <Transition name="submit-btn"
+                        @after-leave="showQueue()"
+                        @before-leave="g_store.addTransition()"
+                        @after-enter="g_store.removeTransition()">
+                        <div class="submit-wrapper" v-if="submit_visible">
+                            <NormalButton class="submit-btn" :btn_type="ButtonTypes.Submit" @click="onSubmitSort()">
+                                <div class="submit-btn-inner-wrapper">
+                                    Submit
+                                    <img src="../../assets/icons/submit.svg" />
+                                </div>
+                            </NormalButton>
+                        </div>
+                    </Transition>
                 </div>
                 <div class="hide-btn" >
                     <RoundButton @click="toggleTopPanel()" class="interactable">
@@ -64,15 +83,29 @@
     import { useQSortStore } from "../../stores/q-sort"
     import { useSettingsStore } from "../../stores/settings";
     import { useGlobalStore } from "../../stores/global";
-    import { ref } from 'vue'
+    import { ref, watch, onMounted, onUpdated } from 'vue'
+import NormalButton from "../default/NormalButton.vue";
+import { ButtonTypes } from "../../enums";
 
     const show_btn_visible = ref(false)
+
+    const submit_visible = ref(false)
+
     const q_store = useQSortStore()
     const s_store = useSettingsStore()
     const g_store = useGlobalStore()
 
+    function showQueue(){
+        s_store.queue_visible = !s_store.queue_visible
+    }
+
+    function showSubmit(){
+        submit_visible.value = !submit_visible.value
+
+    }
+
     function onSubmitSort(){ // TODO needs implementation
-        // Create json and console.log it (represents sending the json to the server)
+        console.log(JSON.stringify(q_store.table));
     }
 
     function onClickToggleQuestion(){
@@ -87,6 +120,7 @@
     function toggleTopPanel(){
         if(show_btn_visible.value){
             show_btn_visible.value = !show_btn_visible.value
+            s_store.queue_visible = !submit_visible.value
         }else{
             s_store.panel_opened = !s_store.panel_opened
         }
@@ -106,6 +140,28 @@
     function showPanel(){
         s_store.panel_opened = !s_store.panel_opened
     }
+
+    watch(
+        q_store.queue,
+        () =>{
+            if(q_store.queue.length <= 0){
+                g_store.waitForTransitions().then(() => {
+                    s_store.queue_visible = false
+                })
+            }else{
+                submit_visible.value = false
+            }
+        }
+    )
+
+    onMounted(() => {
+        if(q_store.queue.length <= 0){
+            s_store.queue_visible = false
+        }else{
+            submit_visible.value = false
+            s_store.queue_visible = true
+        }
+    })
 
 </script>
 
@@ -188,6 +244,37 @@
                 pointer-events: none;
                 box-sizing: border-box;
             }
+            .card-queue-wrapper{
+                height: fit-content;
+                .submit-wrapper{
+                    width: 100%;
+                    height: 90px;
+                    background-color: $primary_bg;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 0 0 6px 6px;
+                    overflow: hidden;
+                    box-sizing: border-box;
+
+                    .submit-btn{
+                        font-size: 20px;
+                        font-variation-settings: 'wght' 500;
+                        padding: 10px 20px 10px 20px;
+                        color: #000000;
+                        .submit-btn-inner-wrapper{
+                            justify-content: center;
+                            align-items: center;
+                            display: flex;
+                            flex-direction: row;
+                            gap: 10px;
+                            img{
+                                width: 25px;
+                            }
+                        }
+                    }
+                }
+            }
             .hide-btn{
                 grid-row-start: 1;
                 grid-column-start: 1;
@@ -219,14 +306,14 @@
         animation-name: hide-panel;
         animation-direction: reverse;
         animation-fill-mode: forwards;
-        animation-duration: .3s;
+        animation-duration: .5s;
         animation-timing-function: ease;
     }
     .show-btn-leave-active{
         animation-name: hide-panel;
         animation-direction: normal;
         animation-fill-mode: forwards;
-        animation-duration: .3s;
+        animation-duration: .5s;
         animation-timing-function: ease;
     }
 
@@ -276,6 +363,47 @@
         animation-fill-mode: forwards;
         animation-duration: .5s;
         animation-timing-function: ease;
+    }
+
+    .submit-btn-enter-active{
+        animation-name: hide-submit-btn;
+        animation-direction: reverse;
+        animation-fill-mode: forwards;
+        animation-duration: .5s;
+        animation-timing-function: ease-out;
+    }
+
+    .submit-btn-leave-active{
+        animation-name: hide-submit-btn;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-duration: .5s;
+        animation-timing-function: ease-out;
+    }
+
+    .queue-toggle-enter-active{
+        animation-name: hide-submit-btn;
+        animation-direction: reverse;
+        animation-fill-mode: forwards;
+        animation-duration: .3s;
+        animation-timing-function: ease-out;
+    }
+
+    .queue-toggle-leave-active{
+        animation-name: hide-submit-btn;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-duration: .3s;
+        animation-timing-function: ease-out;
+    }
+
+    @keyframes hide-submit-btn {
+        0%{
+            height: 90px;
+        }
+        100%{
+            height: 0px;
+        }
     }
 
     @keyframes hide-panel {

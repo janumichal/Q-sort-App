@@ -1,5 +1,7 @@
 <template>
-    <Transition name="card">
+    <Transition name="card"
+        @before-leave="g_store.addTransition()"
+        @after-enter="g_store.removeTransition()">
         <div v-if="props.visible" class="wrapper" @click="onClickSelect()">
             <div class="card" :class="classIsSelected(), classClickable(), classNotSelectedInQueue()">
                 {{ text }}
@@ -14,6 +16,7 @@
 <script setup>
     import { ref } from 'vue'
     import { useQSortStore } from '../stores/q-sort'
+    import { useGlobalStore } from '../stores/global';
     const props = defineProps({
         text: String,
         id: Number,
@@ -23,6 +26,7 @@
     })
     const visible_cards = ref(3) 
     const q_store = useQSortStore()
+    const g_store = useGlobalStore()
 
     function isSelected(){
         return props.id == q_store.selected_card_id &&
