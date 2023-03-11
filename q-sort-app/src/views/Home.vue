@@ -48,11 +48,11 @@
             width: min(80vmin, 600px);
             background-color: $primary_bg;
             border-radius: 6px;
-            padding: 20px;
+            padding: min(4vmin,20px);
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 20px;
             box-sizing: border-box;
             .title{
                 color: #FFFFFF;

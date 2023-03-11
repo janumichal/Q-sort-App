@@ -2,8 +2,13 @@
     <div>
         <div class="wrapper" @click="goToRoute('Sorting', {uid: uid})">
             <div class="details">
-                <div class="name">
-                    {{ name }}
+                <div class="qn-wrapper">
+                    <div class="name">
+                        {{ name }}
+                    </div>
+                    <div class="question">
+                        {{ question }}
+                    </div>
                 </div>
                 <div class="sc-wrapper">
                     <div class="count">
@@ -13,20 +18,6 @@
                     <div class="size">
                         {{ size }}
                     </div>
-                </div>
-            </div>
-            <div class="description">
-                <Transition name="question">
-                    <div class="question-wrapper" v-if="question_visible">
-                        <div class="question">
-                            {{ question }}
-                        </div>
-                    </div>
-                </Transition>
-                <div class="button-wrapper" >
-                    <NormalButton :btn_type="ButtonTypes.Normal" @click="showDescription($event)">
-                        See {{ question_visible? 'less' : 'more'}}
-                    </NormalButton>
                 </div>
             </div>
         </div>
@@ -48,10 +39,6 @@
     const question_visible = ref(false)
 
 
-    function showDescription(event){
-        event.stopPropagation();
-        question_visible.value = !question_visible.value
-    }
     function goToRoute(route_name, params=null, ){
         router.push({name: route_name, params: params==null? {} : params})
     }
@@ -67,8 +54,8 @@
         display: flex;
         flex-direction: column;
         padding: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: min(4vmin,20px);
+        padding-right: min(4vmin,20px);
         box-sizing: border-box;
         cursor: pointer;
 
@@ -80,21 +67,37 @@
         
         .details{
             display: flex;
-            flex-direction: row;
+            flex-direction: row-reverse;
             justify-content: space-between;
             align-items: center;
             height: 100%;
-            gap: 10px;
-            .name{
-                font-size: 23px;
-                font-variation-settings: 'wght' 500;
+            gap: min(4vmin,20px);
+            .qn-wrapper{
+                box-sizing: border-box;
                 width: 100%;
-                justify-self: center;
+                overflow: hidden;
+
+                .question{
+                    opacity: .6;
+                    width: 100%;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    box-sizing: border-box;
+                    font-size: max(15px, min(4vmin, 16px));
+                }
+                .name{
+                    font-size: max(17px, min(5vmin, 23px));
+                    font-variation-settings: 'wght' 500;
+                    width: 100%;
+                    justify-self: center;
+                }
             }
             .sc-wrapper{
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                height: 100%;
+                width: 50px;
                 .count{
                     display: flex;
                     align-items: center;
@@ -107,32 +110,6 @@
                 .size{
                     opacity: .4;
                 }
-            }
-        }
-        .description{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            
-            .question-wrapper{
-                box-sizing: border-box;
-                width: 100%;
-                overflow: hidden;
-
-                .question{
-                    opacity: .7;
-                    width: 100%;
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                    box-sizing: border-box;
-                }
-            }
-            .button-wrapper{
-                margin-top: 10px;
-                width: 100%;
-                display: flex;
-                justify-content: center;
             }
         }
     }
