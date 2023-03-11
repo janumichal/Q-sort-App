@@ -10,15 +10,16 @@
             <div class="queue">
                 <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards"
                     @before-leave="g_store.addTransition()"
-                    @after-enter="g_store.removeTransition()" appear>
+                    @after-enter="g_store.removeTransition()">
                     <Card 
                         :style="getCardQueueStyle(index)" 
                         v-for="(id, index) in q_store.queue" 
-                        :key="id" :idx="index"  
+                        :key="id" 
+                        :idx="index"  
                         :text="q_store.getCardText(id)" 
                         :id="id" 
                         :in_queue="true" 
-                        :visible="true" appears/>
+                        :visible="true"/>
                 </TransitionGroup>
             </div>
         </div>

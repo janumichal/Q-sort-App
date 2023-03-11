@@ -3,7 +3,7 @@
     <div class="mm-s-wrapper">
         <div id="container" class="sorting-wrapper"  
             :style="getTopBgColor()" 
-            v-dragscroll="true"
+            v-dragscroll.pass
             @dragscrollstart="start"
             @dragscrollend="end"
             @click.capture="click">
@@ -70,7 +70,8 @@
     }
 
     onMounted(() => {
-        if(window.innerWidth < 370){ 
+        var tiles = document.getElementsByClassName("tiles")[0]
+        if(tiles.clientHeight < tiles.scrollHeight){ 
             s_store.minimap_enabled = false
         }
     })

@@ -218,7 +218,6 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            min-height: fit-content;
             width: 100%;
             box-sizing: border-box;
 
