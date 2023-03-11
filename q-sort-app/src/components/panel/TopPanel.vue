@@ -45,8 +45,9 @@
                         <CardQueue v-if="s_store.queue_visible"/>
                     </Transition>
                     <Transition name="submit-btn"
-                        @after-leave="showQueue()"
-                        @before-leave="g_store.addTransition()"
+                        @after-leave="showQueue(), g_store.removeTransition()"
+                        @before-leave="g_store.addTransition()" 
+                        @before-enter="g_store.addTransition()" 
                         @after-enter="g_store.removeTransition()">
                         <div class="submit-wrapper" v-if="submit_visible">
                             <NormalButton class="submit-btn" :btn_type="ButtonTypes.Submit" @click="onSubmitSort()">
