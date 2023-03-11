@@ -10,7 +10,7 @@
             <div class="queue">
                 <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards"
                     @before-leave="g_store.addTransition()"
-                    @after-enter="g_store.removeTransition()">
+                    @after-enter="g_store.removeTransition()" appear>
                     <Card 
                         :style="getCardQueueStyle(index)" 
                         v-for="(id, index) in q_store.queue" 
