@@ -27,5 +27,7 @@
         gap: 4px;
         flex-wrap: wrap;
         padding: 4px;
+        border-top: 1px solid rgba($color: #000000, $alpha: .3);
+        border-bottom: 1px solid rgba($color: #000000, $alpha: .3);
     }
 </style>

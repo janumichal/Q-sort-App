@@ -208,7 +208,7 @@
             width: 100%;
             background-color: transparent;
             border: solid 3px black;
-            border-radius: 6px;
+            border-radius: 6px 0px 0px 6px;
             position: absolute;
             cursor: move;
             box-sizing: border-box;
