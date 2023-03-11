@@ -50,9 +50,6 @@
 
     const reload_modal = ref(0)
 
-    const toggle1 = ref(true)
-    const toggle2 = ref(true)
-
     function updateVisibility(value){
         g_store.settings_visible = value
     }

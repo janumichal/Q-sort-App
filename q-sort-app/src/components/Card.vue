@@ -24,16 +24,13 @@
         in_queue: Boolean,
         visible: Boolean
     })
-    const visible_cards = ref(3) 
     const q_store = useQSortStore()
     const g_store = useGlobalStore()
 
     function isSelected(){
         return props.id == q_store.selected_card_id &&
          props.text == q_store.getCardText(q_store.selected_card_id)
-    }
-
-
+    }   
 
     function classIsSelected(){
         if(isSelected()){
