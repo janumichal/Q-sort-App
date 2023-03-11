@@ -19,14 +19,14 @@ const routes = [
 	// 	component: Sorting
 	// },
 	{
-		path: "/Sorting/:uid",
-		name: "Sorting",
-		component: Sorting
-	},
-	{
 		path: "/",
 		name: "Home",
 		component: Home
+	},
+	{
+		path: "/Sorting/:uid",
+		name: "Sorting",
+		component: Sorting
 	}
 ]
 
