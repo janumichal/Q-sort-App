@@ -35,6 +35,7 @@
 
         .row-value{
             color: #FFFFFF;
+            text-shadow: -1px 0 #000000, 1px 0 #000000, 0 1px #000000, 0 -1px #000000;
             width: min(8vmin, 45px);
             min-width: 26px;
             font-variation-settings: 'wght' 700;
