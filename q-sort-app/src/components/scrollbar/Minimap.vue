@@ -133,7 +133,8 @@
             track_height.value = track.value.offsetHeight
             row_height.value = document.getElementsByClassName("row")[0].offsetHeight
             fill_height.value = convertPage2ScrollHeight(document.getElementById("panel-h").offsetHeight)
-            tile_height.value = document.getElementsByClassName("tile")[0].offsetHeight
+            // tile_height.value = document.getElementsByClassName("tile")[0].offsetHeight
+            tile_height.value = display_height.value / q_store.table.length
             tile_count.value = display_height.value / row_height.value
             thumb_top.value = getThumbTop()
             updateThumbHeight()
