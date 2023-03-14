@@ -5,7 +5,8 @@
         @touchmove="onMoveThumb($event)"
         @touchstart="onMouseDownTrack($event)"
         @touchend="onMouseUpThumb()"
-        @touchcancel="onMouseUpThumb()">
+        @touchcancel="onMouseUpThumb()"
+        @mouseleave.left="onMouseUpThumb()">
         
         <div ref="thumb" class="mm-thumb" 
         @mousedown.left="onMouseDownThumb($event)" 
@@ -73,6 +74,7 @@
         event.stopPropagation();
         track_click.value = true
         pressed.value = true
+        thumb_offset.value = tile_count.value*tile_height.value/2
         moveThumb(event)
     }
 
@@ -110,21 +112,32 @@
         }
     }
 
+    Number.prototype.clamp = function(min, max){
+        return Math.min(Math.max(this, min), max)
+    }
+
     function moveThumb(event){
         var event_position = getPosFromEvent(event)
         if(track_click.value){
-            thumb_pos.value = (event_position - tile_count.value*tile_height.value/2) + fill_height.value
+            thumb_pos.value =  event_position - thumb_offset.value + fill_height.value
         }else{
-            thumb_pos.value = prev_thumb_pos.value + event_position - thumb_offset.value
+            thumb_pos.value =  event_position - thumb_offset.value + prev_thumb_pos.value
         }
+        thumb_pos.value = thumb_pos.value.clamp(0, Math.max(0, track_height.value - tile_count.value*tile_height.value + fill_height.value))
         container.value.scrollTo(0, convertSctoll2pageHeight(thumb_pos.value))
     }
 
     function getScroll(){
+        if(!pressed.value){
+            prev_thumb_pos.value = convertPage2ScrollHeight(container.value.scrollTop)
+        }
         thumb.value.style.top = Math.max(convertPage2ScrollHeight(container.value.scrollTop) - fill_height.value,0).toString() + "px"
         updateThumbHeight()
     }
 
+    function getMinimapScroll(event){
+        container.value.scrollBy(0, event.deltaY)
+    }
 
     function minimapSetup(){
         if(s_store.minimap_enabled){
@@ -186,10 +199,12 @@
         init()
         disableIfOverflows() 
         container.value.addEventListener("scroll", getScroll)
+        track.value.addEventListener("wheel", getMinimapScroll)
     })
     onUnmounted(() => {
-        if(container.value != null){
+        if(container.value != null && track.value != null){
             container.value.removeEventListener("scroll", getScroll)
+            track.value.removeEventListener("wheel", getMinimapScroll)
         }
     })
 </script>
@@ -211,9 +226,8 @@
             border: solid 3px black;
             border-radius: 6px 0px 0px 6px;
             position: absolute;
-            cursor: move;
+            cursor: default;
             box-sizing: border-box;
-
         }
         .wrapper{
             display: flex;
