@@ -1,7 +1,7 @@
 <template>
     <Transition name="card"
         @before-leave="g_store.addTransition()"
-        @after-enter="g_store.removeTransition()">
+        @after-enter="g_store.removeTransition()" appear>
         <div v-if="props.visible" class="wrapper" @click="onClickSelect()">
             <div class="card" :class="classIsSelected(), classClickable(), classNotSelectedInQueue()">
                 {{ text }}
@@ -14,7 +14,6 @@
 
 
 <script setup>
-    import { ref } from 'vue'
     import { useQSortStore } from '../stores/q-sort'
     import { useGlobalStore } from '../stores/global';
     const props = defineProps({
@@ -145,7 +144,7 @@
         }
 
         .selected{
-            // transform: scale(1.05);
+            outline-width: max(5px, min(1vmin, 8px));
             outline-color: #BDFF00 !important;
             font-variation-settings: "wght" 600;
         }

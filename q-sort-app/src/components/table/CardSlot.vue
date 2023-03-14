@@ -163,7 +163,7 @@
         display: flex;
         justify-content: center;
         align-items: flex-end;
-        z-index: 1000;
+        z-index: 99;
         pointer-events: none;
         .return-card{
             padding: 6px 11px 6px 11px;
@@ -175,6 +175,7 @@
             height: fit-content;
             transform: translateY(-30%);
             pointer-events: all;
+
 
             .return-card-text{
                 display: flex;

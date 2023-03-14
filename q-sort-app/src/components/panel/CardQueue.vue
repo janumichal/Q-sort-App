@@ -2,7 +2,7 @@
     <div class="card-selector">
         <div class="btn-wrapper">
             <img 
-                src="../../assets/icons/right_arrow.svg" 
+                src="../../assets/icons/left_arrow.svg" 
                 class="btn-back" :class="classDisabled(true)" 
                 @click="btnMoveLeft()">
         </div>
@@ -95,8 +95,6 @@
             "transform": "translateX("+translateX+"%) scale("+scale+")",
             "z-index": (top_layer-layer)
         } : {
-            "transform": "translateX("+translateX+"%) scale("+scale+")",
-            "z-index": (top_layer-layer),
             "opacity": "0",
             "pointer-events": "none"
         }
@@ -163,14 +161,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            .btn-back{
-                transform: rotate(180deg);
-            } 
             .btn-back, .btn-forward{
                 transition: all .1s ease;
                 width: max(25px,min(7.5vmin,35px));
-                // height: 100%;
-                // width: 100%;
                 cursor: pointer;
                 opacity: 65%;
             }
@@ -181,11 +174,7 @@
             opacity: 100%;
         }
 
-        .btn-back:active:not(.btn-disabled){
-            transform: scale(.9) rotate(180deg);
-
-        }
-         .btn-forward:active:not(.btn-disabled){
+         .btn-forward:active:not(.btn-disabled), .btn-back:active:not(.btn-disabled){
             transform: scale(.9);
 
         }

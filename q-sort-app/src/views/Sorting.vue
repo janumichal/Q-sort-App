@@ -77,6 +77,7 @@
     })
     
     onBeforeMount(() => {
+        q_store.init()
         //Load dataset
         q_store.loadDataset(getDataset(route.params.uid))
     })

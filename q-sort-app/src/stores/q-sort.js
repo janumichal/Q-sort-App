@@ -23,6 +23,20 @@ export const useQSortStore = defineStore("q-sort", () => {
         const cookie_table = ref("")
         const cookie_queue = ref("")
     
+        function init(){
+            name.value = null
+            uid.value = null
+            question.value = ""
+            delimiters.value = []
+            colors.value = []
+            selected_card_id.value = null
+            queue.value = []
+            selected_idx.value = 0
+            table.value = []
+            selected_row.value = null
+            selected_col.value = null
+            card_list.value = {}
+        }
 
         /**
          * load JSON file and save vale to store
@@ -390,6 +404,6 @@ export const useQSortStore = defineStore("q-sort", () => {
 
             loadDataset, changeSelectedIdx, getCardText, addCardToQueue, getAllRowColors, setSelected, 
             isSelectedInQueue, moveToSlot, getTableCardId, getCardPos, swapSlots, 
-            isNothingSelected, getRowValue, returnCardToQueue, resetTable, getColorStyle, getDelimiterText
+            isNothingSelected, getRowValue, returnCardToQueue, resetTable, getColorStyle, getDelimiterText, init
         }
     })
