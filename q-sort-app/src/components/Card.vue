@@ -58,11 +58,17 @@
     }
 
     function onClickSelect(){
-        if(!props.in_queue && q_store.isSelectedInQueue() || q_store.isNothingSelected() || !q_store.isSelectedInQueue() && props.in_queue && q_store.selected_idx == props.idx){
-            var card_pos = q_store.getCardPos(props.id)
-            q_store.setSelected(props.id, card_pos.row, card_pos.col)
-        }else if(!q_store.isSelectedInQueue() && !props.in_queue){
-            q_store.swapSlots(props.id)
+        if(!g_store.inTransition()){
+            if(!props.in_queue && q_store.isSelectedInQueue() || q_store.isNothingSelected() || !q_store.isSelectedInQueue() && props.in_queue && q_store.selected_idx == props.idx){
+                var card_pos = q_store.getCardPos(props.id)
+                q_store.setSelected(props.id, card_pos.row, card_pos.col)
+            }else if(!q_store.isSelectedInQueue() && !props.in_queue){
+                if(q_store.selected_card_id == props.id){
+                    q_store.setSelected()
+                }else{
+                    q_store.swapSlots(props.id)
+                }
+            }
         }
     }
         
@@ -75,7 +81,7 @@
 <style lang="scss" scoped>
     @use "../scss/Colors/Colors" as *;
 
-    $animation-duration: 0.3s;
+    $animation-duration: 0.175s;
     .card-enter-active {
         animation-name: card_appear;
         animation-duration: $animation-duration;
