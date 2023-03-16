@@ -29,6 +29,7 @@
     import Card from '../Card.vue'
     import { ref, watch, onMounted } from "vue"
     import { useQSortStore } from '../../stores/q-sort';
+    import { useGlobalStore } from '../../stores/global';
     import NormalButton from '../default/NormalButton.vue';
     import { ButtonTypes } from '../../enums';
 
@@ -38,6 +39,7 @@
         col: Number
     })
 
+    const g_store = useGlobalStore()
     const q_store = useQSortStore()
     const c_visible = ref(false)
 
@@ -57,7 +59,7 @@
                         card.value.id = card_id
                         card.value.text = q_store.getCardText(card_id)
                         c_visible.value = true
-                    }, 300)                    
+                    }, 175)                    
                 }else{
                     card.value.id = card_id
                     card.value.text = q_store.getCardText(card_id)

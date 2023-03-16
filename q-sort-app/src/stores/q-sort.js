@@ -299,7 +299,7 @@ export const useQSortStore = defineStore("q-sort", () => {
          * @param {Number} col of slot
          */
         function moveToSlot(row, col){
-            if(!isNothingSelected()){
+            if(!isNothingSelected() && table.value[row][col] == null){
                 var tmp_card_id = selected_card_id.value
                 if(isSelectedInQueue()){
                     removeCardFromQueue()
@@ -345,12 +345,14 @@ export const useQSortStore = defineStore("q-sort", () => {
             if(!isNothingSelected()){
                 var card1_pos = getCardPos(id)
                 var card2_pos = {col: selected_col.value, row: selected_row.value}
-
+                
+                
                 var card1_id = getTableCardId(card1_pos.row, card1_pos.col)
                 var card2_id = getTableCardId(card2_pos.row, card2_pos.col)
 
                 table.value[card1_pos.row][card1_pos.col] = card2_id
                 table.value[card2_pos.row][card2_pos.col] = card1_id
+                
                 
                 if(queue.value.length==0){
                     unselect()

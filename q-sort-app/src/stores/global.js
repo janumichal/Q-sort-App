@@ -13,6 +13,10 @@ export const useGlobalStore = defineStore("global", () => {
     const transitionCount = ref(0)
     const datasets = ref([food_json, affects_json, BFI2_json, students_json]) // (tmp because there is no server)
 
+    function init(){
+        transitionCount.value = 0
+    }
+
     function inTransition(){
         return transitionCount.value > 0
     }
@@ -45,6 +49,6 @@ export const useGlobalStore = defineStore("global", () => {
     return {
         settings_visible, transitionCount, datasets,
 
-        inTransition, addTransition, removeTransition, waitForTransitions
+        inTransition, addTransition, removeTransition, waitForTransitions, init
     }
 })
