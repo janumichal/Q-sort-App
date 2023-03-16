@@ -162,12 +162,13 @@
 
     onBeforeMount(() => {
         if(q_store.queue.length <= 0){
-            s_store.queue_visible = false
             submit_visible.value = true
+            s_store.queue_visible = false
         }else{
             submit_visible.value = false
             s_store.queue_visible = true
         }
+        show_btn_visible.value = !s_store.panel_opened
     })
 
 </script>
