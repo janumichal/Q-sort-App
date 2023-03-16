@@ -1,23 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router"
 import Sorting from "../views/Sorting.vue"
 import Home from "../views/Home.vue"
+import Ferwell from "../views/Ferwell.vue"
 
 const routes = [
-	// {
-	//   path: '/',
-	//   name: 'Home',
-	//   component: Home
-	// },
-	// {
-	//   path: '/Sorting',
-	//   name: 'Sorting',
-	//   component: Sorting
-	// }
-	// {
-	// 	path: process.env.NODE_ENV === "production" ? "/Q-SortApp/Sorting" : "/Sorting/:uid",
-	// 	name: "Sorting",
-	// 	component: Sorting
-	// },
 	{
 		path: "/",
 		name: "Home",
@@ -27,7 +13,13 @@ const routes = [
 		path: "/Sorting/:uid",
 		name: "Sorting",
 		component: Sorting
+	},
+	{
+		path: "/Final",
+		name: "Ferwell",
+		component: Ferwell
 	}
+
 ]
 
 const router = createRouter({

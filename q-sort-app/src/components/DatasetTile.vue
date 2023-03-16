@@ -24,10 +24,7 @@
     </div>
 </template>
 <script setup>
-    import { ref } from 'vue';
     import { useRouter } from 'vue-router';
-    import NormalButton from './default/NormalButton.vue';
-    import { ButtonTypes } from '../enums';
     const props = defineProps({
         name: String,
         size: String,
@@ -36,10 +33,8 @@
         uid: String
     })
     const router = useRouter()
-    const question_visible = ref(false)
 
-
-    function goToRoute(route_name, params=null, ){
+    function goToRoute(route_name, params=null ){
         router.push({name: route_name, params: params==null? {} : params})
     }
 </script>
@@ -86,7 +81,7 @@
                     font-size: max(15px, min(4vmin, 16px));
                 }
                 .name{
-                    font-size: max(17px, min(5vmin, 23px));
+                    font-size: max(17px, min(4.8vmin, 23px));
                     font-variation-settings: 'wght' 500;
                     width: 100%;
                     justify-self: center;
@@ -98,8 +93,10 @@
                 align-items: center;
                 height: 100%;
                 width: 50px;
+                gap: 2px;
                 .count{
                     display: flex;
+                    flex-direction: row-reverse;
                     align-items: center;
                     gap: 5px;
                     color: #ffd500;

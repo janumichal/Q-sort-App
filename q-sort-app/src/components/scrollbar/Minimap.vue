@@ -223,11 +223,12 @@
         .mm-thumb{
             width: 100%;
             background-color: transparent;
-            border: solid 3px black;
+            border: solid 3px rgba($color: #000000, $alpha: .8);
             border-radius: 6px 0px 0px 6px;
             position: absolute;
             cursor: default;
             box-sizing: border-box;
+            
         }
         .wrapper{
             display: flex;

@@ -36,7 +36,7 @@
 <style lang="scss" scoped>
     @use "../scss/Colors/Colors" as *;
     .wrapper{
-        background-color: #8CB37F;
+        background-color: $primary_bg;
         width: 100%;
         height: 100%;
         display: flex;
@@ -45,19 +45,26 @@
             margin: auto;
             height: fit-content;
             min-width: 280px;
-            width: min(80vmin, 600px);
-            background-color: $primary_bg;
-            border-radius: 6px;
-            padding: min(4vmin,20px);
+            width: min(85vmin, 900px);
+            padding-top: 20px;
+            padding-bottom: 20px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 30px;
             box-sizing: border-box;
+            align-items: center;
             .title{
                 color: #FFFFFF;
                 font-size: max(20pt, min(7vmin, 30pt));
-                font-variation-settings: 'wght' 500;
+                font-variation-settings: 'wght' 600;
+                background: url("../assets/images/gradient.png") 20% 50%;
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: transparent;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                -webkit-background-clip: text;
             }
             .options-wrapper{
                 width: 100%;

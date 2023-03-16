@@ -400,12 +400,32 @@ export const useQSortStore = defineStore("q-sort", () => {
             setSelected()
             updateBothCookies()
         }
+        function getResultJSON(){
+            if(name.value != null){
+                var sort = []
+                table.value.forEach((element, index) => {
+                    sort.push({
+                        value: getRowValue(index),
+                        card_uids: element
+                    })
+                })
+                return JSON.stringify({
+                    name: name.value,
+                    uid: uid.value,
+                    sort: sort
+                }, null, 4) 
+            }else{
+                return "If this page is refreshed the data will be lost! \nYou need to submit the Q-sort again."
+            }
+                
+        }
         return {
             name, question, delimiters, colors, selected_card_id, queue, selected_idx, table,
             selected_row, selected_col,
 
             loadDataset, changeSelectedIdx, getCardText, addCardToQueue, getAllRowColors, setSelected, 
             isSelectedInQueue, moveToSlot, getTableCardId, getCardPos, swapSlots, 
-            isNothingSelected, getRowValue, returnCardToQueue, resetTable, getColorStyle, getDelimiterText, init
+            isNothingSelected, getRowValue, returnCardToQueue, resetTable, getColorStyle, getDelimiterText, 
+            init, getResultJSON
         }
     })

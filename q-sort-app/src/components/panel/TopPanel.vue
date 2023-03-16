@@ -48,7 +48,7 @@
                         @after-leave="showQueue(), g_store.removeTransition()"
                         @before-leave="g_store.addTransition()" 
                         @before-enter="g_store.addTransition()" 
-                        @after-enter="g_store.removeTransition()">
+                        @after-enter="g_store.removeTransition()" appear>
                         <div class="submit-wrapper" v-if="submit_visible">
                             <NormalButton class="submit-btn" :btn_type="ButtonTypes.Submit" @click="onSubmitSort()">
                                 <div class="submit-btn-inner-wrapper">
@@ -84,12 +84,14 @@
     import { useQSortStore } from "../../stores/q-sort"
     import { useSettingsStore } from "../../stores/settings";
     import { useGlobalStore } from "../../stores/global";
-    import { ref, watch, onMounted, onUpdated } from 'vue'
-import NormalButton from "../default/NormalButton.vue";
-import { ButtonTypes } from "../../enums";
+    import { ref, watch, onBeforeMount } from 'vue'
+    import NormalButton from "../default/NormalButton.vue";
+    import { ButtonTypes } from "../../enums";
+    import { useRouter } from "vue-router";
+
+    const router = useRouter()
 
     const show_btn_visible = ref(false)
-
     const submit_visible = ref(false)
 
     const q_store = useQSortStore()
@@ -105,8 +107,9 @@ import { ButtonTypes } from "../../enums";
 
     }
 
-    function onSubmitSort(){ // TODO needs implementation
-        console.log(JSON.stringify(q_store.table));
+    function onSubmitSort(){
+        // Here would be Fetch function with the data
+        router.replace({name: "Ferwell"})
     }
 
     function onClickToggleQuestion(){
@@ -121,7 +124,8 @@ import { ButtonTypes } from "../../enums";
     function toggleTopPanel(){
         if(show_btn_visible.value){
             show_btn_visible.value = !show_btn_visible.value
-            s_store.queue_visible = !submit_visible.value
+            s_store.queue_visible = !(q_store.queue.length <= 0)
+            submit_visible.value = (q_store.queue.length <= 0)
         }else{
             s_store.panel_opened = !s_store.panel_opened
         }
@@ -155,9 +159,11 @@ import { ButtonTypes } from "../../enums";
         }
     )
 
-    onMounted(() => {
+
+    onBeforeMount(() => {
         if(q_store.queue.length <= 0){
             s_store.queue_visible = false
+            submit_visible.value = true
         }else{
             submit_visible.value = false
             s_store.queue_visible = true
