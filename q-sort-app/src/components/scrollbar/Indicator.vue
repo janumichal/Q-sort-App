@@ -24,7 +24,7 @@
             }
     }
     watch(
-        q_store.table,
+        () => q_store.table[props.row][props.col],
         () => {
             lookUpFilled()
         }
