@@ -3,13 +3,10 @@
     <div class="mm-s-wrapper">
         <div id="container" class="sorting-wrapper"  
             :style="getTopBgColor()" 
-            v-dragscroll="!is_touch"
+            v-dragscroll.pass
             @dragscrollstart="start"
             @dragscrollend="end"
-            @click.capture="click"
-            @touchstart="() => {is_touch.value = true}"
-            @touchend="() => {is_touch.value = false}"
-            @touchcancel="() => {is_touch.value = false}">
+            @click.capture="click">
             <div id="panel-h" class="top-panel-wrapper">
                 <TopPanel />
             </div>
@@ -29,15 +26,15 @@
     import { useQSortStore } from "../stores/q-sort"
     import { useSettingsStore } from "../stores/settings"
     import { useGlobalStore } from "../stores/global"
-    import { ref, onMounted, onBeforeMount} from "vue"
-    import { useRoute } from "vue-router"
+    import { ref, onMounted, onBeforeMount, nextTick} from "vue"
+    import { useRoute, useRouter } from "vue-router"
     
     const q_store = useQSortStore()
     const s_store = useSettingsStore()
     const g_store = useGlobalStore()
     const route = useRoute()
-    const is_touch = ref(false)
-
+    const router = useRouter()
+    
     let dragging = false;
     let timer = null;
 
