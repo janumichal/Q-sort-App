@@ -1,4 +1,12 @@
 <template>
+    <ModalWindow @toggle-modal="updateIntro($event)" :visible="s_store.intro_visible" :key="reload_intro_modal">
+        <template v-slot:header>
+            Short How-To
+        </template>
+        <template v-slot:content>
+            <iframe class="intro" src="https://www.youtube.com/embed/9EpRY_661Ao" title="YouTube video player" frameborder="0" allow="accelerometer; encrypted-media;" allowfullscreen></iframe>
+        </template>
+    </ModalWindow>
     <Settings />
     <div class="mm-s-wrapper">
         <div id="container" class="sorting-wrapper"  
@@ -26,17 +34,34 @@
     import { useQSortStore } from "../stores/q-sort"
     import { useSettingsStore } from "../stores/settings"
     import { useGlobalStore } from "../stores/global"
-    import { ref, onMounted, onBeforeMount } from "vue"
+    import { ref, onMounted, onBeforeMount, watch } from "vue"
     import { useRoute } from "vue-router"
+    import ModalWindow from "../components/default/ModalWindow.vue"
     
     const q_store = useQSortStore()
     const s_store = useSettingsStore()
     const g_store = useGlobalStore()
     const route = useRoute()
-    
+
+    const reload_intro_modal = ref(0)
 
     let dragging = false;
     let timer = null;
+
+    function updateIntro(value){
+        s_store.intro_visible = value
+        if(value == false){
+            s_store.show_intro = value
+            s_store.updateSettings()
+        }
+    }
+
+    watch(
+        () => s_store.intro_visible,
+        () => {
+            reload_intro_modal.value++
+        }
+    )
 
     function start() {
         timer = setTimeout(() => (dragging = true), 100);
@@ -87,6 +112,13 @@
 </script>
 
 <style lang="scss" scoped>
+    .intro{
+        aspect-ratio: 1920 / 1002;
+        width: 85vw;
+        max-width: 1920px;
+        box-sizing: border-box;
+        border-radius: 6px;
+    }
     .mm-s-wrapper{
         display: flex;
         flex-direction: row;

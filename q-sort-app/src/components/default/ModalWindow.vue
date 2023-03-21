@@ -86,7 +86,7 @@
         backdrop-filter: blur(4px);
 
         .modal-inner{
-            width: 300px;
+            width: fit-content;
             height: fit-content;
             background-color: $primary_bg;
             display: flex;
@@ -97,12 +97,17 @@
             color: #FFFFFF;
             margin-left: 10px;
             margin-right: 10px;
+            box-sizing: border-box;
             .modal-header{
                 font-size: 20px;
                 font-variation-settings: "wght" 600;
                 display: flex;
                 flex-direction: row-reverse;
                 justify-content: space-between;
+                box-sizing: border-box;
+            }
+            .modal-content{
+                box-sizing: border-box;
             }
         }
     }

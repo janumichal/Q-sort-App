@@ -423,7 +423,7 @@ export const useQSortStore = defineStore("q-sort", () => {
             name, question, delimiters, colors, selected_card_id, queue, selected_idx, table,
             selected_row, selected_col,
 
-            loadDataset, changeSelectedIdx, getCardText, addCardToQueue, getAllRowColors, setSelected, 
+            loadDataset, changeSelectedIdx, getCardText, addCardToQueue, setSelected, 
             isSelectedInQueue, moveToSlot, getTableCardId, getCardPos, swapSlots, 
             isNothingSelected, getRowValue, returnCardToQueue, resetTable, getColorStyle, getDelimiterText, 
             init, getResultJSON
