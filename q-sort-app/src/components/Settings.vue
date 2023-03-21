@@ -23,6 +23,16 @@
                 </div>
                 <div class="option">
                     <div class="text">
+                        How-To video
+                    </div>
+                    <div class="interactable">
+                        <NormalButton :btn_type="ButtonTypes.Normal" @click="showIntro()">
+                            Show
+                        </NormalButton>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
                         Reset sorting table
                     </div>
                     <div class="interactable">
@@ -54,6 +64,11 @@
         g_store.settings_visible = value
     }
 
+    function showIntro(){
+        updateVisibility(false)
+        s_store.intro_visible = !s_store.intro_visible
+    }
+
     watch(
         () => g_store.settings_visible,
         () =>{
@@ -68,6 +83,7 @@
 <style lang="scss" scoped>
 @use "../scss/Colors/Colors" as *;
     .options-wrapper{
+        width: 300px;
         display:flex;
         flex-direction: column;
         gap: 15px;
