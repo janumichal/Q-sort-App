@@ -109,7 +109,7 @@
 
     function onSubmitSort(){
         // Here would be Fetch function with the data
-        router.replace({name: "Ferwell"})
+        router.replace({name: "Ferewell"})
     }
 
     function onClickToggleQuestion(){

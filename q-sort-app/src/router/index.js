@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import Sorting from "../views/Sorting.vue"
 import Home from "../views/Home.vue"
-import Ferwell from "../views/Ferwell.vue"
+import Ferewell from "../views/Ferewell.vue"
 
 const routes = [
 	{
@@ -16,8 +16,8 @@ const routes = [
 	},
 	{
 		path: "/Final",
-		name: "Ferwell",
-		component: Ferwell
+		name: "Ferewell",
+		component: Ferewell
 	}
 
 ]
