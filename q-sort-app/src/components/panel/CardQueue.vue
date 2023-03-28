@@ -8,7 +8,7 @@
         </div>
         <div class="queue-wrapper">
             <div class="queue">
-                <TransitionGroup name="queue" tag="CardVue" class="trans-group-cards"
+                <TransitionGroup name="queue"
                     @before-leave="g_store.addTransition()"
                     @after-enter="g_store.removeTransition()" appear>
                     <Card 
@@ -190,13 +190,6 @@
                 justify-content: space-evenly;
                 align-items: center;
                 overflow: hidden;
-                .trans-group-cards{
-                    height: 100%;
-                    width: 100%;
-                    display: flex;
-                    justify-content: space-evenly;
-                    align-items: center;
-                }
             }
         }
     }

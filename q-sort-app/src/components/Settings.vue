@@ -83,7 +83,7 @@
 <style lang="scss" scoped>
 @use "../scss/Colors/Colors" as *;
     .options-wrapper{
-        width: 300px;
+        width: 250px;
         display:flex;
         flex-direction: column;
         gap: 15px;

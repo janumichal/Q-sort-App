@@ -377,7 +377,7 @@
         animation-name: hide-submit-btn;
         animation-direction: reverse;
         animation-fill-mode: forwards;
-        animation-duration: .5s;
+        animation-duration: .3s;
         animation-timing-function: ease-out;
     }
 
@@ -385,7 +385,7 @@
         animation-name: hide-submit-btn;
         animation-direction: normal;
         animation-fill-mode: forwards;
-        animation-duration: .5s;
+        animation-duration: .3s;
         animation-timing-function: ease-out;
     }
 
@@ -393,7 +393,7 @@
         animation-name: hide-submit-btn;
         animation-direction: reverse;
         animation-fill-mode: forwards;
-        animation-duration: .3s;
+        animation-duration: .25s;
         animation-timing-function: ease-out;
     }
 
@@ -401,7 +401,7 @@
         animation-name: hide-submit-btn;
         animation-direction: normal;
         animation-fill-mode: forwards;
-        animation-duration: .3s;
+        animation-duration: .2s;
         animation-timing-function: ease-out;
     }
 
