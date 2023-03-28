@@ -22,11 +22,11 @@
         </div>
         <div class="wrapper">
             <div ref="tiles" class="tiles">
-                <Tile v-for="(arr, index) in q_store.table" 
+                <Tile v-for="(arr, index) in qStore.table" 
                     :key="index" 
-                    :indicator_count="arr.length" 
+                    :indicatorCount="arr.length" 
                     :idx="index" 
-                    :style="q_store.getColorStyle(index)"/>
+                    :style="qStore.getColorStyle(index)"/>
             </div>
         </div>
     </div>
@@ -43,38 +43,38 @@
 
     const tiles = ref(null)
 
-    const g_store = useGlobalStore()
-    const q_store = useQSortStore()
-    const s_store = useSettingsStore()
+    const gStore = useGlobalStore()
+    const qStore = useQSortStore()
+    const sStore = useSettingsStore()
 
     const thumb = ref()
     const track = ref()
     
-    const page_height = ref()
-    const display_height = ref()
-    const row_height = ref()
-    const track_height = ref()
-    const thumb_height = ref()
-    const fill_height = ref()
-    const tile_height = ref()
-    const tile_count = ref()
-    const thumb_top = ref()
+    const pageHeight = ref()
+    const displayHeight = ref()
+    const rowHeight = ref()
+    const trackHeight = ref()
+    const thumbHeight = ref()
+    const fillHeight = ref()
+    const tileHeight = ref()
+    const tileCount = ref()
+    const thumbTop = ref()
     
     
     
-    const thumb_offset = ref(0)
-    const prev_thumb_pos = ref(0)
-    const thumb_pos = ref(0)
-    const track_click = ref(false)
+    const thumbOffset = ref(0)
+    const prevThumbPos = ref(0)
+    const thumbPos = ref(0)
+    const trackClick = ref(false)
     const pressed = ref(false)
 
     defineExpose({init})
 
     function onMouseDownTrack(event){
         event.stopPropagation();
-        track_click.value = true
+        trackClick.value = true
         pressed.value = true
-        thumb_offset.value = tile_count.value*tile_height.value/2
+        thumbOffset.value = tileCount.value*tileHeight.value/2
         moveThumb(event)
     }
 
@@ -92,17 +92,17 @@
 
     function onMouseDownThumb(event){
         event.stopPropagation();
-        track_click.value = false
+        trackClick.value = false
         pressed.value = true
-        thumb_offset.value = getPosFromEvent(event)
+        thumbOffset.value = getPosFromEvent(event)
         moveThumb(event)
     }
 
     function onMouseUpThumb(){
         if(pressed.value){
-            prev_thumb_pos.value = thumb_pos.value
+            prevThumbPos.value = thumbPos.value
             pressed.value = false
-            track_click.value = false
+            trackClick.value = false
         }
     }
 
@@ -117,21 +117,21 @@
     }
 
     function moveThumb(event){
-        var event_position = getPosFromEvent(event)
-        if(track_click.value){
-            thumb_pos.value =  event_position - thumb_offset.value + fill_height.value
+        var eventPosition = getPosFromEvent(event)
+        if(trackClick.value){
+            thumbPos.value =  eventPosition - thumbOffset.value + fillHeight.value
         }else{
-            thumb_pos.value =  event_position - thumb_offset.value + prev_thumb_pos.value
+            thumbPos.value =  eventPosition - thumbOffset.value + prevThumbPos.value
         }
-        thumb_pos.value = thumb_pos.value.clamp(0, Math.max(0, track_height.value - tile_count.value*tile_height.value + fill_height.value))
-        container.value.scrollTo(0, convertSctoll2pageHeight(thumb_pos.value))
+        thumbPos.value = thumbPos.value.clamp(0, Math.max(0, trackHeight.value - tileCount.value*tileHeight.value + fillHeight.value))
+        container.value.scrollTo(0, convertSctoll2pageHeight(thumbPos.value))
     }
 
     function getScroll(){
         if(!pressed.value){
-            prev_thumb_pos.value = convertPage2ScrollHeight(container.value.scrollTop)
+            prevThumbPos.value = convertPage2ScrollHeight(container.value.scrollTop)
         }
-        thumb.value.style.top = Math.max(convertPage2ScrollHeight(container.value.scrollTop) - fill_height.value,0).toString() + "px"
+        thumb.value.style.top = Math.max(convertPage2ScrollHeight(container.value.scrollTop) - fillHeight.value,0).toString() + "px"
         updateThumbHeight()
     }
 
@@ -140,56 +140,55 @@
     }
 
     function minimapSetup(){
-        if(s_store.minimap_enabled){
-            display_height.value = window.innerHeight
-            page_height.value = document.getElementById("table-h").offsetHeight
-            track_height.value = track.value.offsetHeight
-            row_height.value = document.getElementsByClassName("row")[0].offsetHeight
-            fill_height.value = convertPage2ScrollHeight(document.getElementById("panel-h").offsetHeight)
-            // tile_height.value = document.getElementsByClassName("tile")[0].offsetHeight
-            tile_height.value = display_height.value / q_store.table.length
-            tile_count.value = display_height.value / row_height.value
-            thumb_top.value = getThumbTop()
+        if(sStore.minimapEnabled){
+            displayHeight.value = window.innerHeight
+            pageHeight.value = document.getElementById("table-h").offsetHeight
+            trackHeight.value = track.value.offsetHeight
+            rowHeight.value = document.getElementsByClassName("row")[0].offsetHeight
+            fillHeight.value = convertPage2ScrollHeight(document.getElementById("panel-h").offsetHeight)
+            tileHeight.value = displayHeight.value / qStore.table.length
+            tileCount.value = displayHeight.value / rowHeight.value
+            thumbTop.value = getThumbTop()
             updateThumbHeight()
         }
     }
     function getThumbTop(){
-        return Math.max(convertPage2ScrollHeight(container.value.scrollTop) - fill_height.value, 0)
+        return Math.max(convertPage2ScrollHeight(container.value.scrollTop) - fillHeight.value, 0)
     }
 
     function getFillDecreaseTop(){
-        return Math.max(fill_height.value - convertPage2ScrollHeight(container.value.scrollTop) , 0)
+        return Math.max(fillHeight.value - convertPage2ScrollHeight(container.value.scrollTop) , 0)
     }
 
     function updateThumbHeight(){
-        thumb_top.value = getThumbTop()
-        thumb_height.value = tile_count.value*tile_height.value - getFillDecreaseTop()
-        thumb_height.value = Math.min(display_height.value < thumb_top.value + thumb_height.value ? display_height.value - thumb_top.value : thumb_height.value, display_height.value)
-        thumb.value.style.height = thumb_height.value.toString() + "px"
+        thumbTop.value = getThumbTop()
+        thumbHeight.value = tileCount.value*tileHeight.value - getFillDecreaseTop()
+        thumbHeight.value = Math.min(displayHeight.value < thumbTop.value + thumbHeight.value ? displayHeight.value - thumbTop.value : thumbHeight.value, displayHeight.value)
+        thumb.value.style.height = thumbHeight.value.toString() + "px"
     }
 
     function convertPage2ScrollHeight(height){
-        return (height / page_height.value) * track_height.value
+        return (height / pageHeight.value) * trackHeight.value
     }
 
     function convertSctoll2pageHeight(height){
-        return (height / track_height.value ) * page_height.value
+        return (height / trackHeight.value ) * pageHeight.value
     }
 
     function disableIfOverflows(){
-        if(tiles.value.scrollHeight > display_height.value){
-            s_store.minimap_enabled = false
+        if(tiles.value.scrollHeight > displayHeight.value){
+            sStore.minimapEnabled = false
         }
     }
 
     function init(){
-        g_store.waitForTransitions().then(() => {
+        gStore.waitForTransitions().then(() => {
             minimapSetup()
         })
     }
 
     watch(
-        () => [s_store.minimap_enabled, s_store.question_opened, s_store.panel_opened, s_store.queue_visible],
+        () => [sStore.minimapEnabled, sStore.questionOpened, sStore.panelOpened, sStore.queueVisible],
         () => {
             init()
     })
@@ -240,7 +239,7 @@
             .panel-fill{
                 width: 100%;
                 height: 30px;
-                background-color: $primary_bg;
+                background-color: $primary-bg;
                 box-sizing: border-box;
             }
             .tiles{

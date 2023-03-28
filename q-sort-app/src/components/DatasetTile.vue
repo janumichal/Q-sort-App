@@ -13,7 +13,7 @@
                 <div class="sc-wrapper">
                     <div class="count">
                         <img src="../assets/icons/statements.svg"/>
-                        {{ statement_count }}
+                        {{ statementCount }}
                     </div>
                     <div class="size">
                         {{ size }}
@@ -28,14 +28,14 @@
     const props = defineProps({
         name: String,
         size: String,
-        statement_count: Number,
+        statementCount: Number,
         question: String,
         uid: String
     })
     const router = useRouter()
 
-    function goToRoute(route_name, params=null ){
-        router.push({name: route_name, params: params==null? {} : params})
+    function goToRoute(routeName, params=null ){
+        router.push({name: routeName, params: params==null? {} : params})
     }
 </script>
 <style lang="scss" scoped>
@@ -43,7 +43,7 @@
     .wrapper{
         width: 100%;
         height: fit-content;
-        background-color: $secondary_bg;
+        background-color: $secondary-bg;
         border-radius: 6px;
         color: #FFFFFF;
         display: flex;
@@ -57,7 +57,7 @@
         transition: background-color .2s ease-out;
 
         &:hover{
-            background-color: $secondary_bg_hover;
+            background-color: $secondary-bg-hover;
         }
         
         .details{

@@ -9,7 +9,7 @@ import students_json from "../assets/datasets/student_data.json" // Large datase
 
 export const useGlobalStore = defineStore("global", () => {
     
-    const settings_visible = ref(false)
+    const settingsVisible = ref(false)
     const transitionCount = ref(0)
     const datasets = ref([food_json, affects_json, BFI2_json, students_json]) // (tmp because there is no server)
 
@@ -47,7 +47,7 @@ export const useGlobalStore = defineStore("global", () => {
     }
 
     return {
-        settings_visible, transitionCount, datasets,
+        settingsVisible, transitionCount, datasets,
 
         inTransition, addTransition, removeTransition, waitForTransitions, init
     }

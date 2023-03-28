@@ -9,13 +9,13 @@
 <script setup>
     import { ButtonTypes } from "../../enums"
     const props = defineProps({
-        btn_type:{
+        btnType:{
             type: String,
             default: ButtonTypes.Normal
         }
     })
     function getColor(){
-        return "button-"+ props.btn_type
+        return "button-"+ props.btnType
     }   
 </script>
 
@@ -38,34 +38,34 @@
     $opacity-static:.4;
     $opacity-hover:.8;
     .button-normal{
-        background-color: rgba($default_btn_clr, $alpha: $opacity-static);
+        background-color: rgba($default-btn-clr, $alpha: $opacity-static);
 
         &:hover{
-            background-color: rgba($default_btn_clr, $alpha: $opacity-hover);
+            background-color: rgba($default-btn-clr, $alpha: $opacity-hover);
         }
     }
     .button-warning{
-        background-color: rgba($warning_btn_clr, $alpha: $opacity-static);
+        background-color: rgba($warning-btn-clr, $alpha: $opacity-static);
 
         &:hover{
-            background-color: rgba($warning_btn_clr, $alpha: $opacity-hover);
+            background-color: rgba($warning-btn-clr, $alpha: $opacity-hover);
         }
     }
     .button-normal-no-opacity{
-        background-color: $default_btn_nop_clr;
+        background-color: $default-btn-nop-clr;
 
         &:hover{
-            background-color: $default_btn_nop_clr_hover;
+            background-color: $default-btn-nop-clr-hover;
         }
     }
     .button-submit{
-        background-color: $submit_btn;
+        background-color: $submit-btn;
 
         &:hover{
-            background-color: $submit_btn_hover;
+            background-color: $submit-btn-hover;
         }
         &:active{
-            background-color: $submit_btn_active;
+            background-color: $submit-btn-active;
         }
     }
 </style>

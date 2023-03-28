@@ -1,16 +1,16 @@
 <template>
     <div class="slot-wrapper">
         <div class="card-slot">
-            <Card :visible="c_visible" :text="card.text" :id="card.id" :in_queue="false" />
+            <Card :visible="cVisible" :text="card.text" :id="card.id" :inQueue="false" />
             <div class="slot" >
                 <div class="slot-empty" :class="classMovable()" @click="onClickMove()">
                 </div>
             </div>
         </div>
         <Transition name="return-btn">
-                <div class="return-card-wrapper" v-if="c_visible && !q_store.isSelectedInQueue() && q_store.selected_card_id == card.id">
-                    <NormalButton class="return-card" @click="q_store.returnCardToQueue()" 
-                        :btn_type="ButtonTypes.NormalNoOpacity">
+                <div class="return-card-wrapper" v-if="cVisible && !qStore.isSelectedInQueue() && qStore.selectedCardId == card.id">
+                    <NormalButton class="return-card" @click="qStore.returnCardToQueue()" 
+                        :btnType="ButtonTypes.NormalNoOpacity">
                         <div class="return-card-text">
                             Return
                         </div>
@@ -29,7 +29,6 @@
     import Card from '../Card.vue'
     import { ref, watch, onMounted } from "vue"
     import { useQSortStore } from '../../stores/q-sort';
-    import { useGlobalStore } from '../../stores/global';
     import NormalButton from '../default/NormalButton.vue';
     import { ButtonTypes } from '../../enums';
 
@@ -39,9 +38,8 @@
         col: Number
     })
 
-    const g_store = useGlobalStore()
-    const q_store = useQSortStore()
-    const c_visible = ref(false)
+    const qStore = useQSortStore()
+    const cVisible = ref(false)
 
     const card = ref({
         id: null,
@@ -49,24 +47,24 @@
     })
 
     watch(
-        () => q_store.table[props.row][props.col],
+        () => qStore.table[props.row][props.col],
         () =>{
-            var card_id = q_store.getTableCardId(props.row, props.col)
-            if(card_id!= null){
-                if(c_visible.value && card.value.id != card_id){
-                    c_visible.value = false
+            var cardId = qStore.getTableCardId(props.row, props.col)
+            if(cardId!= null){
+                if(cVisible.value && card.value.id != cardId){
+                    cVisible.value = false
                     setTimeout(() => {
-                        card.value.id = card_id
-                        card.value.text = q_store.getCardText(card_id)
-                        c_visible.value = true
+                        card.value.id = cardId
+                        card.value.text = qStore.getCardText(cardId)
+                        cVisible.value = true
                     }, 175)                    
                 }else{
-                    card.value.id = card_id
-                    card.value.text = q_store.getCardText(card_id)
-                    c_visible.value = true
+                    card.value.id = cardId
+                    card.value.text = qStore.getCardText(cardId)
+                    cVisible.value = true
                 }
             }else{
-                c_visible.value = false
+                cVisible.value = false
                 card.id = null
                 card.text = ""
             }
@@ -74,11 +72,11 @@
     )
 
     function onClickMove(){
-        q_store.moveToSlot(props.row, props.col)
+        qStore.moveToSlot(props.row, props.col)
     }
 
     function classMovable(){
-        if(!q_store.isNothingSelected()){
+        if(!qStore.isNothingSelected()){
             return "movable"
         }else{
             return ""
@@ -86,22 +84,22 @@
     }
 
     onMounted(() => {
-        var card_id = q_store.getTableCardId(props.row, props.col)
-        if(card_id!= null){
-            if(c_visible.value && card.value.id != card_id){
-                c_visible.value = false
+        var cardId = qStore.getTableCardId(props.row, props.col)
+        if(cardId!= null){
+            if(cVisible.value && card.value.id != cardId){
+                cVisible.value = false
                 setTimeout(() => {
-                    card.value.id = card_id
-                    card.value.text = q_store.getCardText(card_id)
-                    c_visible.value = true
+                    card.value.id = cardId
+                    card.value.text = qStore.getCardText(cardId)
+                    cVisible.value = true
                 }, 300)                    
             }else{
-                card.value.id = card_id
-                card.value.text = q_store.getCardText(card_id)
-                c_visible.value = true
+                card.value.id = cardId
+                card.value.text = qStore.getCardText(cardId)
+                cVisible.value = true
             }
         }else{
-            c_visible.value = false
+            cVisible.value = false
             card.id = null
             card.text = ""
         }

@@ -9,16 +9,16 @@
         <div class="queue-wrapper">
             <div class="queue">
                 <TransitionGroup name="queue"
-                    @before-leave="g_store.addTransition()"
-                    @after-enter="g_store.removeTransition()" appear>
+                    @before-leave="gStore.addTransition()"
+                    @after-enter="gStore.removeTransition()" appear>
                     <Card 
                         :style="getCardQueueStyle(index)" 
-                        v-for="(id, index) in q_store.queue" 
+                        v-for="(id, index) in qStore.queue" 
                         :key="id" 
                         :idx="index"  
-                        :text="q_store.getCardText(id)" 
+                        :text="qStore.getCardText(id)" 
                         :id="id" 
-                        :in_queue="true" 
+                        :inQueue="true" 
                         :visible="true"/>
                 </TransitionGroup>
             </div>
@@ -39,39 +39,39 @@
     import { useGlobalStore } from '../../stores/global';
     import Card from '../Card.vue'
 
-    const g_store = useGlobalStore()
-    const q_store = useQSortStore()
+    const gStore = useGlobalStore()
+    const qStore = useQSortStore()
     const step = ref(1)
 
     function btnMoveRight(){
-        q_store.changeSelectedIdx(step.value)
+        qStore.changeSelectedIdx(step.value)
     }
 
     function btnMoveLeft(){
-        q_store.changeSelectedIdx(-step.value)
+        qStore.changeSelectedIdx(-step.value)
     }
 
     function classDisabled(isFirst){
         if(isFirst){
-            return q_store.selected_idx == 0 || q_store.queue.length == 0 ? "btn-disabled" : ""
+            return qStore.selectedIdx == 0 || qStore.queue.length == 0 ? "btn-disabled" : ""
         }else{
-            return q_store.selected_idx == (q_store.queue.length-1) || q_store.queue.length == 0 ? "btn-disabled" : ""
+            return qStore.selectedIdx == (qStore.queue.length-1) || qStore.queue.length == 0 ? "btn-disabled" : ""
         }
     }
 
 
     function isCardLeft(index){
-        if(q_store.selected_idx < index){
+        if(qStore.selectedIdx < index){
             return false
         }
-        if(q_store.selected_idx > index){
+        if(qStore.selectedIdx > index){
             return true
         }
         return null
     }
     
     function getCardLayer(index){
-        return Math.abs(index - q_store.selected_idx)
+        return Math.abs(index - qStore.selectedIdx)
     }
     
     function getCardQueueStyle(index){
@@ -80,7 +80,7 @@
         var scale = -0.25
         var num = 1.5
         var offset = 1.2
-        var top_layer = 100
+        var topLayer = 100
         
         if(isCardLeft(index)){
             translateX *= -1
@@ -93,7 +93,7 @@
         
         return layer < 4 ? {
             "transform": "translateX("+translateX+"%) scale("+scale+")",
-            "z-index": (top_layer-layer)
+            "z-index": (topLayer-layer)
         } : {
             "opacity": "0",
             "pointer-events": "none"
@@ -147,7 +147,7 @@
         align-items: center;
         overflow: hidden;
 
-        background-color: $primary_bg;
+        background-color: $primary-bg;
         border-radius: 0px 0px 6px 6px;
 
         padding-left: 10px;

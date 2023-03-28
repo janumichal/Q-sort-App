@@ -12,19 +12,19 @@
         row: Number,
         col: Number
     })
-    const q_store = useQSortStore()
+    const qStore = useQSortStore()
     const filled = ref(false)
 
     function lookUpFilled(){
-        var card_id = q_store.getTableCardId(props.row, props.col)
-            if(card_id != null){
+        var cardId = qStore.getTableCardId(props.row, props.col)
+            if(cardId != null){
                 filled.value = true
             }else{
                 filled.value = false
             }
     }
     watch(
-        () => q_store.table[props.row][props.col],
+        () => qStore.table[props.row][props.col],
         () => {
             lookUpFilled()
         }
@@ -45,6 +45,6 @@
 
     .filled{
         border-style: solid !important;
-        background-color: $primary_card;
+        background-color: $primary-card;
     }
 </style>

@@ -25,11 +25,11 @@
         padding: 4px;
         margin: 0px;
         cursor: pointer;
-        background-color: rgba($default_btn_clr, $opacity-static);
+        background-color: rgba($default-btn-clr, $opacity-static);
         transition: background-color ease-in-out 0.2s;
 
         &:hover{
-            background-color: rgba($default_btn_clr, $opacity-hover);
+            background-color: rgba($default-btn-clr, $opacity-hover);
         }
     }
 </style>
