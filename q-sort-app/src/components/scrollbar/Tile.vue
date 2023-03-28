@@ -1,6 +1,6 @@
 <template>
     <div class="tile">
-        <Indicator v-for="index in props.indicator_count"
+        <Indicator v-for="index in props.indicatorCount"
         :key="index-1"
         :row="props.idx"
         :col="index-1" />
@@ -12,7 +12,7 @@
 
     const props = defineProps({
         idx: Number,
-        indicator_count: Number
+        indicatorCount: Number
     })
 </script>
 

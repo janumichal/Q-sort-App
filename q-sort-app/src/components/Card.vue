@@ -1,7 +1,7 @@
 <template>
     <Transition name="card"
-        @before-leave="g_store.addTransition()"
-        @after-enter="g_store.removeTransition()" appear>
+        @before-leave="gStore.addTransition()"
+        @after-enter="gStore.removeTransition()" appear>
         <div v-if="props.visible" class="wrapper" @click="onClickSelect()">
             <div class="card" :class="classIsSelected(), classClickable(), classNotSelectedInQueue()">
                 {{ text }}
@@ -20,15 +20,15 @@
         text: String,
         id: Number,
         idx: Number,
-        in_queue: Boolean,
+        inQueue: Boolean,
         visible: Boolean
     })
-    const q_store = useQSortStore()
-    const g_store = useGlobalStore()
+    const qStore = useQSortStore()
+    const gStore = useGlobalStore()
 
     function isSelected(){
-        return props.id == q_store.selected_card_id &&
-         props.text == q_store.getCardText(q_store.selected_card_id)
+        return props.id == qStore.selectedCardId &&
+         props.text == qStore.getCardText(qStore.selectedCardId)
     }   
 
     function classIsSelected(){
@@ -39,34 +39,34 @@
     }
 
     function classClickable(){
-        var class_str = ""
-        if(!isSelected() && (!props.in_queue || props.in_queue && props.idx == q_store.selected_idx)){
-            class_str += "clickable"
-            if(!q_store.isSelectedInQueue() && !props.in_queue && !q_store.isNothingSelected()){
-                class_str += class_str.length == 0 ? "" : " "
-                class_str += "swapable"
+        var classStr = ""
+        if(!isSelected() && (!props.inQueue || props.inQueue && props.idx == qStore.selectedIdx)){
+            classStr += "clickable"
+            if(!qStore.isSelectedInQueue() && !props.inQueue && !qStore.isNothingSelected()){
+                classStr += classStr.length == 0 ? "" : " "
+                classStr += "swapable"
             }
         }
-        return class_str
+        return classStr
     }
 
     function classNotSelectedInQueue(){
-        if(!isSelected() && props.in_queue){
+        if(!isSelected() && props.inQueue){
             return "inqueue"
         }
         return ""
     }
 
     function onClickSelect(){
-        if(!g_store.inTransition()){
-            if(!props.in_queue && q_store.isSelectedInQueue() || q_store.isNothingSelected() || !q_store.isSelectedInQueue() && props.in_queue && q_store.selected_idx == props.idx){
-                var card_pos = q_store.getCardPos(props.id)
-                q_store.setSelected(props.id, card_pos.row, card_pos.col)
-            }else if(!q_store.isSelectedInQueue() && !props.in_queue){
-                if(q_store.selected_card_id == props.id){
-                    q_store.setSelected()
+        if(!gStore.inTransition()){
+            if(!props.inQueue && qStore.isSelectedInQueue() || qStore.isNothingSelected() || !qStore.isSelectedInQueue() && props.inQueue && qStore.selectedIdx == props.idx){
+                var cardPos = qStore.getCardPos(props.id)
+                qStore.setSelected(props.id, cardPos.row, cardPos.col)
+            }else if(!qStore.isSelectedInQueue() && !props.inQueue){
+                if(qStore.selectedCardId == props.id){
+                    qStore.setSelected()
                 }else{
-                    q_store.swapSlots(props.id)
+                    qStore.swapSlots(props.id)
                 }
             }
         }
@@ -121,7 +121,7 @@
         z-index: 1;
         .card{
             
-            background-color: $primary_card; 
+            background-color: $primary-card; 
             width: min(43vmin, 220px);
             min-width: 138px;
             aspect-ratio: 22/13;

@@ -1,21 +1,21 @@
 <template>
     <Transition name="question-queue" 
         @after-leave="showButton()"
-        @before-leave="g_store.addTransition()" 
-        @after-enter="g_store.removeTransition()">
-        <div class="question-queue" v-if="s_store.panel_opened">
+        @before-leave="gStore.addTransition()" 
+        @after-enter="gStore.removeTransition()">
+        <div class="question-queue" v-if="sStore.panelOpened">
             <Transition name="question" 
-                @before-leave="g_store.addTransition()" 
-                @after-leave="g_store.removeTransition()"
-                @before-enter="g_store.addTransition()" 
-                @after-enter="g_store.removeTransition()">
-                <div class="question-wrapper" v-if="s_store.question_opened">
+                @before-leave="gStore.addTransition()" 
+                @after-leave="gStore.removeTransition()"
+                @before-enter="gStore.addTransition()" 
+                @after-enter="gStore.removeTransition()">
+                <div class="question-wrapper" v-if="sStore.questionOpened">
                     <div class="question-animation-wrapper">
                         <div class="question-info-icon">
                             <img src="../../assets/icons/question.svg" />
                         </div>
                         <div class="question">
-                            {{ q_store.question }}
+                            {{ qStore.question }}
                         </div>
                         <RoundButton @click="onClickToggleQuestion()" class="interactable"/>
                     </div>
@@ -25,7 +25,7 @@
                 <div class="overlayed-buttons-wrapper">
                     <div>
                         <Transition name="question-toggle">
-                            <RoundButton @click="onClickToggleQuestion()" v-if="!s_store.question_opened" class="interactable">
+                            <RoundButton @click="onClickToggleQuestion()" v-if="!sStore.questionOpened" class="interactable">
                                 <img src="../../assets/icons/question.svg"/>
                             </RoundButton>
                         </Transition>
@@ -38,19 +38,19 @@
                 </div>
                 <div class="card-queue-wrapper" >
                     <Transition name="queue-toggle"
-                        @after-leave="showSubmit(), g_store.removeTransition()"
-                        @before-leave="g_store.addTransition()" 
-                        @before-enter="g_store.addTransition()" 
-                        @after-enter="g_store.removeTransition()" appear>
-                        <CardQueue v-if="s_store.queue_visible"/>
+                        @after-leave="showSubmit(), gStore.removeTransition()"
+                        @before-leave="gStore.addTransition()" 
+                        @before-enter="gStore.addTransition()" 
+                        @after-enter="gStore.removeTransition()" appear>
+                        <CardQueue v-if="sStore.queueVisible"/>
                     </Transition>
                     <Transition name="submit-btn"
-                        @after-leave="showQueue(), g_store.removeTransition()"
-                        @before-leave="g_store.addTransition()" 
-                        @before-enter="g_store.addTransition()" 
-                        @after-enter="g_store.removeTransition()" appear>
-                        <div class="submit-wrapper" v-if="submit_visible">
-                            <NormalButton class="submit-btn" :btn_type="ButtonTypes.Submit" @click="onSubmitSort()">
+                        @after-leave="showQueue(), gStore.removeTransition()"
+                        @before-leave="gStore.addTransition()" 
+                        @before-enter="gStore.addTransition()" 
+                        @after-enter="gStore.removeTransition()" appear>
+                        <div class="submit-wrapper" v-if="submitVisible">
+                            <NormalButton class="submit-btn" :btnType="ButtonTypes.Submit" @click="onSubmitSort()">
                                 <div class="submit-btn-inner-wrapper">
                                     Submit
                                     <img src="../../assets/icons/submit.svg" />
@@ -68,9 +68,9 @@
         </div>
     </Transition>
     <Transition name="show-btn" @after-leave="showPanel()" 
-            @before-leave="g_store.addTransition()" 
-            @after-enter="g_store.removeTransition()">
-        <div class="show-button" v-if="show_btn_visible">
+            @before-leave="gStore.addTransition()" 
+            @after-enter="gStore.removeTransition()">
+        <div class="show-button" v-if="showBtnVisible">
             <RoundButton @click="toggleTopPanel()" class="interactable" :style="styleSelectedQueue()">
                 <img class="drop-down" style="transform: rotate(0deg);" src="../../assets/icons/drop_down.svg"/>
             </RoundButton>
@@ -91,19 +91,19 @@
 
     const router = useRouter()
 
-    const show_btn_visible = ref(false)
-    const submit_visible = ref(false)
+    const showBtnVisible = ref(false)
+    const submitVisible = ref(false)
 
-    const q_store = useQSortStore()
-    const s_store = useSettingsStore()
-    const g_store = useGlobalStore()
+    const qStore = useQSortStore()
+    const sStore = useSettingsStore()
+    const gStore = useGlobalStore()
 
     function showQueue(){
-        s_store.queue_visible = !s_store.queue_visible
+        sStore.queueVisible = !sStore.queueVisible
     }
 
     function showSubmit(){
-        submit_visible.value = !submit_visible.value
+        submitVisible.value = !submitVisible.value
 
     }
 
@@ -113,62 +113,61 @@
     }
 
     function onClickToggleQuestion(){
-        s_store.question_opened = !s_store.question_opened
-        // s_store.updateSettings()
+        sStore.questionOpened = !sStore.questionOpened
     }
 
     function onClickOpenSettings(){
-        g_store.settings_visible = !g_store.settings_visible
+        gStore.settingsVisible = !gStore.settingsVisible
     }
 
     function toggleTopPanel(){
-        if(show_btn_visible.value){
-            show_btn_visible.value = !show_btn_visible.value
-            s_store.queue_visible = !(q_store.queue.length <= 0)
-            submit_visible.value = (q_store.queue.length <= 0)
+        if(showBtnVisible.value){
+            showBtnVisible.value = !showBtnVisible.value
+            sStore.queueVisible = !(qStore.queue.length <= 0)
+            submitVisible.value = (qStore.queue.length <= 0)
         }else{
-            s_store.panel_opened = !s_store.panel_opened
+            sStore.panelOpened = !sStore.panelOpened
         }
     }
 
     function styleSelectedQueue(){
-        if(q_store.isSelectedInQueue() && !s_store.panel_opened){
+        if(qStore.isSelectedInQueue() && !sStore.panelOpened){
             return {"border": "2px solid yellow"}
         }
         return {"border": "2px solid transparent"}
     }
 
     function showButton(){
-        show_btn_visible.value = !show_btn_visible.value
+        showBtnVisible.value = !showBtnVisible.value
     }
 
     function showPanel(){
-        s_store.panel_opened = !s_store.panel_opened
+        sStore.panelOpened = !sStore.panelOpened
     }
 
     watch(
-        q_store.queue,
+        qStore.queue,
         () =>{
-            if(q_store.queue.length <= 0){
-                g_store.waitForTransitions().then(() => {
-                    s_store.queue_visible = false
+            if(qStore.queue.length <= 0){
+                gStore.waitForTransitions().then(() => {
+                    sStore.queueVisible = false
                 })
             }else{
-                submit_visible.value = false
+                submitVisible.value = false
             }
         }
     )
 
 
     onBeforeMount(() => {
-        if(q_store.queue.length <= 0){
-            submit_visible.value = true
-            s_store.queue_visible = false
+        if(qStore.queue.length <= 0){
+            submitVisible.value = true
+            sStore.queueVisible = false
         }else{
-            submit_visible.value = false
-            s_store.queue_visible = true
+            submitVisible.value = false
+            sStore.queueVisible = true
         }
-        show_btn_visible.value = !s_store.panel_opened
+        showBtnVisible.value = !sStore.panelOpened
     })
 
 </script>
@@ -203,7 +202,7 @@
         .question-wrapper{
             width: 100%;
             color: #FFFFFF;
-            background-color: $secondary_bg;
+            background-color: $secondary-bg;
             box-sizing: border-box;
             overflow: hidden;
 
@@ -257,7 +256,7 @@
                 .submit-wrapper{
                     width: 100%;
                     height: 90px;
-                    background-color: $primary_bg;
+                    background-color: $primary-bg;
                     display: flex;
                     justify-content: center;
                     align-items: center;

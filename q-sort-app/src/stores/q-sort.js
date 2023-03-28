@@ -4,24 +4,24 @@ import { ref, nextTick } from 'vue'
 
 export const useQSortStore = defineStore("q-sort", () => {
 
-        const s_store = useSettingsStore()
+        const sStore = useSettingsStore()
 
-        const default_colors = ref(["#8CB37F","#ECEBE5","#F79696"])
+        const defaultColors = ref(["#8CB37F","#ECEBE5","#F79696"])
         const name = ref(null)
         const uid = ref(null)
         const question = ref("")
         const delimiters = ref([])
         const colors = ref([])
-        const selected_card_id = ref(null)
+        const selectedCardId = ref(null)
         const queue = ref([])
-        const selected_idx = ref(0)
+        const selectedIdx = ref(0)
         const table = ref([])
-        const selected_row = ref(null)
-        const selected_col = ref(null)
-        const card_list = ref({})
+        const selectedRow = ref(null)
+        const selectedCol = ref(null)
+        const cardList = ref({})
 
-        const cookie_table = ref("")
-        const cookie_queue = ref("")
+        const cookieTable = ref("")
+        const cookieQueue = ref("")
     
         function init(){
             name.value = null
@@ -29,13 +29,13 @@ export const useQSortStore = defineStore("q-sort", () => {
             question.value = ""
             delimiters.value = []
             colors.value = []
-            selected_card_id.value = null
+            selectedCardId.value = null
             queue.value = []
-            selected_idx.value = 0
+            selectedIdx.value = 0
             table.value = []
-            selected_row.value = null
-            selected_col.value = null
-            card_list.value = {}
+            selectedRow.value = null
+            selectedCol.value = null
+            cardList.value = {}
         }
 
         /**
@@ -50,28 +50,28 @@ export const useQSortStore = defineStore("q-sort", () => {
             delimiters.value = json.delimiters
             table.value = loadJsonTable(json.table)
             colors.value = getAllRowColors(json.colors)
-            card_list.value = loadCards(json.cards)
+            cardList.value = loadCards(json.cards)
 
-            cookie_table.value = "Q-sortApp-"+ uid.value +"-table"
-            cookie_queue.value = "Q-sortApp-"+ uid.value +"-queue"
+            cookieTable.value = "Q-sortApp-"+ uid.value +"-table"
+            cookieQueue.value = "Q-sortApp-"+ uid.value +"-queue"
 
-            s_store.loadSettings()
+            sStore.loadSettings()
 
             // Table
-            if(s_store.saving_enabled && $cookies.isKey(cookie_table.value)){
+            if(sStore.savingEnabled && $cookies.isKey(cookieTable.value)){
                 //Load table from cookie
-                var c_table = loadCookieToArray(true)
-                table.value = loadTable(c_table)
+                var cTable = loadCookieToArray(true)
+                table.value = loadTable(cTable)
             }else{
                 //Create empty cookie 
                 updateCookies(true)
             }
 
             // Queue
-            if(s_store.saving_enabled && $cookies.isKey(cookie_queue.value)){
+            if(sStore.savingEnabled && $cookies.isKey(cookieQueue.value)){
                 //load queue from cookie
-                var c_queue = loadCookieToArray(false)
-                queue.value = c_queue.map(Number)
+                var cQueue = loadCookieToArray(false)
+                queue.value = cQueue.map(Number)
                 setSelected()
             }else{
                 //Add all cards to cookie and load them to queue
@@ -81,42 +81,42 @@ export const useQSortStore = defineStore("q-sort", () => {
             
             //Selected card generated based on queue
             if(table.value.length > 0){
-                selected_card_id.value = queue.value[selected_idx.value]
+                selectedCardId.value = queue.value[selectedIdx.value]
             }else{
                 unselect()
             }
 
         }
-        function loadCookieToArray(is_table){
-            var cookie_value = $cookies.get(is_table ? cookie_table.value : cookie_queue.value)
-            if(cookie_value == null){
+        function loadCookieToArray(isTable){
+            var cookieValue = $cookies.get(isTable ? cookieTable.value : cookieQueue.value)
+            if(cookieValue == null){
                 return []
             }else{
-                return cookie_value.split(",")
+                return cookieValue.split(",")
             }
         } 
-        function updateCookies(is_table){
-            var arr = is_table ? get2dTo1dArray(table.value) : queue.value
-            var csv_str = arr.join(",")
-            $cookies.set(is_table ? cookie_table.value : cookie_queue.value, csv_str)
+        function updateCookies(isTable){
+            var arr = isTable ? get2dTo1dArray(table.value) : queue.value
+            var csvStr = arr.join(",")
+            $cookies.set(isTable ? cookieTable.value : cookieQueue.value, csvStr)
         } 
         function updateBothCookies(){
-            if(s_store.saving_enabled){
+            if(sStore.savingEnabled){
                 updateCookies(true)
                 updateCookies(false)
             }
         }
         function loadTable(array){
             var arr = table.value
-            var linear_idx = 0
+            var linearIdx = 0
             for (var i = 0; i < arr.length; i++) {
                 for (var j = 0; j < arr[i].length; j++) {
-                    if(array[linear_idx] != ""){
-                        arr[i][j] = parseInt(array[linear_idx])
+                    if(array[linearIdx] != ""){
+                        arr[i][j] = parseInt(array[linearIdx])
                     }else{
                         arr[i][j] = null
                     }
-                    linear_idx++
+                    linearIdx++
                 }
             }
             return arr
@@ -129,25 +129,25 @@ export const useQSortStore = defineStore("q-sort", () => {
             return arr
         }
         function loadCardIds(){
-            var arr = Object.keys(card_list.value)
+            var arr = Object.keys(cardList.value)
             arr = arr.map(id => parseInt(id))
             return arr
         }
-        function get2dTo1dArray(array_2D){
-            var array_1D = []
-            for (var row of array_2D) for (var element of row) array_1D.push(element)
-            return array_1D
+        function get2dTo1dArray(array2D){
+            var array1D = []
+            for (var row of array2D) for (var element of row) array1D.push(element)
+            return array1D
         }
         function getCardText(id){
-            return card_list.value[id]
+            return cardList.value[id]
         }
         
         /**
          * Add card to the end of queue
          * @param {dict} card Adds card (with id and text) into the card queue
          */
-        function addCardToQueue(card_id){
-            queue.value.push(card_id)
+        function addCardToQueue(cardId){
+            queue.value.push(cardId)
         }
 
         /**
@@ -155,82 +155,81 @@ export const useQSortStore = defineStore("q-sort", () => {
          * @param {Number} change How much is shifted seletion in card queue
          */
         function changeSelectedIdx(change){
-            if(selected_idx.value + change >= 0 && 
-                selected_idx.value + change < queue.value.length){
-                    selected_idx.value += change
-                    selected_card_id.value = queue.value[selected_idx.value]
+            if(selectedIdx.value + change >= 0 && 
+                selectedIdx.value + change < queue.value.length){
+                    selectedIdx.value += change
+                    selectedCardId.value = queue.value[selectedIdx.value]
                 }
         }
         /**
          * Get colors of all rows
-         * @param {Array} delimiter_colors Hex numbers of edge colors
+         * @param {Array} delimiterColors Hex numbers of edge colors
          * @returns {Array} interpolated colors of row
          */
-        function getAllRowColors(delimiter_colors){
-            if(delimiter_colors == undefined || delimiter_colors.length != 3){
-                delimiter_colors = default_colors.value
+        function getAllRowColors(delimiterColors){
+            if(delimiterColors == undefined || delimiterColors.length != 3){
+                delimiterColors = defaultColors.value
             }
-            const row_count = table.value.length
-            const positive_pos = 0
-            const neutral_pos = Math.round(row_count / 2) - 1
-            const negative_pos = row_count - 1
-            const midpoints = neutral_pos
-            var array = Array(row_count).fill("")
+            var rowCount = table.value.length
+            var positivePos = 0
+            var neutralPos = Math.round(rowCount / 2) - 1
+            var negativePos = rowCount - 1
+            var array = Array(rowCount).fill("")
 
-            array[positive_pos] = delimiter_colors[0]
-            array[neutral_pos] = delimiter_colors[1]
-            array[negative_pos] = delimiter_colors[2]
+            array[positivePos] = delimiterColors[0]
+            array[neutralPos] = delimiterColors[1]
+            array[negativePos] = delimiterColors[2]
 
-            var between_colors1 = getColorsBetween(array[positive_pos].substring(1), array[neutral_pos].substring(1), midpoints)
-            var between_colors2 = getColorsBetween(array[neutral_pos].substring(1), array[negative_pos].substring(1), midpoints)
+            var betweenColors1 = getColorsBetween(array[positivePos].substring(1), array[neutralPos].substring(1), neutralPos)
+            var betweenColors2 = getColorsBetween(array[neutralPos].substring(1), array[negativePos].substring(1), neutralPos)
 
-            between_colors1.forEach((item, index) =>{
-                array[positive_pos + index + 1] = "#"+item.toUpperCase()
+            betweenColors1.forEach((item, index) =>{
+                array[positivePos + index + 1] = "#"+item.toUpperCase()
             })
-            between_colors2.forEach((item, index) =>{
-                array[neutral_pos + index + 1] = "#"+item.toUpperCase()
+            betweenColors2.forEach((item, index) =>{
+                array[neutralPos + index + 1] = "#"+item.toUpperCase()
             })
 
             return array
         }
         /**
          * Get Colors between two colors
-         * @param {String} hex_color1 
-         * @param {String} hex_color2 
+         * @param {String} hexColor1 
+         * @param {String} hexColor2 
          * @param {Number} midpoints how many colors generate between
          * @returns array with all colors
          */
-        function getColorsBetween(hex_color1, hex_color2, midpoints){
-            var hex1_array = hex_color1.match(/.{2}/g)
-            var hex2_array = hex_color2.match(/.{2}/g)
+        function getColorsBetween(hexColor1, hexColor2, midpoints){
+            var hex1Array = hexColor1.match(/.{2}/g)
+            var hex2Array = hexColor2.match(/.{2}/g)
 
-            var new_colors = Array(midpoints-1).fill("")
+            var newColors = Array(midpoints-1).fill("")
 
-            hex1_array.forEach((item, index) => {
+            hex1Array.forEach((item, index) => {
                 var num1 = Number("0x"+item)
-                var num2 = Number("0x"+hex2_array[index])
+                var num2 = Number("0x"+hex2Array[index])
                 var step = Math.round((num1 - num2) / midpoints)
-                var new_color = num1
-                for (let idx = 0; idx < midpoints-1; idx++) {
-                    new_color -= step
-                    var part_color = new_color.toString(16)
-                    new_colors[idx] += part_color.length < 2 ? "0" + part_color : part_color
+                var newColor = num1
+                for (var idx = 0; idx < midpoints-1; idx++) {
+                    newColor -= step
+                    var partColor = newColor.toString(16)
+                    newColors[idx] += partColor.length < 2 ? "0" + partColor : partColor
                 }
             })  
-            return new_colors
+            return newColors
         }
         function getColorStyle(index){
             return {"background-color": colors.value[index]}
         }
         function getDelimiterText(index){
-            const positive_pos = 0
-            const neutral_pos = Math.round(table.value.length / 2) - 1
-            const negative_pos = table.value.length - 1
-            if(index == positive_pos){
+            const positivePos = 0
+            const neutralPos = Math.round(table.value.length / 2) - 1
+            const negativePos = table.value.length - 1
+            if(index == positivePos){
                 return delimiters.value[0].toUpperCase()
-            }else if(index == neutral_pos){
+            }else if(index == neutralPos){
                 return delimiters.value[1].toUpperCase()
-            }else if(index == negative_pos){
+            }else if(index == negativePos){
                 return delimiters.value[2].toUpperCase()
             }else{
                 return ""
@@ -241,11 +240,11 @@ export const useQSortStore = defineStore("q-sort", () => {
          */
         function removeCardFromQueue(){
             if(queue.value.length > 0){
-                queue.value.splice(selected_idx.value, 1)
+                queue.value.splice(selectedIdx.value, 1)
                 if(queue.value.length  == 0){
                     unselect()
-                } else if(queue.value.length - 1 < selected_idx.value){
-                    setSelected(queue.value[--selected_idx.value])
+                } else if(queue.value.length - 1 < selectedIdx.value){
+                    setSelected(queue.value[--selectedIdx.value])
                 }else{
                     setSelected()
                 }
@@ -255,8 +254,8 @@ export const useQSortStore = defineStore("q-sort", () => {
          * removes card from table and changes selected card
          */
         function removeCardFromTable(){
-            var old_pos = getCardPos(selected_card_id.value)
-            table.value[old_pos.row][old_pos.col] = null
+            var oldPos = getCardPos(selectedCardId.value)
+            table.value[oldPos.row][oldPos.col] = null
             if(queue.value.length!=0){
                 setSelected()
             }else{
@@ -269,17 +268,17 @@ export const useQSortStore = defineStore("q-sort", () => {
          * @param {Number} row Row of card if it has one
          * @param {Number} col Col of card if it has one
          */
-        function setSelected(card_id=queue.value[selected_idx.value], row=null, col=null){
-            selected_card_id.value = card_id
-            selected_row.value = row
-            selected_col.value = col
+        function setSelected(cardId=queue.value[selectedIdx.value], row=null, col=null){
+            selectedCardId.value = cardId
+            selectedRow.value = row
+            selectedCol.value = col
         }
         /**
          * Checks if selected card is in queue
          * @returns {boolean}
          */
         function isSelectedInQueue(){
-            return queue.value.includes(selected_card_id.value)
+            return queue.value.includes(selectedCardId.value)
         }
         /**
          * Loads JSON value basd on which creates table array
@@ -288,7 +287,7 @@ export const useQSortStore = defineStore("q-sort", () => {
          */
         function loadJsonTable(table){
             var array = Array(table.length)
-            for (let idx = 0; idx < array.length; idx++) {
+            for (var idx = 0; idx < array.length; idx++) {
                 array[idx] = Array(table[idx]).fill(null)                
             }
             return array
@@ -300,13 +299,13 @@ export const useQSortStore = defineStore("q-sort", () => {
          */
         function moveToSlot(row, col){
             if(!isNothingSelected() && table.value[row][col] == null){
-                var tmp_card_id = selected_card_id.value
+                var tmpCardId = selectedCardId.value
                 if(isSelectedInQueue()){
                     removeCardFromQueue()
                 }else{
                     removeCardFromTable()
                 }
-                table.value[row][col] = tmp_card_id
+                table.value[row][col] = tmpCardId
                 updateBothCookies()
             }
         }
@@ -328,8 +327,8 @@ export const useQSortStore = defineStore("q-sort", () => {
         function getCardPos(id){
             for (var row = 0; row < table.value.length; row++) {
                 for (var col = 0; col < table.value[row].length; col++) {
-                    var card_id = table.value[row][col]
-                    if(card_id != null && card_id == id){
+                    var cardId = table.value[row][col]
+                    if(cardId != null && cardId == id){
                         return {'row': row, 'col': col}
                     }
                 }
@@ -343,15 +342,15 @@ export const useQSortStore = defineStore("q-sort", () => {
          */
         function swapSlots(id){
             if(!isNothingSelected()){
-                var card1_pos = getCardPos(id)
-                var card2_pos = {col: selected_col.value, row: selected_row.value}
+                var card1Pos = getCardPos(id)
+                var card2Pos = {col: selectedCol.value, row: selectedRow.value}
                 
                 
-                var card1_id = getTableCardId(card1_pos.row, card1_pos.col)
-                var card2_id = getTableCardId(card2_pos.row, card2_pos.col)
+                var card1Id = getTableCardId(card1Pos.row, card1Pos.col)
+                var card2Id = getTableCardId(card2Pos.row, card2Pos.col)
 
-                table.value[card1_pos.row][card1_pos.col] = card2_id
-                table.value[card2_pos.row][card2_pos.col] = card1_id
+                table.value[card1Pos.row][card1Pos.col] = card2Id
+                table.value[card2Pos.row][card2Pos.col] = card1Id
                 
                 
                 if(queue.value.length==0){
@@ -367,13 +366,13 @@ export const useQSortStore = defineStore("q-sort", () => {
          * @returns {boolean}
          */
         function isNothingSelected(){
-            return selected_card_id.value == null
+            return selectedCardId.value == null
         }
         /**
          * Unselects all cards
          */
         function unselect(){
-            selected_card_id.value = null
+            selectedCardId.value = null
         }
         function getRowValue(idx){
             var offset = Math.round(table.value.length / 2) - 1
@@ -381,8 +380,8 @@ export const useQSortStore = defineStore("q-sort", () => {
         }
         function returnCardToQueue(){
             if(!isSelectedInQueue()){
-                queue.value.push(selected_card_id.value)
-                table.value[selected_row.value][selected_col.value] = null
+                queue.value.push(selectedCardId.value)
+                table.value[selectedRow.value][selectedCol.value] = null
                 setSelected()
                 updateBothCookies()
             }
@@ -406,7 +405,7 @@ export const useQSortStore = defineStore("q-sort", () => {
                 table.value.forEach((element, index) => {
                     sort.push({
                         value: getRowValue(index),
-                        card_uids: element
+                        cardUids: element
                     })
                 })
                 return JSON.stringify({
@@ -420,8 +419,7 @@ export const useQSortStore = defineStore("q-sort", () => {
                 
         }
         return {
-            name, question, delimiters, colors, selected_card_id, queue, selected_idx, table,
-            selected_row, selected_col,
+            name, question, delimiters, colors, selectedCardId, queue, selectedIdx, table,
 
             loadDataset, changeSelectedIdx, getCardText, addCardToQueue, setSelected, 
             isSelectedInQueue, moveToSlot, getTableCardId, getCardPos, swapSlots, 

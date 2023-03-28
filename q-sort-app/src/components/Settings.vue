@@ -1,5 +1,5 @@
 <template>
-    <ModalWindow @toggleModal="updateVisibility($event)" :key="reload_modal" :visible="g_store.settings_visible">
+    <ModalWindow @toggleModal="updateVisibility($event)" :key="reloadModal" :visible="gStore.settingsVisible">
         <template v-slot:header>
             Settings
         </template>
@@ -10,7 +10,7 @@
                         Progress auto-saving
                     </div>
                     <div class="interactable">
-                        <ToggleButton :id="'save'" v-model="s_store.saving_enabled"/>
+                        <ToggleButton :id="'save'" v-model="sStore.savingEnabled"/>
                     </div>
                 </div>
                 <div class="option">
@@ -18,7 +18,7 @@
                         Scrollbar minimap
                     </div>
                     <div class="interactable">
-                        <ToggleButton :id="'minimap'" v-model="s_store.minimap_enabled"/>
+                        <ToggleButton :id="'minimap'" v-model="sStore.minimapEnabled"/>
                     </div>
                 </div>
                 <div class="option">
@@ -26,7 +26,7 @@
                         How-To video
                     </div>
                     <div class="interactable">
-                        <NormalButton :btn_type="ButtonTypes.Normal" @click="showIntro()">
+                        <NormalButton :btnType="ButtonTypes.Normal" @click="showIntro()">
                             Show
                         </NormalButton>
                     </div>
@@ -36,7 +36,7 @@
                         Reset sorting table
                     </div>
                     <div class="interactable">
-                        <NormalButton :btn_type="ButtonTypes.Warning" @click="q_store.resetTable()">
+                        <NormalButton :btnType="ButtonTypes.Warning" @click="qStore.resetTable()">
                             Reset
                         </NormalButton>
                     </div>
@@ -54,26 +54,26 @@
     import { useQSortStore } from '../stores/q-sort';
     import { useSettingsStore } from '../stores/settings';
     import { useGlobalStore } from '../stores/global';
-    const q_store = useQSortStore()
-    const s_store = useSettingsStore()
-    const g_store = useGlobalStore()
+    const qStore = useQSortStore()
+    const sStore = useSettingsStore()
+    const gStore = useGlobalStore()
 
-    const reload_modal = ref(0)
+    const reloadModal = ref(0)
 
     function updateVisibility(value){
-        g_store.settings_visible = value
+        gStore.settingsVisible = value
     }
 
     function showIntro(){
         updateVisibility(false)
-        s_store.intro_visible = !s_store.intro_visible
+        sStore.introVisible = !sStore.introVisible
     }
 
     watch(
-        () => g_store.settings_visible,
+        () => gStore.settingsVisible,
         () =>{
-                reload_modal.value++
-                s_store.updateSettings()
+                reloadModal.value++
+                sStore.updateSettings()
         }
     )
 
@@ -89,7 +89,7 @@
         gap: 15px;
         padding: 10px;
         border-radius: 6px;
-        background-color: rgba($color: $secondary_bg, $alpha: 0.6);
+        background-color: rgba($color: $secondary-bg, $alpha: 0.6);
         .option{
             display: flex;
             flex-direction: row;

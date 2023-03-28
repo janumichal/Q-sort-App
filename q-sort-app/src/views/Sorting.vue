@@ -1,5 +1,5 @@
 <template>
-    <ModalWindow @toggle-modal="updateIntro($event)" :visible="s_store.intro_visible" :key="reload_intro_modal">
+    <ModalWindow @toggle-modal="updateIntro($event)" :visible="sStore.introVisible" :key="reloadIntroModal">
         <template v-slot:header>
             Short How-To
         </template>
@@ -22,7 +22,7 @@
                 <SortingTable />
             </div>
         </div>
-        <Minimap ref="minimap" v-if="s_store.minimap_enabled" />
+        <Minimap ref="minimap" v-if="sStore.minimapEnabled" />
     </div>
 </template>
 
@@ -38,28 +38,28 @@
     import { useRoute } from "vue-router"
     import ModalWindow from "../components/default/ModalWindow.vue"
     
-    const q_store = useQSortStore()
-    const s_store = useSettingsStore()
-    const g_store = useGlobalStore()
+    const qStore = useQSortStore()
+    const sStore = useSettingsStore()
+    const gStore = useGlobalStore()
     const route = useRoute()
 
-    const reload_intro_modal = ref(0)
+    const reloadIntroModal = ref(0)
 
     let dragging = false;
     let timer = null;
 
     function updateIntro(value){
-        s_store.intro_visible = value
+        sStore.introVisible = value
         if(value == false){
-            s_store.show_intro = value
-            s_store.updateSettings()
+            sStore.showIntro = value
+            sStore.updateSettings()
         }
     }
 
     watch(
-        () => s_store.intro_visible,
+        () => sStore.introVisible,
         () => {
-            reload_intro_modal.value++
+            reloadIntroModal.value++
         }
     )
 
@@ -84,28 +84,28 @@
 
     // this function could fetch the dataset from server
     function getDataset(uid){
-        return g_store.datasets.find(element => element.uid == uid)
+        return gStore.datasets.find(element => element.uid == uid)
     }
 
     function getBottomBgColor(){
-        return {"background-color": q_store.colors[q_store.colors.length-1]}
+        return {"background-color": qStore.colors[qStore.colors.length-1]}
     }
     function getTopBgColor(){
-        return {"background-color": q_store.colors[0]}
+        return {"background-color": qStore.colors[0]}
     }
 
     onMounted(() => {
         var tiles = document.getElementsByClassName("tiles")[0]
         if(tiles.clientHeight < tiles.scrollHeight){ 
-            s_store.minimap_enabled = false
+            sStore.minimapEnabled = false
         }
     })
     
     onBeforeMount(() => {
-        q_store.init()
-        g_store.init()
+        qStore.init()
+        gStore.init()
         //Load dataset
-        q_store.loadDataset(getDataset(route.params.uid))
+        qStore.loadDataset(getDataset(route.params.uid))
     })
 
 

@@ -1,12 +1,12 @@
 <template>
     <div class="table-wrapper">
-        <Row v-for="(arr, index) in q_store.table" 
+        <Row v-for="(arr, index) in qStore.table" 
             :key="index" 
-            :slot_count="arr.length" 
-            :delimiter_text="q_store.getDelimiterText(index)" 
-            :row_value="q_store.getRowValue(index)" 
+            :slotCount="arr.length" 
+            :delimiterText="qStore.getDelimiterText(index)" 
+            :rowValue="qStore.getRowValue(index)" 
             :idx="index" 
-            :style="q_store.getColorStyle(index)" />
+            :style="qStore.getColorStyle(index)" />
     </div>
 </template>
 
@@ -16,7 +16,7 @@
     import Row from "./Row.vue";
     import { useQSortStore } from '../../stores/q-sort'
 
-    const q_store = useQSortStore()
+    const qStore = useQSortStore()
 </script>
 
 

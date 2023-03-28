@@ -6,10 +6,10 @@
             </div>
             <div class="options-wrapper">
                 <DatasetTile 
-                    v-for="(dataset, index) in g_store.datasets" 
+                    v-for="(dataset, index) in gStore.datasets" 
                     :key="index" 
                     :name="dataset.name"
-                    :statement_count="dataset.cards.length"
+                    :statementCount="dataset.cards.length"
                     :size="getDatasetSize(dataset.cards.length)"
                     :question="dataset.question"
                     :uid="dataset.uid"/>
@@ -20,7 +20,7 @@
 <script setup>
     import { useGlobalStore } from "../stores/global" 
     import DatasetTile from "../components/DatasetTile.vue";
-    const g_store = useGlobalStore()
+    const gStore = useGlobalStore()
 
     function getDatasetSize(count){
         if(count >= 75){
@@ -36,7 +36,7 @@
 <style lang="scss" scoped>
     @use "../scss/Colors/Colors" as *;
     .wrapper{
-        background-color: $primary_bg;
+        background-color: $primary-bg;
         width: 100%;
         height: 100%;
         display: flex;

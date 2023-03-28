@@ -10,23 +10,23 @@
                     <div class="json">JSON</div>
                 </div>
                 <div class="content">
-                    <pre>{{ q_store.getResultJSON() }}</pre>
+                    <pre>{{ qStore.getResultJSON() }}</pre>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
 <script setup>
     import { useQSortStore } from '../stores/q-sort';
-
-    const q_store = useQSortStore()
-
+    const qStore = useQSortStore()
 
 </script>
+
 <style lang="scss" scoped>
     @use "../scss/Colors/Colors" as *;
     .wrapper{
-        background-color: $primary_bg;
+        background-color: $primary-bg;
         width: 100%;
         height: 100%;
         display: flex;
@@ -69,7 +69,7 @@
                 }
                 .header{
                     color: rgba($color: #FFFFFF, $alpha: .7);
-                    background-color: $secondary_bg;
+                    background-color: $secondary-bg;
                     border-radius: 6px 6px 0 0;
                     display: flex;
                     flex-direction: row;
@@ -83,7 +83,7 @@
                     }
                 }
                 .content{
-                    background-color: $ternary_bg;
+                    background-color: $ternary-bg;
                     color: #FFFFFF;
                     border-radius:0 0 6px 6px ;
                     overflow-y: auto;

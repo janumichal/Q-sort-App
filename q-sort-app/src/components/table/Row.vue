@@ -1,8 +1,8 @@
 <template>
     <div class="row">
-        <div class="row-value">{{ props.row_value }}</div>
-        <CardSlot v-for="index in props.slot_count" :key="index-1" :row="props.idx" :col="index-1" />
-        <div class="delimiter-text">{{ props.delimiter_text }}</div>
+        <div class="row-value">{{ props.rowValue }}</div>
+        <CardSlot v-for="index in props.slotCount" :key="index-1" :row="props.idx" :col="index-1" />
+        <div class="delimiter-text">{{ props.delimiterText }}</div>
     </div>
 </template>
 
@@ -13,9 +13,9 @@
     
     const props = defineProps({
         idx: Number,
-        slot_count: Number,
-        delimiter_text: String,
-        row_value: Number
+        slotCount: Number,
+        delimiterText: String,
+        rowValue: Number
     })
 
 </script>
