@@ -27,7 +27,7 @@
     const props = defineProps({
         visible: {
             type: Boolean,
-            required: false
+            required: true
         }
     })
 

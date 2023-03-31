@@ -28,7 +28,7 @@
 
     function isSelected(){
         return props.id == qStore.selectedCardId &&
-         props.text == qStore.getCardText(qStore.selectedCardId)
+        props.text == qStore.getCardText(qStore.selectedCardId)
     }   
 
     function classIsSelected(){
