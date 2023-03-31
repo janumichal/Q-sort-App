@@ -1,6 +1,7 @@
 <template>
     <div class="table-wrapper">
         <Row v-for="(arr, index) in qStore.table" 
+            :key="index"
             :slotCount="arr.length" 
             :delimiterText="qStore.getDelimiterText(index)" 
             :rowValue="qStore.getRowValue(index)" 

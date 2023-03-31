@@ -77,6 +77,14 @@
         }
     )
 
+    watch(
+        () => sStore.savingEnabled,
+        () => {
+            qStore.updateBothCookies()
+            sStore.updateSettings()
+        }
+    )
+
 
 
 </script>
