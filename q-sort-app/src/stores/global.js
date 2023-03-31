@@ -14,6 +14,7 @@ export const useGlobalStore = defineStore("global", () => {
     const datasets = ref([food_json, affects_json, BFI2_json, students_json]) // (tmp because there is no server)
 
     function init(){
+        settingsVisible.value = false
         transitionCount.value = 0
     }
 

@@ -78,7 +78,7 @@
     )
 
     watch(
-        () => sStore.savingEnabled,
+        () => [sStore.savingEnabled, sStore.minimapEnabled],
         () => {
             qStore.updateBothCookies()
             sStore.updateSettings()

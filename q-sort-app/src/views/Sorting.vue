@@ -95,9 +95,11 @@
     }
 
     onMounted(() => {
-        var tiles = document.getElementsByClassName("tiles")[0]
-        if(tiles.clientHeight < tiles.scrollHeight){ 
-            sStore.minimapEnabled = false
+        if(sStore.minimapEnabled){
+            var tiles = document.getElementsByClassName("tiles")[0]
+            if(tiles.clientHeight < tiles.scrollHeight){ 
+                sStore.minimapEnabled = false
+            }
         }
     })
     
