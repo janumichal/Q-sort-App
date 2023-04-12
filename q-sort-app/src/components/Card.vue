@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of card that is used in Queue and table
+ -->
 <template>
     <Transition name="card"
         @before-leave="gStore.addTransition()"
@@ -26,11 +30,17 @@
     const qStore = useQSortStore()
     const gStore = useGlobalStore()
 
+    /**
+     * Check if currently selected card is this card
+     */
     function isSelected(){
         return props.id == qStore.selectedCardId &&
         props.text == qStore.getCardText(qStore.selectedCardId)
     }   
 
+    /**
+     * Set class of selected card if card is selected
+     */
     function classIsSelected(){
         if(isSelected()){
             return "selected"
@@ -38,6 +48,9 @@
         return ""
     }
 
+    /**
+     * Returns class of clickable or swapable depending on conditions of current card
+     */
     function classClickable(){
         var classStr = ""
         if(!isSelected() && (!props.inQueue || props.inQueue && props.idx == qStore.selectedIdx)){
@@ -50,6 +63,9 @@
         return classStr
     }
 
+    /**
+     * Set class of "inqueue" if the card is in queue and not selected
+     */
     function classNotSelectedInQueue(){
         if(!isSelected() && props.inQueue){
             return "inqueue"
@@ -57,6 +73,9 @@
         return ""
     }
 
+    /**
+     * If card clicked either select/deselect it or swap with other selected card
+     */
     function onClickSelect(){
         if(!gStore.inTransition()){
             if(!props.inQueue && qStore.isSelectedInQueue() || qStore.isNothingSelected() || !qStore.isSelectedInQueue() && props.inQueue && qStore.selectedIdx == props.idx){
@@ -71,8 +90,6 @@
             }
         }
     }
-        
-
 </script>
 
 

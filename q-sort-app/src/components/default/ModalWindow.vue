@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of reusable modal window
+ -->
 <template>
     <Transition name="modal" appear>
         <div class="modal-wrapper" v-if="modalVisisble" @click.self="onClickClose()">
@@ -33,6 +37,9 @@
 
     const modalVisisble = ref(props.visible)
 
+    /**
+     * Toggles the modal window open/close
+     */
     function onClickClose(){
         modalVisisble.value = !modalVisisble.value
         nextTick(() => {

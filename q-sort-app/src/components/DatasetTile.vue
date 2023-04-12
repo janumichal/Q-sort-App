@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Page with all the datasets that are preloaded in the General store
+ -->
 <template>
     <div>
         <div class="wrapper" @click="goToRoute('Sorting', {uid: uid})">
@@ -34,6 +38,11 @@
     })
     const router = useRouter()
 
+    /**
+     * Goes to the Sorting page and loads the selected dataset
+     * @param {String} routeName What route to use
+     * @param {Object} params the UID of the dataset that was chosen
+     */
     function goToRoute(routeName, params=null ){
         router.push({name: routeName, params: params==null? {} : params})
     }

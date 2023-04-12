@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of toggle button that is reusable
+ -->
 <template>
     <div class="toggle-wrapper">
         <input class="toggle" :id="id" type="checkbox" @change="toggle" v-model="isToggled"/>
@@ -19,6 +23,10 @@
     })
     const isToggled = ref(props.modelValue)
     const emits = defineEmits(["update:modelValue"])
+
+    /**
+     * On being toggled emits event to the parent
+     */
     function toggle(){
         emits("update:modelValue", isToggled.value)
     }

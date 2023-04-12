@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of tile containing the indicator, the whole component used in the minimap
+ -->
 <template>
     <div class="tile">
         <Indicator v-for="index in props.indicatorCount"

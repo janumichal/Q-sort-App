@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of the whole sorting table
+ -->
 <template>
     <div class="table-wrapper">
         <Row v-for="(arr, index) in qStore.table" 

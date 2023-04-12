@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of card queue used in top panel
+ -->
 <template>
     <div class="card-selector">
         <div class="btn-wrapper">
@@ -43,14 +47,25 @@
     const qStore = useQSortStore()
     const step = ref(1)
 
+    /**
+     * moves card queue to the right
+     */
     function btnMoveRight(){
         qStore.changeSelectedIdx(step.value)
     }
 
+    /**
+     * moves card queue to the left
+     */
     function btnMoveLeft(){
         qStore.changeSelectedIdx(-step.value)
     }
 
+    /**
+     * Sets class for the arrow buttons depeneding on the queue
+     * @param {Boolean} isFirst true if left arrow
+     * @returns class name 
+     */
     function classDisabled(isFirst){
         if(isFirst){
             return qStore.selectedIdx == 0 || qStore.queue.length == 0 ? "btn-disabled" : ""
@@ -59,7 +74,11 @@
         }
     }
 
-
+    /**
+     * Checks if card in queue is on left side of the selected card
+     * @param {Number} index index of the card in queue
+     * @returns boolean
+     */
     function isCardLeft(index){
         if(qStore.selectedIdx < index){
             return false
@@ -70,10 +89,20 @@
         return null
     }
     
+    /**
+     * Gets layer of what the card is in
+     * @param {Number} index index of the card in queue
+     * @returns layer number
+     */
     function getCardLayer(index){
         return Math.abs(index - qStore.selectedIdx)
     }
     
+    /**
+     * Set style of card
+     * @param {Number} index index of the card in queue
+     * @returns style object (CSS)
+     */
     function getCardQueueStyle(index){
         var layer = getCardLayer(index)
         var translateX = 22

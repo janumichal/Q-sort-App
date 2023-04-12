@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component for the Settings modal window
+ -->
 <template>
     <ModalWindow @toggleModal="updateVisibility($event)" :key="reloadModal" :visible="gStore.settingsVisible">
         <template v-slot:header>
@@ -64,6 +68,9 @@
         gStore.settingsVisible = value
     }
 
+    /**
+     * Shows the intro video in modal window
+     */
     function showIntro(){
         updateVisibility(false)
         sStore.introVisible = !sStore.introVisible
