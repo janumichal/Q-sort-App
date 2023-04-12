@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of card indocator in minimap
+ -->
 <template>
     <div class="indicator" 
         :class="filled ? 'filled' : ''">
@@ -15,6 +19,9 @@
     const qStore = useQSortStore()
     const filled = ref(false)
 
+    /**
+     * checks table in Q-sort store and assigns the variable based on the coresponding position in the table
+     */
     function lookUpFilled(){
         var cardId = qStore.getTableCardId(props.row, props.col)
             if(cardId != null){

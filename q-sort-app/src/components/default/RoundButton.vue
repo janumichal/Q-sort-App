@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of round button
+ -->
 <template>
     <div class="button-inner">
         <slot>

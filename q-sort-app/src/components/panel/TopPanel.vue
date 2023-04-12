@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of top panel containing the buttons, question and card queue
+ -->
 <template>
     <Transition name="question-queue" 
         @after-leave="showButton()"
@@ -67,7 +71,7 @@
             </div>
         </div>
     </Transition>
-    <Transition name="show-btn" @after-leave="showPanel()" 
+    <Transition name="show-btn" @after-leave="toggleTopPanel()" 
             @before-leave="gStore.addTransition()" 
             @after-enter="gStore.removeTransition()">
         <div class="show-button" v-if="showBtnVisible">
@@ -98,28 +102,46 @@
     const sStore = useSettingsStore()
     const gStore = useGlobalStore()
 
+    /**
+     * Toggles visivility of queue
+     */
     function showQueue(){
         sStore.queueVisible = !sStore.queueVisible
     }
 
+    /**
+     * Toggles visivility of submit button
+     */
     function showSubmit(){
         submitVisible.value = !submitVisible.value
 
     }
 
+    /**
+     * routes to the last screen with sort overview
+     */
     function onSubmitSort(){
         // Here would be Fetch function with the data
         router.replace({name: "Ferewell"})
     }
 
+    /**
+     * Toggles visivility of question
+     */
     function onClickToggleQuestion(){
         sStore.questionOpened = !sStore.questionOpened
     }
 
+    /**
+     * Toggles visivility of settings menu
+     */
     function onClickOpenSettings(){
         gStore.settingsVisible = !gStore.settingsVisible
     }
 
+    /**
+     * Toggles visivility of whole top panel
+     */
     function toggleTopPanel(){
         if(showBtnVisible.value){
             showBtnVisible.value = !showBtnVisible.value
@@ -130,6 +152,9 @@
         }
     }
 
+    /**
+     * Sets style of button dependion on if the card in queue is selected
+     */
     function styleSelectedQueue(){
         if(qStore.isSelectedInQueue() && !sStore.panelOpened){
             return {"border": "2px solid yellow"}
@@ -137,12 +162,11 @@
         return {"border": "2px solid transparent"}
     }
 
+    /**
+     * Toggle of button used to show the top panel (if not visible)
+     */
     function showButton(){
         showBtnVisible.value = !showBtnVisible.value
-    }
-
-    function showPanel(){
-        sStore.panelOpened = !sStore.panelOpened
     }
 
     watch(

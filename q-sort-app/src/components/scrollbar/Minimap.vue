@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of the whole minimap
+ -->
 <template>
     <div ref="track" class="mm-track" 
         @mousedown.left="onMouseDownTrack($event)" 
@@ -70,6 +74,10 @@
 
     defineExpose({init})
 
+    /**
+     * Triggers on mouse down on the track of the scrollbar/minimap
+     * @param {Event} event the event triggered
+     */
     function onMouseDownTrack(event){
         event.stopPropagation();
         trackClick.value = true
@@ -78,6 +86,11 @@
         moveThumb(event)
     }
 
+    /**
+     * Get position of where the event happend
+     * @param {Event} event the event triggered
+     * @returns position
+     */
     function getPosFromEvent(event){
         var pos
         if(event.type == 'touchstart' || event.type == 'touchmove' || event.type == 'touchend'){
@@ -90,6 +103,10 @@
         return pos
     }
 
+    /**
+     * Triggers on mouse down on the thumb of the scrollbar/minimap
+     * @param {Event} event the event triggered
+     */
     function onMouseDownThumb(event){
         event.stopPropagation();
         trackClick.value = false
@@ -98,6 +115,9 @@
         moveThumb(event)
     }
 
+    /**
+     * Triggered if mouse is released to stop the thumb movement
+     */
     function onMouseUpThumb(){
         if(pressed.value){
             prevThumbPos.value = thumbPos.value
@@ -106,16 +126,30 @@
         }
     }
 
+    /**
+     * Move thumb if pressed/touched and moved
+     * @param {Event} event the event triggered
+     */
     function onMoveThumb(event){
         if(pressed.value){
             moveThumb(event)
         }
     }
 
+    /**
+     * Th clamp function to limit value in range
+     * @param {Number} min 
+     * @param {Number} max 
+     * @returns clamped value
+     */
     Number.prototype.clamp = function(min, max){
         return Math.min(Math.max(this, min), max)
     }
 
+    /**
+     * Sets the thumb position and the poistion of the view on the page
+     * @param {Event} event triggered event
+     */
     function moveThumb(event){
         var eventPosition = getPosFromEvent(event)
         if(trackClick.value){
@@ -127,6 +161,9 @@
         container.value.scrollTo(0, convertSctoll2pageHeight(thumbPos.value))
     }
 
+    /**
+     * Moves thumb if used normal scroll used
+     */
     function getScroll(){
         if(!pressed.value){
             prevThumbPos.value = convertPage2ScrollHeight(container.value.scrollTop)
@@ -135,10 +172,17 @@
         updateThumbHeight()
     }
 
+    /**
+     * Scroll based on the wheel value in event when mouse over minimap
+     * @param {Event} event triggered event
+     */
     function getMinimapScroll(event){
         container.value.scrollBy(0, event.deltaY)
     }
 
+    /**
+     * Initial setup of the minimap
+     */
     function minimapSetup(){
         if(sStore.minimapEnabled){
             displayHeight.value = window.innerHeight
@@ -152,14 +196,26 @@
             updateThumbHeight()
         }
     }
+
+    /**
+     * Gets top position of the thumb element
+     * @returns position
+     */
     function getThumbTop(){
         return Math.max(convertPage2ScrollHeight(container.value.scrollTop) - fillHeight.value, 0)
     }
 
+    /**
+     * Gets the height of space dedicated to the top part (panel)
+     * @return height
+     */
     function getFillDecreaseTop(){
         return Math.max(fillHeight.value - convertPage2ScrollHeight(container.value.scrollTop) , 0)
     }
 
+    /**
+     * Updates value of thumb based on the variables
+     */
     function updateThumbHeight(){
         thumbTop.value = getThumbTop()
         thumbHeight.value = tileCount.value*tileHeight.value - getFillDecreaseTop()
@@ -167,20 +223,36 @@
         thumb.value.style.height = thumbHeight.value.toString() + "px"
     }
 
+    /**
+     * Converts value from Page to minimap height
+     * @param {Number} height page height
+     * @returns minimap height
+     */
     function convertPage2ScrollHeight(height){
         return (height / pageHeight.value) * trackHeight.value
     }
 
+    /**
+     * Converts value from minimap to page height
+     * @param {Number} height minimap height
+     * @returns page height
+     */
     function convertSctoll2pageHeight(height){
         return (height / trackHeight.value ) * pageHeight.value
     }
 
+    /**
+     * Disables minimap if the minimap element overflows outside viewport
+     */
     function disableIfOverflows(){
         if(tiles.value.scrollHeight > displayHeight.value){
             sStore.minimapEnabled = false
         }
     }
 
+    /**
+     * Initialize minimap values
+     */
     function init(){
         gStore.waitForTransitions().then(() => {
             minimapSetup()

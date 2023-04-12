@@ -1,6 +1,10 @@
+/**
+ * Q-sort store which takes care of the state of sorting table and card queue.
+ * @author Michal Janů
+ */
 import { defineStore } from 'pinia'
 import { useSettingsStore } from './settings'
-import { ref, nextTick } from 'vue'
+import { ref } from 'vue'
 
 export const useQSortStore = defineStore("q-sort", () => {
 
@@ -23,6 +27,9 @@ export const useQSortStore = defineStore("q-sort", () => {
         const cookieTable = ref("")
         const cookieQueue = ref("")
     
+        /**
+         * Initializes the entire store state to default
+         */
         function init(){
             name.value = null
             uid.value = null
@@ -39,8 +46,8 @@ export const useQSortStore = defineStore("q-sort", () => {
         }
 
         /**
-         * load JSON file and save vale to store
-         * @param {String} json Loads the json file into the structure
+         * load JSON file and save values to coresponding variables and arrays in the store
+         * @param {String} json JSON with the Q-sort dataset (has to have right format)
          */
         function loadDataset(json){
             //General Q-sort info
@@ -87,6 +94,11 @@ export const useQSortStore = defineStore("q-sort", () => {
             }
 
         }
+        /**
+         * Used for loading of the sorting table saved in cookie to array
+         * @param {String} is_table csv string with the sorting table where cards are represented as UIDs
+         * @returns 1D Array of card UIDs
+        */
         function loadCookieToArray(isTable){
             var cookieValue = $cookies.get(isTable ? cookieTable.value : cookieQueue.value)
             if(cookieValue == null){
@@ -95,17 +107,31 @@ export const useQSortStore = defineStore("q-sort", () => {
                 return cookieValue.split(",")
             }
         } 
+        /**
+         * Updates the cookie for either sorting table or card queue
+         * @param {Boolean} is_table Is sorting table being updated? If false card queue is being updated
+         */
         function updateCookies(isTable){
             var arr = isTable ? get2dTo1dArray(table.value) : queue.value
             var csvStr = arr.join(",")
             $cookies.set(isTable ? cookieTable.value : cookieQueue.value, csvStr)
         } 
+
+        /**
+         * Updates both sorting table and card queue cookies
+         */
         function updateBothCookies(){
             if(sStore.savingEnabled){
                 updateCookies(true)
                 updateCookies(false)
             }
         }
+
+        /**
+         * Creates changes UID in String to Int
+         * @param {Array} array
+         * @returns 2D array of int card UIDs
+         */
         function loadTable(array){
             var arr = table.value
             var linearIdx = 0
@@ -121,6 +147,12 @@ export const useQSortStore = defineStore("q-sort", () => {
             }
             return arr
         }
+
+        /**
+         * Creates Dictionary with Key being UID and value being the text of the card
+         * @param {Object} cards Object containing UID and text
+         * @returns Dictionary with all cards where Key is UID and value is text
+         */
         function loadCards(cards){
             var arr = {}
             cards.forEach(card => {
@@ -128,16 +160,32 @@ export const useQSortStore = defineStore("q-sort", () => {
             })
             return arr
         }
+
+        /**
+         * Creates Array of all card UIDs
+         * @returns Array of all card UIDs
+         */
         function loadCardIds(){
             var arr = Object.keys(cardList.value)
             arr = arr.map(id => parseInt(id))
             return arr
         }
+        /**
+         * Coverts 2D array to the 1D array from sorting table shape
+         * @param {Array} array_2D 2D Array
+         * @returns 1D Array
+         */
         function get2dTo1dArray(array2D){
             var array1D = []
             for (var row of array2D) for (var element of row) array1D.push(element)
             return array1D
         }
+
+        /**
+         * Gets the text of specific card UID
+         * @param {Number} id 
+         * @returns text
+         */
         function getCardText(id){
             return cardList.value[id]
         }
@@ -194,8 +242,8 @@ export const useQSortStore = defineStore("q-sort", () => {
         }
         /**
          * Get Colors between two colors
-         * @param {String} hexColor1 
-         * @param {String} hexColor2 
+         * @param {String} hex_color1 First hexadecimal color
+         * @param {String} hex_color2 Secon hexadecimal color
          * @param {Number} midpoints how many colors generate between
          * @returns array with all colors
          */
@@ -218,9 +266,21 @@ export const useQSortStore = defineStore("q-sort", () => {
             })  
             return newColors
         }
+
+        /**
+         * Get Card of specific row
+         * @param {Number} index number of row
+         * @returns style string
+         */
         function getColorStyle(index){
             return {"background-color": colors.value[index]}
         }
+
+        /**
+         * Gets delimiter text based on the row number
+         * @param {Number} index row number
+         * @returns Delimiter text as String
+         */
         function getDelimiterText(index){
             const positivePos = 0
             const neutralPos = Math.round(table.value.length / 2) - 1
@@ -236,7 +296,7 @@ export const useQSortStore = defineStore("q-sort", () => {
             }
         }
         /**
-         * removes card from queue and choses new elected color
+         * removes card from queue and choses new selected color
          */
         function removeCardFromQueue(){
             if(queue.value.length > 0){
@@ -275,7 +335,7 @@ export const useQSortStore = defineStore("q-sort", () => {
         }
         /**
          * Checks if selected card is in queue
-         * @returns {boolean}
+         * @returns returns boolean
          */
         function isSelectedInQueue(){
             return queue.value.includes(selectedCardId.value)
@@ -283,7 +343,7 @@ export const useQSortStore = defineStore("q-sort", () => {
         /**
          * Loads JSON value basd on which creates table array
          * @param {Array} table 
-         * @returns {Array}
+         * @returns Array in shape of the dataset 
          */
         function loadJsonTable(table){
             var array = Array(table.length)
@@ -313,7 +373,7 @@ export const useQSortStore = defineStore("q-sort", () => {
          * get card om table
          * @param {Number} row of card slot
          * @param {Number} col of card slot
-         * @returns 
+         * @returns returns card iod from table
          */
         function getTableCardId(row, col){
             return table.value[row][col]
@@ -336,9 +396,9 @@ export const useQSortStore = defineStore("q-sort", () => {
             return {'row': null, 'col': null}
         }
         /**
-         * Spaw cards
-         * @param {*} id of card to swap with (nonselected)
-         * @param {*} text of card to swap with (nonselected)
+         * Spaw cards in table
+         * @param {Number} id of card to swap with (nonselected)
+         * @param {String} text of card to swap with (nonselected)
          */
         function swapSlots(id){
             if(!isNothingSelected()){
@@ -374,10 +434,20 @@ export const useQSortStore = defineStore("q-sort", () => {
         function unselect(){
             selectedCardId.value = null
         }
+
+        /**
+         * returns the value of row
+         * @param {Number} idx 
+         * @returns row value 
+         */
         function getRowValue(idx){
             var offset = Math.round(table.value.length / 2) - 1
             return offset - idx
         }
+
+        /**
+         * returns selected card from sorting table to qeueu
+         */
         function returnCardToQueue(){
             if(!isSelectedInQueue()){
                 queue.value.push(selectedCardId.value)
@@ -386,6 +456,11 @@ export const useQSortStore = defineStore("q-sort", () => {
                 updateBothCookies()
             }
         }
+
+
+        /**
+         * Clears the whole table and returns all cards to card queue
+         */
         function resetTable(){
             for (var i = 0; i < table.value.length; i++) {
                 for (var j = 0; j < table.value[i].length; j++) {
@@ -399,6 +474,11 @@ export const useQSortStore = defineStore("q-sort", () => {
             setSelected()
             updateBothCookies()
         }
+
+        /**
+         * Returns the Sorting table in JSON format when the table is submited
+         * @returns JSON String
+         */
         function getResultJSON(){
             if(name.value != null){
                 var sort = []

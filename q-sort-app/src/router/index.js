@@ -1,3 +1,7 @@
+/**
+ * Routes for the application
+ * @author Michal Janů
+ */
 import { createRouter, createWebHistory } from "vue-router"
 import Sorting from "../views/Sorting.vue"
 import Home from "../views/Home.vue"

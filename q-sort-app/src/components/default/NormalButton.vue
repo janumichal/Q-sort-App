@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of Normal rectangular button
+ -->
 <template>
     <div class="button" :class="getColor()">
         <slot>
@@ -14,6 +18,11 @@
             default: ButtonTypes.Normal
         }
     })
+
+    /**
+     * Get class of the button depanding on the type
+     * @returns string class of the button type
+     */
     function getColor(){
         return "button-"+ props.btnType
     }   

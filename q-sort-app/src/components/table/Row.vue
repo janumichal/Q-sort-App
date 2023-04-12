@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of Row of the sorting table
+ -->
 <template>
     <div class="row">
         <div class="row-value">{{ props.rowValue }}</div>

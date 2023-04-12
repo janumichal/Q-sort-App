@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: Component of empty card slot used in sorting table
+ -->
 <template>
     <div class="slot-wrapper">
         <div class="card-slot">
@@ -70,13 +74,19 @@
             }
         }
     )
-
+    
+    /**
+     * Moves selected card to this slot
+     */
     function onClickMove(){
         qStore.moveToSlot(props.row, props.col)
     }
 
+    /**
+     * sets class "movable" if any card is selected and slot is empty
+     */
     function classMovable(){
-        if(!qStore.isNothingSelected()){
+        if(!qStore.isNothingSelected() && !cVisible.value){
             return "movable"
         }else{
             return ""
