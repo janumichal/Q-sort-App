@@ -10,7 +10,6 @@ services:
     user: root
     ports: 
       - "8080:8080"
-      - "8000:8000"
     volumes:
       - type: bind
         source: ../q-sort-app
