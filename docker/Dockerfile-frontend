@@ -13,5 +13,4 @@ RUN source /root/.bashrc && nvm install v18.12.0
 SHELL ["/bin/bash", "--login", "-c"]
 
 WORKDIR /frontend-q-sort
-# RUN mkdir -p node_modules
 # RUN npm install
