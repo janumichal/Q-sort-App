@@ -6,7 +6,7 @@ The whole application is developed in Vue.js framework with use of some librarie
  + Docker (v4+)
 
 ### Install & Run Steps (Linux & Linux-subsystem) **RECOMMENDED**
-1. Run `./ setup_docker.sh`  
+1. Run `./setup_docker.sh`  
 2. Wait till everything is installed
 3. Run `./run_docker.sh`
 4. At the end of previous step you should be inside the container console.
@@ -45,25 +45,25 @@ The whole application is developed in Vue.js framework with use of some librarie
 ```
 ├── poster ................. (Directory with Q-sort App poster.)
 ├── docker ................. (Directory with docker compose and dockerfile.)
-├── q-sort-app ............. (Directory with source codes and assets of the App.)
-│    ├── src ............... (Directory with source files of the App.)
-│    │    ├── assets ....... (Directory with datasets, icons and images.)
+├── q-sort-app ............. (Directory with source codes and assets for the app.)
+│    ├── src ............... (Directory with source files for the app.)
+│    │    ├── assets ....... (Directory with datasets, icons, and images.)
 │    │    ├── components ... (Directory with all components used in the application.)
-│    │    ├── enums ........ (Directory with enums used in application.)
-│    │    ├── fonts ........ (Directory with fonts used in application.)
-│    │    ├── router ....... (Directory with file configuring the routing of the app.)
+│    │    ├── enums ........ (Directory with enums used in the application.)
+│    │    ├── fonts ........ (Directory with fonts used in the application.)
+│    │    ├── router ....... (Directory with a file configuring the routing of the app.)
 │    │    ├── scss ......... (Directory with predefined style files.)
-│    │    ├── stores ....... (Directory with all pinia stores used in the application.)
+│    │    ├── stores ....... (Directory with all Pinia stores used in the application.)
 │    │    ├── views ........ (Directory with all views(pages) used in the application.)
-│    │    ├── App.vue ...... (Main component that is injected in the index.html file in directory above.)
+│    │    ├── App.vue ...... (Main component that is injected in the index.html file in higher directory.)
 │    │    └── main.js ...... (File containing imports of all used packages and their configurations.)
-│    ├── index.html ........ (File inside which Vue injects its' strucutre and logic.)
+│    ├── index.html ........ (File inside which Vue injects its' structure and logic.)
 │    ├── package.json ...... (File containing all dependencies used in the app.)
 │    ├── package-lock.json
 │    └── vite.config.js .... (Configuration for Vite.)
 ├── videos ................. (Directory with videos showcasing the application.)
-├── README.md .............. (File with instruction on how to install and run the app locally.)
-├── run_docker.sh .......... (Script that will run docker container with the application.)
-└── setup_docker.sh ........ (Script that will setup docker container and download and install all dependencies needed.)
+├── README.md .............. (File with instructions on how to install and run the app locally.)
+├── run_docker.sh .......... (Script that will run the Docker container with the application.)
+└── setup_docker.sh ........ (Script that will setup a Docker container and download and install all dependencies needed.)
 
 ```
