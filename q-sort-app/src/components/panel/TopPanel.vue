@@ -119,9 +119,9 @@
 
     /**
      * routes to the last screen with sort overview
+     * NOTE: Here would be Fetch function with the data that would be sent to the server
      */
     function onSubmitSort(){
-        // Here would be Fetch function with the data
         router.replace({name: "Ferewell"})
     }
 
