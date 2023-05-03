@@ -3,12 +3,12 @@ The whole application is developed in Vue.js framework with use of some librarie
 
 ## How to run the application localy?
 **Requirements:**
- + Docker (v4+)
+ + Docker version 20 and newer
 
 ### Install & Run Steps (Linux & Linux-subsystem) **RECOMMENDED**
 1. Run `./setup_docker.sh`  
 2. Wait till everything is installed
-3. Run `./run_docker.sh`
+3. Run `./run_docker.sh` (this could throw an error if tha container is already running)
 4. At the end of previous step you should be inside the container console.
     + If you are not run `docker exec -it Ubuntu-Vue3-Q-sort-frontend bash`
 5. Run `npm install`
@@ -20,7 +20,7 @@ The whole application is developed in Vue.js framework with use of some librarie
 1. `docker-compose build --no-cache`
 1. `docker-compose -p q-sort-app up --force-recreate -d`
 2. Wait till everything is installed
-2. Run `docker-compose up -d`
+2. Run `docker-compose up -d` (this could throw an error if tha container is already running)
 3. Run `docker exec -it Ubuntu-Vue3-Q-sort-frontend bash`
 4. At the end of previous step you should be inside the container console.
 5. Run `npm install`
@@ -40,11 +40,12 @@ The whole application is developed in Vue.js framework with use of some librarie
 7. You should see the initialization ov Vite and local address on which the app runs (localhost:8080)
 
 
-## Externam media contents
+## External media contents
 
 ```
-├── poster ................. (Directory with Q-sort App poster.)
 ├── docker ................. (Directory with docker compose and dockerfile.)
+├── latex .................. (Directory with the latex files of the thesis.)
+├── poster ................. (Directory with Q-sort App poster.)
 ├── q-sort-app ............. (Directory with source codes and assets for the app.)
 │    ├── src ............... (Directory with source files for the app.)
 │    │    ├── assets ....... (Directory with datasets, icons, and images.)

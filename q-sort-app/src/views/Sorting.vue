@@ -49,8 +49,8 @@
 
     const reloadIntroModal = ref(0)
 
-    let dragging = false;
-    let timer = null;
+    var dragging = false;
+    var timer = null;
 
     /**
      * if intro was once seen it will not show on page load
@@ -73,8 +73,8 @@
     )
 
     /**
-     * checks if user is draging and if so sets dragging to true and starts timer
-     * Author of function: https://github.com/donmbelembe/vue-dragscroll/issues/61#issuecomment-1058266843
+     * checks if user is draging and if so sets dragging to true
+     * Author of the function: https://github.com/donmbelembe/vue-dragscroll/issues/61#issuecomment-1058266843
      */
     function start() {
         timer = setTimeout(() => (dragging = true), 100);
@@ -82,7 +82,7 @@
 
      /**
      * ends dragging (sets it to false)
-     * Author of function: https://github.com/donmbelembe/vue-dragscroll/issues/61#issuecomment-1058266843
+     * Author of the function: https://github.com/donmbelembe/vue-dragscroll/issues/61#issuecomment-1058266843
      */
     function end() {
         clearTimeout(timer);
@@ -93,7 +93,7 @@
      * If clicked while dragging the click is ignored 
      * (when drag ends on clickable element the event needs to be ignored)
      * @param {Event} event 
-     * Author of function: https://github.com/donmbelembe/vue-dragscroll/issues/61#issuecomment-1058266843
+     * Author of the function: https://github.com/donmbelembe/vue-dragscroll/issues/61#issuecomment-1058266843
      */
     function click(event) {
         if (dragging) {
