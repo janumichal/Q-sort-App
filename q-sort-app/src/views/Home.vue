@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: View (component) where user can select dataset for the Q-sorting
+ -->
 <template>
     <div class="wrapper">
         <div class="q-list">
@@ -22,6 +26,10 @@
     import DatasetTile from "../components/DatasetTile.vue";
     const gStore = useGlobalStore()
 
+    /**
+     * Returns size of the dataset as word
+     * @param {Number} count of the statements in the dataset
+     */
     function getDatasetSize(count){
         if(count >= 75){
             return "Large"

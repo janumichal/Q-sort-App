@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: View (component) where the user can preview their Q-sort
+ -->
 <template>
     <div class="wrapper">
         <div class="content-wrapper">

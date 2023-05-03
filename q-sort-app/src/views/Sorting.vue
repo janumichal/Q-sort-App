@@ -1,3 +1,7 @@
+<!-- 
+    Author: Michal Janů
+    Description: View (component) that represent the sorting part of the application
+ -->
 <template>
     <ModalWindow @toggle-modal="updateIntro($event)" :visible="sStore.introVisible" :key="reloadIntroModal">
         <template v-slot:header>
@@ -48,6 +52,11 @@
     let dragging = false;
     let timer = null;
 
+    /**
+     * if intro was once seen it will not show on page load
+     * update value to only see intor once
+     * @param {Boolean} value false if video was not seen and true if intro was seen at least once
+     */
     function updateIntro(value){
         sStore.introVisible = value
         if(value == false){
@@ -63,15 +72,29 @@
         }
     )
 
+    /**
+     * checks if user is draging and if so sets dragging to true and starts timer
+     * Author of function: https://github.com/donmbelembe/vue-dragscroll/issues/61#issuecomment-1058266843
+     */
     function start() {
         timer = setTimeout(() => (dragging = true), 100);
     }
 
+     /**
+     * ends dragging (sets it to false)
+     * Author of function: https://github.com/donmbelembe/vue-dragscroll/issues/61#issuecomment-1058266843
+     */
     function end() {
         clearTimeout(timer);
         setTimeout(() => (dragging = false));
     }
 
+    /**
+     * If clicked while dragging the click is ignored 
+     * (when drag ends on clickable element the event needs to be ignored)
+     * @param {Event} event 
+     * Author of function: https://github.com/donmbelembe/vue-dragscroll/issues/61#issuecomment-1058266843
+     */
     function click(event) {
         if (dragging) {
             event.stopPropagation();
@@ -83,13 +106,25 @@
     
 
     // this function could fetch the dataset from server
+    /**
+     * Load dataset by the ID from the general store
+     * NOTE: This function could fetch the dataset from server
+     * @param {Number} uid 
+     */
     function getDataset(uid){
         return gStore.datasets.find(element => element.uid == uid)
     }
 
+    /**
+     * Gets color of the last row
+     */
     function getBottomBgColor(){
         return {"background-color": qStore.colors[qStore.colors.length-1]}
     }
+
+    /**
+     * Gets color of the first row
+     */
     function getTopBgColor(){
         return {"background-color": qStore.colors[0]}
     }
